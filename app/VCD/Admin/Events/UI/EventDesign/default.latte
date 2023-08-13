@@ -1,0 +1,32 @@
+<img n:if="$currentEvent[banner_large]" class="vcd-event-img img-responsive" src="{$baseUri}{$currentEvent[banner_large]}">
+
+<div class="row vcd-event-list">
+    <div class="col-sm-6">
+        <div style="margin-top:20px">
+            {control bannerLarge}
+            <hr>
+            {control bannerSmall}
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="vcd-event-list-item">
+
+            <img n:if="$currentEvent[banner_small]" class="vcd-event-img img-responsive" src="{$baseUri}{$currentEvent[banner_small]}">
+
+            <h2>{$currentEvent[name]}</h2>
+
+            <p><strong>{$currentEvent[starts]|date:'%e. %B %Y'} - {$currentEvent[ends]|date:'%e. %B %Y'}</strong></p>
+
+            <p>{$currentEvent[description]}</p>
+
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <h3>Fotky v dolní části detailu akce</h3>
+
+        {control dropzone}
+    </div>
+</div>

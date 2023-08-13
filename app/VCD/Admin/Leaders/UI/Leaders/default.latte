@@ -1,0 +1,26 @@
+<table class="table table-condensed table-bordered">
+    <tr>
+        <th class="text-center"><a href="{plink leader, id => NULL}" n:if="!$presenter->print" class="btn btn-primary btn-sm">Přidat</a></th>
+        <th>Jméno</th>
+        <th>Fotka</th>
+        <th></th>
+    </tr>
+    <tr n:foreach="$leaders as $leader">
+        <td class="text-center">
+            <a href="{plink leader, id => $leader[id]}" n:tag-if="!$presenter->print" class="btn btn-primary btn-sm"><strong>{$leader[id]}</strong></a>
+        </td>
+        <td>
+            <strong>{$leader[name]}</strong>
+            <span n:class="pull-right, glyphicon, $leader[visible] ? glyphicon-globe : glyphicon-lock"></span>
+        </td>
+        <td>
+            <img n:if="$leader[photo]" src="{$baseUri}{$leader[photo]}" class="img-responsive img-circle" style="max-height:75px">
+        </td>
+        <td>
+                        <span class="btn-group btn-group-sm">
+                            <a class="btn btn-sm btn-default" n:href="leaderUp!, id => $leader[id]">Posunout výš</a>
+                            <a class="btn btn-sm btn-default" n:href="leaderDown!, id => $leader[id]">Posunout níž</a>
+                        </span>
+        </td>
+    </tr>
+</table>

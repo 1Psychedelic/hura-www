@@ -1,0 +1,16 @@
+<div class="vcd-flashes" n:if="$enabled && count($flashMessages) > 0">
+    {foreach $flashMessages as $flash}
+        <div n:class="alert, 'alert-' . $flash->getType(), $flash->isDismissable() ? alert-dismissible, text-center" role="alert">
+            {if $flash->getIcon()}
+                {$flash->getIcon()}
+            {else}
+                <span n:if="$flash->getType() === 'danger'" class="glyphicon glyphicon-ban-circle pull-left"></span>
+                <span n:if="$flash->getType() === 'info'" class="glyphicon glyphicon-info-sign pull-left"></span>
+                <span n:if="$flash->getType() === 'warning'" class="glyphicon glyphicon-exclamation-sign pull-left"></span>
+                <span n:if="$flash->getType() === 'success'" class="glyphicon glyphicon-ok pull-left"></span>
+            {/if}
+            <button n:if="$flash->isDismissable()" type="button" class="close" data-dismiss="alert" aria-label="Zavřít"><span aria-hidden="true">&times;</span></button>
+            <span class="alert-message">{$flash->getMessage()}</span>
+        </div>
+    {/foreach}
+</div>

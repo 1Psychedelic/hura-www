@@ -1,0 +1,68 @@
+{
+    "name": "vcd/vcd",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "platform": {
+            "php": "7.3.0"
+        }
+    },
+    "repositories": [
+        {"type": "git", "url": "https://github.com/hafofw/persona"}
+    ],
+    "autoload": {
+        "classmap": [
+            "app/"
+        ]
+    },
+    "require": {
+        "php": "~7.3",
+        "container-interop/container-interop": "1.1.0",
+        "nette/caching": "v2.5.2",
+        "nette/application": "v2.4.2",
+        "nette/security": "v2.4.0",
+        "nette/forms": "v2.4.2",
+        "nette/database": "v2.4.1",
+        "nette/mail": "v2.4.1",
+        "tracy/tracy": "v2.4.3",
+        "latte/latte": "v2.4.2",
+        "tomaj/nette-bootstrap-form": "1.2.0",
+        "nextras/forms": "v1.6.2",
+        "nextras/orm": "dev-master",
+        "defuse/php-encryption": "2.0.3",
+        "paragonie/random_compat": "2.0.18",
+        "fzaninotto/faker": "v1.6.0",
+        "nette/tester": "v1.7.0",
+        "kartik-v/bootstrap-star-rating": "v4.0.1",
+        "hafo/persona": "v0.3",
+        "hafo/di": "1.0.0-rc2",
+        "monolog/monolog": "^1.23",
+        "wazaari/monolog-mysql": "^1.0",
+        "nextras/mail-panel": "^2.3",
+        "dg/mysql-dump": "^1.4",
+        "mpdf/mpdf": "^7.0",
+        "gopay/payments-sdk-php": "^1.3",
+        "haltuf/genderer": "^0.1.0",
+        "endroid/qr-code": "^2.5",
+        "firebase/php-jwt": "^5.4",
+        "lcobucci/jwt": "^3.4",
+        "zendframework/zend-httphandlerrunner": "^1.1",
+        "zendframework/zend-diactoros": "^2.2",
+      "ext-json": "*",
+        "matomo/device-detector": "^4.3",
+      "ext-mbstring": "*",
+        "kreait/firebase-php": "^5.19",
+        "spatie/async": "^1.5",
+        "league/flysystem": "^2.3",
+        "league/flysystem-sftp": "2.0",
+      "ext-pdo": "*",
+        "google/apiclient": "^2.11",
+      "ext-curl": "*",
+        "league/route": "^5.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.5",
+        "phpstan/phpstan": "^0.12.99",
+        "phpstan/phpstan-nette": "^0.12.21"
+    }
+}

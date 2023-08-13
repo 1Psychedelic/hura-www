@@ -1,0 +1,126 @@
+{layout './@layout.latte'}
+
+{block body}
+<div style="overflow: auto;width:100%;height:600px">
+    <canvas id="attendationByEventChart" height="150"></canvas>
+</div>
+
+<div style="overflow: auto;width:100%;height:600px">
+    <canvas id="attendationPieChart" height="150"></canvas>
+</div>
+
+<div style="overflow: auto;width:100%;height:600px">
+    <canvas id="usersChart" height="150"></canvas>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        var ctx = document.getElementById("attendationByEventChart");
+        var attendationByEventChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {=array_keys($attendationByEvent)},
+                datasets: [
+                    {
+                        label: "Kluci",
+                        backgroundColor: "rgba(0,91,255,0.4)",
+                        data: {=array_values($attendationByEventBoys)}
+                    },
+                    {
+                        label: "Holky",
+                        backgroundColor: "rgba(255,0,91,0.4)",
+                        data: {=array_values($attendationByEventGirls)}
+                    },
+                    {
+                        label: "Nevyužitá kapacita",
+                        backgroundColor: "rgba(127,127,127,0.1)",
+                        data: {=array_values($attendationCapacity)}
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        stacked: true
+                    }],
+                    yAxes: [{
+                        stacked: true,
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+        var attendationPieChart = new Chart(document.getElementById("attendationPieChart"), {
+            type: 'pie',
+            data: {
+                labels: ["Kluci", "Holky", "Nevyužitá kapacita"],
+                datasets: [
+                    {
+                        data: [
+                            {=array_sum($attendationByEventBoys)},
+                            {=array_sum($attendationByEventGirls)},
+                            {=array_sum($attendationCapacity)}
+                        ],
+                        backgroundColor: [
+                            "rgba(0,91,255,0.4)",
+                            "rgba(255,0,91,0.4)",
+                            "rgba(127,127,127,0.1)"
+                        ]
+                    }
+                ]
+            }
+        });
+
+        var ctx2 = document.getElementById("usersChart");
+        var usersChart = new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: {=array_keys($users)},
+                datasets: [
+                    {
+                        label: "Uživatelé",
+                        data: {=array_values($users)}
+                    }
+                ]
+            },
+            options: {
+                bezierCurve : false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    });
+</script>
+
+<div class="row">
+    <div class="col-sm-12">
+        <strong>{$countApplicationChildren}</strong> dětí v <strong>{$countApplications}</strong> přihláškách.
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <h3 class="h4">Účast</h3>
+        <table class="table table-bordered table-condensed">
+            <tr>
+                <th>Jméno</th>
+                <th>Počet přihlášených akcí</th>
+            </tr>
+            {foreach $attendation as $name => $cnt}
+                <tr>
+                    <th>{$name}</th>
+                    <td>{$cnt}</td>
+                </tr>
+            {/foreach}
+        </table>
+    </div>
+</div>
+{/block}

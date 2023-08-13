@@ -1,0 +1,19 @@
+{if $monthAsNumber}
+    {var $format = 'j.'}
+    {if \Nette\Utils\DateTime::from($starts)->format('n') !== \Nette\Utils\DateTime::from($ends)->format('n')}
+        {?$format .= ' n.'}
+    {/if}
+    {if \Nette\Utils\DateTime::from($starts)->format('Y') !== \Nette\Utils\DateTime::from($ends)->format('Y')}
+        {?$format .= ' Y'}
+    {/if}
+    {if \Nette\Utils\DateTime::from($starts)->format('j n Y') !== \Nette\Utils\DateTime::from($ends)->format('j n Y')}{$starts|date:$format} – {/if}{$ends|date:'j. n. Y'}
+{else}
+    {var $format = '%e.'}
+    {if \Nette\Utils\DateTime::from($starts)->format('n') !== \Nette\Utils\DateTime::from($ends)->format('n')}
+        {?$format .= ' %B'}
+    {/if}
+    {if \Nette\Utils\DateTime::from($starts)->format('Y') !== \Nette\Utils\DateTime::from($ends)->format('Y')}
+        {?$format .= ' %Y'}
+    {/if}
+    {if \Nette\Utils\DateTime::from($starts)->format('j n Y') !== \Nette\Utils\DateTime::from($ends)->format('j n Y')}{$starts|date:$format} – {/if}{$ends|date:'%e. %B %Y'}
+{/if}

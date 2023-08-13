@@ -1,0 +1,110 @@
+<div class="row">
+    <div class="col-sm-12">
+                    <span>
+                        <small>
+                            {if $lastDeploy !== NULL}Poslední update <strong>{if is_string($lastDeploy)}{$lastDeploy}{else}{$lastDeploy|date:'j. n. Y H:i'}{/if}</strong> - {/if}
+                            <a href="https://trello.com/b/Runr8fw9/web" target="_blank">Zobrazit změny na webu</a>
+                        </small>
+                    </span>
+        <span class="pull-right" n:if="count($names) > 0"><small>Dnes má svátek {foreach $names as $name}<strong>{$name}</strong>{sep}, {/sep}{/foreach}</small></span>
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-xs-12 col-sm-4">
+
+        <div style="background-color:#28b779;" class="vcd-admin-block-index">
+            <a href="{plink gotoApplications!}">
+                <span n:if="$newApplications > 0" class="label label-danger pull-right">{$newApplications}</span>
+                <img src="{$baseUri}/www/assets/img/admin/applications.png" class="img-responsive">
+                <h3 class="text-center">Přihlášky</h3>
+            </a>
+        </div>
+
+    </div>
+    <div class="col-xs-12 col-sm-4">
+
+        <div style="background-color:#cba81e;" class="vcd-admin-block-index">
+            <a href="{plink gotoEvents!}">
+                <img src="{$baseUri}/www/assets/img/admin/events.png" class="img-responsive">
+                <h3 class="text-center">Tábory a výlety</h3>
+            </a>
+        </div>
+
+    </div>
+    <div class="col-xs-12 col-sm-4">
+
+        <div style="background-color:#dc542e;" class="vcd-admin-block-index">
+            <a href="{plink homepage}">
+                <img src="{$baseUri}/www/assets/img/admin/home.png" class="img-responsive">
+                <h3 class="text-center">Hlavní stránka</h3>
+            </a>
+        </div>
+
+    </div>
+
+    <div class="col-xs-12 col-sm-4">
+
+        <div style="background-color:#f74d4e;" class="vcd-admin-block-index">
+            <a href="{plink users}">
+                <img src="{$baseUri}/www/assets/img/admin/users.png" class="img-responsive">
+                <h3 class="text-center">Uživatelé</h3>
+            </a>
+        </div>
+
+    </div>
+    <div class="col-xs-12 col-sm-4">
+
+        <div style="background-color:#28a9e3;" class="vcd-admin-block-index">
+            <a href="{plink children}">
+                <img src="{$baseUri}/www/assets/img/admin/children.png" class="img-responsive">
+                <h3 class="text-center">Děti</h3>
+            </a>
+        </div>
+
+    </div>
+    <div class="col-xs-12 col-sm-4">
+
+        <div style="background-color:#b31919;" class="vcd-admin-block-index">
+            <a href="{plink discounts}">
+                <img src="{$baseUri}/www/assets/img/admin/discount.png" class="img-responsive">
+                <h3 class="text-center">Slevy</h3>
+            </a>
+        </div>
+
+    </div>
+
+    <div class="col-xs-12 col-sm-4">
+
+        <div style="background-color:#4d51f7;" class="vcd-admin-block-index text-center">
+            <a href="{plink invoices}">
+                <span class="glyphicon glyphicon-credit-card" ></span><br>
+                <h3 class="text-center">Faktury a platby</h3>
+            </a>
+        </div>
+
+    </div>
+    <div class="col-xs-12 col-sm-4">
+
+        <div style="background-color:#f74d4e;" class="vcd-admin-block-index text-center">
+            <a href="{plink monolog, minLevel => 500}">
+                <span class="glyphicon glyphicon-exclamation-sign"></span><br>
+                <h3 class="text-center">Monolog</h3>
+            </a>
+        </div>
+
+    </div>
+    <div class="col-xs-12 col-sm-4">
+
+        <div style="background-color:#33bcb1;" class="vcd-admin-block-index text-center">
+            <a href="{plink blogArticles}">
+                <span class="glyphicon glyphicon-pencil"></span><br>
+                <h3 class="text-center">Blog</h3>
+            </a>
+        </div>
+
+    </div>
+
+</div>

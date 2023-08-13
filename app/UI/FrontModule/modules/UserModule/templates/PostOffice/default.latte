@@ -1,0 +1,124 @@
+{define body}
+    <div class="container-fluid vcd-main-background">
+        <div class="container">
+            <div class="row vcd-content">
+
+                <div class="col-md-7 col-md-push-5">
+
+                    {if $currentEvent === NULL && $selectedEvent === NULL}
+
+                        <h3 class="text-center">Pošta z aktuální akce</h3>
+                        <div class="alert alert-danger">
+                            Momentálně neprobíhá žádná akce nebo se {if count($userEntity->children) === 1}Vaše dítě{else}žádné z Vašich dětí{/if}
+                            neúčastní.
+                        </div>
+
+                    {else}
+                        <h3 class="text-center">{$selectedEvent->name}</h3>
+
+                        {if count($letters) === 0}
+                            <div class="alert alert-danger">
+                                Zatím nemáte žádnou poštu.
+                            </div>
+                        {/if}
+                    {/if}
+
+                    {foreach $letters as $letter}
+
+                        <div class="row">
+                            <div class="col-xs-12">
+
+                                <a id="letter-{$letter->id}" name="letter-{$letter->id}"></a>
+                                <div n:class="panel, $letter->direction === $directionParentToChild ? panel-default : panel-primary">
+                                    <div n:class="panel-heading, text-muted">
+                                        <span class="pull-right">{$letter->createdAt|date:'d. m. Y - H:i'}</span>
+                                        {if $letter->direction === $directionChildToParent && !$letter->isRead}
+                                            <span class="label label-success"><span class="glyphicon glyphicon-star"></span> Nový pohled!</span>
+                                        {/if}
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="panel-body">
+                                        {$letter->message|breaklines}
+                                        {if $letter->imageUrl !== NULL}
+                                            <a href="{$baseUri}/www/{$letter->imageUrl}" target="_blank">
+                                                <img src="{$baseUri}/www/{$letter->imageUrl}" class="img-responsive">
+                                            </a>
+                                        {/if}
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    {/foreach}
+
+                </div>
+
+                <div class="col-md-5 col-md-pull-7">
+
+                    {if $showForm}
+                        <h3 class="text-center">Poslat dopis</h3>
+                        <form n:name="form">
+
+                            <div class="required">
+                                <textarea n:name="message" class="form-control" placeholder="Zde napište text dopisu" style="width:100%;min-height:200px;resize:vertical;"></textarea>
+                            </div>
+
+                            <div class="text-center">
+                                <input n:name="send" class="btn btn-primary" style="width:100%">
+                            </div>
+
+                            <div class="margin-top-20">&nbsp;</div>
+                        </form>
+                    {elseif $currentEvent !== NULL}
+                        <h3 class="text-center">Pošta</h3>
+                        <div class="panel panel-default">
+                            <div class="list-group">
+                                <a n:class="list-group-item, $selectedEvent === $currentEvent ? active" n:href="this, id => NULL">
+                                    <div class="text-center">
+                                        <strong>Pohledy z právě probíhající akce</strong><br>
+                                        {$currentEvent->name}<br><br>
+
+                                        <span class="btn btn-md btn-success">Zobrazit pohledy a<br>poslat dopis</span>
+                                    </div>
+                                    <span class="clearfix"></span>
+                                </a>
+                            </div>
+                        </div>
+                    {else}
+                        <h3 class="text-center">Pošta</h3>
+                    {/if}
+
+                    <div class="panel panel-default" n:if="count($events) > 0">
+                        <div class="panel-heading"><strong>Pohledy z minulých akcí</strong></div>
+                        <div class="list-group">
+
+                            {foreach $events as $event}
+                                {continueIf $event === $currentEvent}
+                                <a n:class="list-group-item, $selectedEvent === $event ? active" n:href="this, id => $event->slug">
+                                    <span class="pull-right btn btn-xs btn-default">Zobrazit pohledy</span>
+                                    {$event->name}
+                                </a>
+                            {/foreach}
+
+                        </div>
+                    </div>
+
+                    <div style="line-height:125%" class="text-muted">
+                        <p><strong>Jak to funguje?</strong></p>
+                        <p><small>Děti dostanou zpravidla jednou až dvakrát za akci (podle délky akce) za úkol nakreslit pohledy
+                                rodičům, které doručíme prostřednictvím této stránky.</small></p>
+                        <p><small>Na pohledy můžete zareagovat textovou zprávou, nebo můžete jen tak poslat dopis
+                                {if count($userEntity->children) === 1}dítěti{else}dětem{/if} kdykoliv během konání akce.</small></p>
+                        <p><small>Dopisy od Vás rodičů stahujeme a dětem čteme obvykle jednou denně ve večerních hodinách.</small></p>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+{/define}
+
+{define head}{/define}

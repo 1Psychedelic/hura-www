@@ -1,0 +1,288 @@
+
+{if !$presenter->print}
+    <div class="btn-group btn-group-sm pull-right">
+        <div class="btn-group btn-group-sm">
+            <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Exportovat <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><a href="{link exportCsv!}">CSV</a></li>
+                <li><a href="{link exportJson!}">JSON</a></li>
+            </ul>
+        </div>
+        <a onclick="if(!confirm('Vygenerovat faktury?'))return false;" class="btn btn-primary btn-sm pull-right" n:href="invoices!">Vygenerovat faktury</a>
+    </div>
+
+    {control filters}
+
+
+{/if}
+
+{if count($applications) === 0}
+    <div class="text-center"><em>Zvolenému filtru neodpovídají žádné přihlášky</em></div>
+{else}
+
+<div class="table-responsive">
+    <table class="table table-condensed table-bordered" n:snippet>
+        <tr>
+            <th class="col-sm-1 text-center"><a n:if="!$presenter->print" href="{plink application, id => NULL}" class="btn btn-sm btn-primary">Přidat</a></th>
+            <th class="col-sm-2">Přehled</th>
+            <th class="col-sm-2">Shrnutí</th>
+            <th class="col-sm-1">Zákonný zástupce</th>
+            <th class="col-sm-4">Děti</th>
+            <th n:if="!$presenter->print" class="col-sm-2 text-center">Akce</th>
+        </tr>
+        <tr n:foreach="$applications as $application">
+            <td class="text-center">
+                <a n:tag-if="!$presenter->print" href="{plink application, id => $application->id}" class="btn btn-sm btn-primary">{$application->id}</a>
+                <br>
+                {if !$presenter->print}
+                    {if $application->isVip}
+                        <br><span class="label label-info">VIP</span>
+                    {/if}
+                    {if $application->isNew}
+                        <br><span class="label label-success" style="font-size:100%"><span class="glyphicon glyphicon-star"></span> Nová!</span>
+                    {elseif $application->isDraft}
+                        <br><span class="label label-default"><span class="glyphicon glyphicon-star-empty"></span> Nedokončená</span>
+                    {elseif $application->isAccepted}
+                        <br><span class="label label-primary"><span class="glyphicon glyphicon-ok"></span> Schválená</span>
+                    {elseif $application->isRejected}
+                        <br><span class="label label-danger"><span class="glyphicon glyphicon-ban-circle"></span> Odmítnutá</span>
+                    {elseif $application->isCanceled}
+                        <br><span class="label label-danger"><span class="glyphicon glyphicon-remove"></span> Zrušená</span>
+                    {/if}
+                    {if $application->isReserve}
+                        <br><span class="label label-warning"><span class="glyphicon glyphicon-user"></span> Náhradní{if count($application->children) > 1}ci{else}k{/if}</span>
+                    {/if}
+                    {if $application->isPaid}
+                        <br><span class="label label-primary"><span class="glyphicon glyphicon-credit-card"></span> Zaplacená</span>
+                    {/if}
+                    {if $application->invoice !== NULL}
+                        <br><a href="{plink invoices, filters => [invoiceId => $application->invoice->invoiceId]}" class="label label-info">Faktura {$application->invoice->invoiceId}</a>
+                    {/if}
+                    <br><br>
+
+                    <span class="btn-group btn-group-lg btn-group-vertical" style="width:100%" n:if="$application->isNew">
+                        {if $application->appliedAt !== NULL && $application->canceledAt === NULL}
+                            {if $application->acceptedAt === NULL}
+                                <a onclick="if(!confirm({=$acceptConfirm($application)}))return false;" n:href="applicationAccept!, id => $application->id" class="btn btn-lg btn-success"><span class="glyphicon glyphicon-ok"></span></a>
+                            {/if}
+                            {if $application->rejectedAt === NULL}
+                                <a onclick="var c = prompt('Odmítnout přihlášku? Důvod:');if(c === null){ return false; } else if(c != '') { this.href = this.href + {='&' . $id . '-reason='} + c;}" n:href="applicationReject!, id => $application->id" class="btn btn-lg btn-danger"><span class="glyphicon glyphicon-ban-circle"></span></a>
+                            {/if}
+                        {/if}
+                    </span>
+                {/if}
+            </td>
+            <td>
+                <div class="hover-display-toggle">
+                    <strong>{$application->event->name}</strong>
+                    <small class="hover-display-content"><a href="{plink applicationChangeEvent, applicationId => $application->id}">změnit</a></small>
+                    <a href="{plink events, filters => [id => $application->event->id]}" class="pull-right label label-primary">#{$application->event->id}</a>
+                </div>
+                <div class="clearfix"></div>
+                {var $bday}
+                {var $isBoy}
+                {var $childAge}
+                {foreach $application->children as $child}
+                    {php $bday = $birthday($child->dateBorn, $application->event->starts->format('Y'))}
+                    {php $childAge = $age($child->dateBorn)}
+                    {php $isBoy = $child->gender === 'm'}
+                    <div class="text-left" style="margin:2px;padding:2px 5px 2px 5px;border:1px solid rgb(127,127,127);{if $isBoy}background-color:rgba(0,91,255, 0.2){elseif $isBoy === FALSE}background-color:rgba(255,0,91,0.2){/if}">
+                        <strong>{$child->name}</strong> {if $childAge !== NULL}&nbsp;{$childAge}{if $bday > $application->event->starts && $bday < $application->event->ends}<span class="glyphicon glyphicon-heart" data-toggle="tooltip" title="Narozeninový oslavenec!"></span>{/if}{/if}
+                        {if $child->child !== NULL}<a href="{plink children, filters => [id => $child->child->id]}" class="pull-right label label-primary">#{$child->child->id}</a>{/if}
+                        <div class="clearfix"></div>
+                    </div>
+                {/foreach}
+                <strong>{$application->name}</strong>{if $application->user !== NULL}<a href="{plink users, filters => [id => $application->user->id]}" class="pull-right label label-primary">#{$application->user->id}</a>{/if}<br>
+                <small>
+                    {if $application->email}<a n:tag-if="!$presenter->print" href="mailto:{$application->email}">{$application->email}</a>{if $application->user !== NULL && !$application->user->emailVerified}<span data-toggle="tooltip" title="E-mail není ověřen" class="glyphicon glyphicon-remove"></span>{/if}<br>{/if}
+                    {if $application->phone}{$application->phone}{if $application->user !== NULL && !$application->user->phoneVerified}<span data-toggle="tooltip" title="Telefon není ověřen" class="glyphicon glyphicon-remove"></span>{/if}<br>{/if}
+                </small>
+
+                {** if $application->discountCode !== NULL}
+                    Slevový kód <strong class="pull-right">{$application->discountCode->code}</strong>
+                    <div class="clearfix"></div>
+                {/if **}
+                Cena <span class="pull-right"><strong>{$application->price}&nbsp;Kč</strong></span>
+                <div class="clearfix"></div>
+                Záloha <span class="pull-right"><strong>{$application->deposit}&nbsp;Kč</strong></span>
+                <div class="clearfix"></div>
+                {if $application->paid > 0}
+                    Zaplaceno
+                    <strong class="pull-right">
+                        {if $application->paidByCredit > 0}
+                            <small class="text-muted" data-toggle="tooltip" title="Částka zaplacená kreditem">{$application->paidByCredit}&nbsp;Kč&nbsp;<span class="glyphicon glyphicon-credit-card"></span></small>
+                        {/if}
+                        <a href="{plink payments, application => $application->id}">
+                            {if $application->paid === $application->price}
+                                <span class="glyphicon glyphicon-ok"></span>
+                            {else}
+                                {$application->paid}&nbsp;Kč
+                            {/if}
+                        </a>
+                    </strong>
+                    <div class="clearfix"></div>
+                    {if $application->paid > $application->price}
+                        Přeplatek <strong class="pull-right">{$application->paid-$application->price}&nbsp;Kč</strong>
+                        <div class="clearfix"></div>
+                    {elseif $application->paid < $application->price}
+                        Dluh <strong class="pull-right">{$application->price-$application->paid}&nbsp;Kč</strong>
+                        <div class="clearfix"></div>
+                    {/if}
+                {else}
+                    Zaplaceno <strong class="pull-right">
+                    {if $application->paidByCredit > 0}
+                        <small class="text-muted" data-toggle="tooltip" title="Částka zaplacená kreditem">{$application->paidByCredit}&nbsp;Kč&nbsp;<span class="glyphicon glyphicon-credit-card"></span></small>
+                    {/if}
+                    <span class="glyphicon glyphicon-remove"></span>
+                </strong>
+                    <div class="clearfix"></div>
+                {/if}
+                <div class="clearfix"></div>
+                {foreach $application->stepChoices as $stepChoice}
+                    <span data-toggle="tooltip" title="{$stepChoice->step->prompt}">{$longSentence($stepChoice->step->prompt)}</span> <strong class="pull-right"><span data-toggle="tooltip" title="{$stepChoice->option->option}">{$longSentence($stepChoice->option->option)}</span></strong>
+                    <div class="clearfix"></div>
+                {/foreach}
+            </td>
+            <td>
+                {foreach $application->createSummaryItems() as $item}
+                    {$item->name}{if $item->amount > 1}<strong>×{$item->amount}</strong>{/if}
+                    <strong class="pull-right">{$item->totalPrice}&nbsp;Kč</strong>
+                    <div class="clearfix"></div>
+                {/foreach}
+                <div n:if="$application->notes">
+                    <strong>Poznámka:</strong> {$application->notes}
+                </div>
+                {if $application->internalNotes}
+                    <div>
+                        <strong><a href="{plink applicationInternalNote, id => $application->id}">Interní poznámka:</a></strong> {$application->internalNotes}
+                    </div>
+                {else}
+                    <div>
+                        <a href="{plink applicationInternalNote, id => $application->id}">Přidat interní poznámku</a>
+                    </div>
+                {/if}
+            </td>
+            <td>
+                <strong>{$application->name}</strong>{if $application->user !== NULL}<a href="{plink users, filters => [id => $application->user->id]}" class="pull-right label label-primary">#{$application->user->id}</a>{/if}<br>
+                <div style="display:inline-block">
+                    <small>
+                        {if $application->email}<a n:tag-if="!$presenter->print" href="mailto:{$application->email}">{$application->email}</a>{if $application->user !== NULL && !$application->user->emailVerified}<span data-toggle="tooltip" title="E-mail není ověřen" class="glyphicon glyphicon-remove"></span>{/if}<br>{/if}
+                        {if $application->phone}{$application->phone}{if $application->user !== NULL && !$application->user->phoneVerified}<span data-toggle="tooltip" title="Telefon není ověřen" class="glyphicon glyphicon-remove"></span>{/if}<br>{/if}
+                        {if $application->street}{$application->street}<br>{/if}
+                        {if $application->zip}{$application->city} {$application->zip}<br>{/if}
+                        {** if $application->ip}<span title="{$application->host}">{$application->ip}</span><br>{/if **}
+                    </small>
+                </div>
+                <div n:if="$application->isPayingOnInvoice">
+                    <strong>Hradí zaměstnavatel</strong><br>
+                    {if $application->hasValidInvoiceInfo}
+                        <small class="text-muted">
+                            {$application->invoiceName}<br>
+                            {$application->invoiceIco}<br>
+                            {$application->invoiceDic}<br>
+                            {$application->invoiceStreet}<br>
+                            {$application->invoiceCity} {$application->invoiceZip}
+                            {if $application->invoiceNotes}<br><strong>Pozn.:</strong> {$application->invoiceNotes}{/if}
+                        </small>
+                    {else}
+                        <small class="text-muted"><em>Chybi údaje o zaměstnavateli</em></small>
+                    {/if}
+                </div>
+                <div class="clearfix"></div>
+            </td>
+            <td>
+
+                {foreach $application->children as $child}
+                    {php $bday = $birthday($child->dateBorn, $application->event->starts->format('Y'))}
+                    {php $childAge = $age($child->dateBorn)}
+                    {php $isBoy = $child->gender === 'm'}
+
+                    <a n:tag-if="!$presenter->print" href="{plink applicationChild, application => $child->application->id, id => $child->id}" style="color:#000">
+                        <div class="text-left" style="display:inline-block;cursor:pointer;margin:2px;padding:2px 5px 2px 5px;border:1px solid rgb(127,127,127);{if $isBoy}background-color:rgba(0,91,255, 0.2){elseif $isBoy === FALSE}background-color:rgba(255,0,91,0.2){/if}">
+                            {if $child->child !== NULL}<span class="pull-right label label-primary">#{$child->child->id}</span>{/if}
+                            <strong>{$child->name}</strong> <small class="text-muted">({$child->dateBorn|date:'d. m. Y'})</small>{if $childAge !== NULL}&nbsp;{$childAge}{if $bday > $application->event->starts && $bday < $application->event->ends}<span class="glyphicon glyphicon-heart" data-toggle="tooltip" title="Narozeninový oslavenec!"></span>{/if}{/if}<br>
+                            <small><strong>{if $child->swimmer}P{else}Nep{/if}lavec</strong></small><br>
+                            <small><strong>ADHD: {if $child->adhd}<span class="glyphicon glyphicon-ok-sign"></span>{else}<span class="glyphicon glyphicon-remove"></span>{/if}</strong></small><br>
+                            <small><strong>Zdravotní stav:</strong> {$child->health|breaklines}</small><br>
+                            <small><strong>Pozn.:</strong> {$child->notes}</small>
+                        </div>
+                    </a>
+                {/foreach}
+                <span n:if="!$presenter->print" style="cursor:pointer;margin:2px;padding:2px 5px 2px 5px;border:1px solid rgb(127,127,127);background-color:rgba(0,91,255, 0.2)">
+                                        <a href="{plink applicationChild, application => $application->id, id => NULL}">+</a>
+                                    </span>
+            </td>
+            <td n:if="!$presenter->print" class="text-center">
+                <span class="btn-group btn-group-sm btn-group-vertical">
+                    {if $application->isAccepted}
+                        <a onclick="var c = prompt('Odmítnout přihlášku? Důvod:');if(c === null){ return false; } else if(c != '') { this.href = this.href + {='&' . $id . '-reason='} + c;}" n:href="applicationReject!, id => $application->id" class="btn btn-danger">Odmítnout</a>
+                    {/if}
+                    {if $application->isRejected || $application->isCanceled}
+                        <a onclick="if(!confirm({=$acceptConfirm($application)}))return false;" n:href="applicationAccept!, id => $application->id" class="btn btn-success">Schválit</a>
+                    {/if}
+                    {if $application->canBePaidFor}
+                        <a onclick="var c = prompt('Kolik Kč bylo přijato? Prázdné pole = plná částka');if(c === null){ return false; } else if(c != '') { this.href = this.href + {='&' . $id . '-amount='} + c;}" n:href="applicationPay!, id => $application->id" class="btn btn-primary btn-sm">Zaplacené</a>
+                    {/if}
+                    {capture $content}
+                        <span class="btn-group btn-group-sm btn-group-vertical">
+                            {if $application->appliedAt !== NULL}
+                                <a onclick="if(!confirm('Poslat potvrzení o přijetí přihlášky?'))return false;" n:href="mailApplied!, id => $application->id" class="btn btn-default btn-sm btn-wrap"><span class="glyphicon glyphicon-envelope"></span> Přihláška přijata</a>
+                                {if $application->acceptedAt !== NULL}
+                                    <a onclick="if(!confirm('Poslat potvrzení o schválení přihlášky?'))return false;" n:href="mailAccepted!, id => $application->id" class="btn btn-default btn-sm btn-wrap"><span class="glyphicon glyphicon-envelope"></span> Přihláška schválena</a>
+                                {/if}
+                                {if $application->canceledAt !== NULL}
+                                    <a onclick="if(!confirm('Poslat potvrzení o zrušení přihlášky uživatelem?'))return false;" n:href="mailCanceled!, id => $application->id" class="btn btn-default btn-sm btn-wrap"><span class="glyphicon glyphicon-envelope"></span> Přihláška zrušena<br>uživatelem</a>
+                                {/if}
+                                {if $application->rejectedAt !== NULL}
+                                    <a onclick="if(!confirm('Poslat potvrzení o odmítnutí přihlášky adminem?'))return false;" n:href="mailRejected!, id => $application->id" class="btn btn-default btn-sm btn-wrap"><span class="glyphicon glyphicon-envelope"></span> Přihláška odmítnuta<br>adminem</a>
+                                {/if}
+                            {/if}
+                            {if $application->isPaid}
+                                <a onclick="if(!confirm('Poslat potvrzení o zaplacení?'))return false;" n:href="mailPaid!, id => $application->id" class="btn btn-default btn-sm btn-wrap"><span class="glyphicon glyphicon-envelope"></span> Přihláška zaplacena</a>
+                            {/if}
+                        </span>
+                    {/capture}
+                    <span n:if="$application->appliedAt !== NULL || $application->paidAt !== NULL" data-container="body" data-toggle="popover" data-html="true" data-placement="left" data-content="{$content}" class="btn btn-default btn-sm">Poslat e-mail</span>
+
+                    <a class="btn btn-sm btn-default" href="{plink application, id => NULL, duplicate => $application->id}">Zkopírovat</a>
+
+                    {if $application->isPayingOnInvoice && $application->hasValidInvoiceInfo && $application->invoice === null}
+                        <a class="btn btn-sm btn-success" href="{link createInvoice!, id => $application->id}">Vystavit fakturu</a>
+                    {/if}
+                </span>
+
+                <div class="text-left">
+                    Poslední změna <span class="pull-right" data-toggle="tooltip" data-placement="left" title="{if $application->updatedAt !== NULL}{$application->updatedAt|date:'j. n. Y - H:i'}{else}{$application->createdAt|date:'j. n. Y - H:i'}{/if}">{if $application->updatedAt !== NULL}{$application->updatedAt|date:'j. n.'}{else}{$application->createdAt|date:'j. n.'}{/if}</span><div class="clearfix"></div>
+                    {if $application->appliedAt !== NULL}
+                        Odesláno <span class="pull-right" data-toggle="tooltip" data-placement="left" title="{$application->appliedAt|date:'j. n. Y - H:i'}">{$application->appliedAt|date:'j. n.'}</span><div class="clearfix"></div>
+                        {if $application->acceptedAt !== NULL}
+                            Schváleno <span class="pull-right" data-toggle="tooltip" data-placement="left" title="{$application->acceptedAt|date:'j. n. Y - H:i'}">{$application->acceptedAt|date:'j. n.'}</span><div class="clearfix"></div>
+                        {/if}
+                        {if $application->rejectedAt !== NULL}
+                            Odmítnuto adminem <span class="pull-right" data-toggle="tooltip" data-placement="left" title="{$application->rejectedAt|date:'j. n. Y - H:i'}">{$application->rejectedAt|date:'j. n.'}</span><div class="clearfix"></div>
+                        {/if}
+                        {if $application->canceledAt !== NULL}
+                            Zrušeno uživatelem <span class="pull-right" data-toggle="tooltip" data-placement="left" title="{$application->canceledAt|date:'j. n. Y - H:i'}">{$application->canceledAt|date:'j. n.'}</span><div class="clearfix"></div>
+                        {/if}
+                        {if $application->paidAt !== NULL}
+                            Zaplaceno <span class="pull-right" data-toggle="tooltip" data-placement="left" title="{$application->paidAt|date:'j. n. Y - H:i'}">{$application->paidAt|date:'j. n.'}</span><div class="clearfix"></div>
+                        {/if}
+                    {/if}
+                    {if $application->paymentMethod !== NULL}
+                        Platební metoda
+                        <span class="pull-right">{$application->paymentMethod->name}</span>
+                    {/if}
+                    {if $application->feedback}
+                        <hr>
+                        {$application->feedback}
+                    {/if}
+                </div>
+
+            </td>
+        </tr>
+    </table>
+</div>
+<div>{=count($applications)} záznamů</div>
+{/if}

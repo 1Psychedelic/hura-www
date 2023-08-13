@@ -1,0 +1,50 @@
+
+    {$components[hrStrong]|noescape}
+
+    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+        {foreach $application->createSummaryItems() as $item}
+            <tr>
+                <td align="left" height="60">
+                    <b>{$item->name}</b>
+                </td>
+                <td align="right">
+                    {$item->totalPrice}&nbsp;Kč
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    {$components[hrThin]|noescape}
+                </td>
+            </tr>
+        {/foreach}
+        <tr>
+            <td align="left" height="80">
+                <b>Celkem</b><br>
+                Z toho záloha
+            </td>
+            <td align="right">
+                <b>{$application->price}&nbsp;Kč</b><br>
+                <span>{$application->deposit}&nbsp;Kč</span>
+            </td>
+        </tr>
+    </table>
+
+    {$components[hrStrong]|noescape}
+
+    {if !$application->isRejected}
+
+        <p align="center" n:if="!$application->isDepositPaid">
+            <b>Zálohu prosím uhraďte do 5 dní,</b><br>
+            přihlášky bez uhrazené zálohy mohou být po této lhůtě stornovány.
+        </p>
+
+        <p align="center" n:if="!$application->isPaid">
+            <b>Číslo účtu:</b> {$bankAccount}<br>
+            <b>Variabilní symbol:</b> {$application->id}
+        </p>
+
+    {/if}
+
+    <p align="center">
+        <a style="{$css[btnPrimary]|noescape}" href="{$baseUri|noescape}/muj-ucet/rezervace/{$application->id}">Otevřít přihlášku na webu</a>
+    </p>

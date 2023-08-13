@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8">
+    <title>Faktura - daňový doklad #{$invoice->invoiceId}</title>
+</head>
+<body style="background-color:#ffffff;font-family:ballotamma2,Arial;">
+
+<table border="0" cellpadding="10" cellspacing="0" width="100%" style="background-color:#393d72;background-image:url('images/background/dark-blue-texture.jpg');background-image-resize:1;background-repeat:no-repeat;background-position:bottom center;">
+    <tr>
+        <td style="width:10%"></td>
+        <td style="width: 50%;padding-top: 40px;padding-bottom: 30px">
+            <img src="images/footer-logo.png" style="max-width: 180px">
+        </td>
+        <td style="width: 40%;text-align: left;padding-top: 40px;padding-bottom: 30px;color: #ffffff;">
+            <strong style="font-size: 1.7em">Faktura {$invoice->invoiceId}</strong><br>
+            Datum vystavení: {$invoice->createdAt|date:'j. n. Y'}<br>
+            {if !empty($invoice->payTill)}
+                Datum splatnosti: {$invoice->payTill|date:'j. n. Y'}<br>
+            {/if}
+            Bankovní účet: {$bankAccount}<br>
+            Variabilní symbol: {$invoice->variableSymbol}
+        </td>
+    </tr>
+</table>
+<table border="0" cellpadding="10" cellspacing="0" width="100%">
+    <tr>
+        <td style="width:10%"></td>
+        <td style="width:50%">
+            <span style="color: #fa496e">DODAVATEL:</span><br>
+            <strong>Hurá tábory, z.s.</strong><br>
+            Nové sady 988/2<br>
+            Brno, 60200<br>
+            IČ: 11895829
+        </td>
+        <td style="width: 40%"><br>
+            <span style="color: #fa496e">ODBĚRATEL:</span><br>
+            <strong>{$invoice->name}</strong><br>
+            {$invoice->street}<br>
+                {$invoice->city}, {$invoice->zip}<br>{if strlen($invoice->ico) === 0}&nbsp;{else}
+            IČ:&nbsp;{$invoice->ico}
+            {/if}<br>{if strlen($invoice->dic) === 0}&nbsp;{else}
+            DIČ:&nbsp;{$invoice->dic}
+            {/if}
+        </td>
+    </tr>
+</table>
+
+<div style="background-color:#fa496e;margin-top:15px">
+    <table border="0" cellpadding="10" cellspacing="0" width="100%" style="text-align:center;">
+        <tr>
+            <th width="10%"></th>
+            <th width="30%" style="text-align:left;color:#ffffff;">POLOŽKA</th>
+            <th width="15%" style="text-align:right;color:#ffffff;">CENA</th>
+            <th width="15%" style="color:#ffffff;">POČET</th>
+            <th width="20%" style="text-align:right;color:#ffffff;">CENA CELKEM</th>
+            <th width="10%"></th>
+        </tr>
+        {foreach $invoice->items as $item}
+            <tr style="background-color:#ffffff;">
+                <td style="{if $iterator->isLast()}border-bottom:1px solid #bababa{/if}"></td>
+                <td style="text-align:left;{if $iterator->isLast()}border-bottom:1px solid #bababa{/if}">{$item->name|breaklines}</td>
+                <td style="text-align:right;{if $iterator->isLast()}border-bottom:1px solid #bababa{/if}">{$item->basePrice}&nbsp;Kč</td>
+                <td style="text-align:center;{if $iterator->isLast()}border-bottom:1px solid #bababa{/if}">{$item->amount}×</td>
+                <td style="background-color:#f3f3f3;text-align:right;{if $iterator->isLast()}border-bottom:1px solid #bababa{/if}">{$item->totalPrice}&nbsp;Kč</td>
+                <td style="background-color:#f3f3f3;{if $iterator->isLast()}border-bottom:1px solid #bababa{/if}"></td>
+            </tr>
+        {/foreach}
+        <tr style="background-color:#ffffff;">
+            <td></td>
+            <td></td>
+            <td colspan="2" style="background-color: #393d72;color: #ffffff;text-align: center"><strong>CENA CELKEM</strong></td>
+            <td style="background-color: #fa496e;color: #ffffff;text-align: right"><strong>{$invoice->totalPrice}&nbsp;Kč</strong></td>
+            <td style="background-color: #fa496e"></td>
+        </tr>
+        <tr style="background-color:#ffffff;">
+            <td></td>
+            <td></td>
+            <td colspan="2" style="text-align: left">Nejsme plátci DPH</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr style="background-color: #ffffff">
+            <td colspan="6" height="30"></td>
+        </tr>
+        <tr style="background-color: #ffffff">
+            <td></td>
+            <td></td>
+            <td colspan="4" style="text-align: left">{$invoice->notes|breaklines|noescape}</td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>

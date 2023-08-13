@@ -1,0 +1,21 @@
+{include './@phpHeader.latte'}
+
+/**
+* @method {$className}Mapper getMapper()
+*
+* @method {$className}|NULL get($primaryKey)
+* @method {$className}|NULL getBy(array $conds)
+*
+* @method {$className}[]|ICollection find($ids)
+* @method {$className}[]|ICollection findAll()
+* @method {$className}[]|ICollection findBy(array $where)
+*
+* @method {$className} hydrateEntity(array $data)
+*/
+class {$className}Repository extends Repository {
+
+    static function getEntityClassNames() {
+        return [{$className}::class];
+    }
+
+}

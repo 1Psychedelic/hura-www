@@ -1,0 +1,61 @@
+{control filter}
+<table class="table table-condensed table-bordered table-responsive table-hover">
+    <tr>
+        <th class="col-lg-1">Čas</th>
+        <th class="col-lg-1">Level <span class="pull-right">#</span></th>
+        <th class="col-lg-4">Zpráva</th>
+        <th class="col-lg-1">Uživatel</th>
+        <th class="col-lg-3">Požadavek</th>
+        <th class="col-lg-1">IP</th>
+        <th class="col-lg-1">ID požadavku</th>
+    </tr>
+    {foreach $monolog as $log}
+        <tr>
+            <td>{$log[created_at]|date:'%e. %B %Y'}<br>{$log[created_at]|date:'%H:%M:%S'}</td>
+            <td>
+                <a class="pull-right label label-primary" href="{plink this, id => $log[id]}">{$log[id]}</a>
+                {$log[channel]}<br>
+                {$log[level]}
+                <div class="clearfix"></div>
+            </td>
+            <td>
+                <a class="btn btn-xs btn-danger pull-right" n:if="$getExceptionUrl($log[exception_log])" href="{$getExceptionUrl($log[exception_log])}" target="_blank">
+                    <span class="glyphicon glyphicon-search"></span>
+                </a>
+                <div style="word-break: break-word;">
+                    {$log[message]}
+                </div>
+                <div class="clearfix"></div>
+            </td>
+            <td>
+                {if $log[user] === NULL}
+                    <em class="text-muted">nepřihlášený</em>
+                {else}
+                    <a href="{plink users, filters => [id => $log[user]]}">#{$log[user]} {$users[$log[user]]}</a>
+                {/if}
+            </td>
+            <td>
+                <small n:if="!empty($log[request_method])" n:class="pull-right, label, $log[request_method] === 'GET' ? 'label-info' : 'label-danger'">{$log[request_method]}</small>
+                <a class="btn btn-link btn-xs" style="word-break: break-all;" href="{$baseUrl}{$log[request_path]}" target="_blank">{$log[request_path]}</a>
+                <div class="clearfix"></div>
+
+                <a class="btn btn-link btn-xs" data-toggle="collapse" data-target="{='#details' . $log[id]}" aria-expanded="false" aria-controls="{='details' . $log[id]}">
+                    {if !empty($log[action])}
+                        {$log[action]}
+                    {else}
+                        Detaily
+                    {/if}
+                    <span class="glyphicon glyphicon-chevron-down"></span>
+                </a>
+                <div class="collapse" id="{='details' . $log[id]}">
+                    <pre n:if="!empty($log[params])" style="display:block;font-size:11px;">{=\Nette\Utils\Json::encode(\Nette\Utils\Json::decode($log[params]), \Nette\Utils\Json::PRETTY)}</pre>
+                    {if $log[referer] !== NULL}
+                        Ref.: <a class="btn btn-link btn-xs" style="word-break: break-all;" href="{$log[referer]}" target="_blank">{$log[referer]}</a>
+                    {/if}
+                </div>
+            </td>
+            <td style="background-color: #{sha1($log[ip])|truncate:6:''}"><a href="{plink this, ip => $log[ip]}">{$log[ip]|truncate:15}</a></td>
+            <td style="background-color: #{sha1($log[request_uuid])|truncate:6:''}"><a href="{plink this, request => $log[request_uuid]}">{$log[request_uuid]|truncate:10:''}</a></td>
+        </tr>
+    {/foreach}
+</table>

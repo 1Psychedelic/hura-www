@@ -1,0 +1,34 @@
+{control urlForm}
+
+{var $fullUrl = $baseUri . $url}
+<div class="row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-9">
+        <a target="_blank" href="https://developers.facebook.com/tools/debug/?q={$fullUrl|url}">
+            Otestovat vybranou URL v nástroji Sharing Debugger
+        </a> (použij tlačítko "Scrape again", aby si Facebook načetl změny)
+    </div>
+</div>
+
+<hr>
+
+{control uploadForm}
+
+<table class="table table-condensed table-bordered">
+    <tr>
+        <th>Fotka</th>
+        <th></th>
+    </tr>
+    <tr n:foreach="$list as $item">
+        <td>
+            <img src="{$baseUri}{$item->image}" class="img-responsive" style="max-height:75px">
+        </td>
+        <td>
+            <span class="btn-group btn-group-sm">
+                <a class="btn btn-sm btn-default" n:href="moveUp!, id => $item->id">Posunout výš</a>
+                <a class="btn btn-sm btn-default" n:href="moveDown!, id => $item->id">Posunout níž</a>
+                <a class="btn btn-sm btn-danger" n:href="delete!, id => $item->id">Odstranit</a>
+            </span>
+        </td>
+    </tr>
+</table>

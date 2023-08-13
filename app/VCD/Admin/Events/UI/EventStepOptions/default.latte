@@ -1,0 +1,39 @@
+<table class="table">
+    <tr>
+        <th>
+            <a href="{plink eventStepOption, id => NULL, event => $event, step => $step}" class="btn btn-primary btn-sm">Přidat</a>
+        </th>
+        <th>Popis</th>
+        <th class="text-right">Cena</th>
+        <th>Kapacita</th>
+        <th></th>
+    </tr>
+    <tr n:foreach="$list as $item">
+        <td>
+            <a href="{plink eventStepOption, id => $item->id, event => $event, step => $step}" class="btn btn-primary btn-sm">{$item->id}</a>
+        </td>
+        <td>
+            {$item->option}
+        </td>
+        <td class="text-right">
+            {$item->price} Kč{if $item->multiplyByChildren} / dítě{/if}<br>
+            <small>
+                {if !$item->allowSiblingDiscount}Zakázat sourozeneckou slevu.{/if}
+                {if !$item->allowDiscountCodes}Zakázat slevové kódy.{/if}
+            </small>
+        </td>
+        <td>
+            {if $item->maxUsages === NULL}
+                <span class="text-muted">Neomezená</span>
+            {else}
+                Použito {$item->timesUsed} z {$item->maxUsages}
+            {/if}
+        </td>
+        <td>
+            <span class="btn-group btn-group-sm">
+                <a class="btn btn-sm btn-default" n:href="up!, id => $item->id">Posunout výš</a>
+                <a class="btn btn-sm btn-default" n:href="down!, id => $item->id">Posunout níž</a>
+            </span>
+        </td>
+    </tr>
+</table>

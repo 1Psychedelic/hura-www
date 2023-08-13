@@ -1,0 +1,554 @@
+@import "_variables"
+
+.page
+
+  .page__section
+
+    &.page__section--reservation-detail
+      background-color: #f5f5f5
+
+.reservation-form-wrapper
+  $reservation-form-border-radius: 1em
+  $reservation-form-vertical-padding: 3em
+  display: flex
+  flex-direction: row
+  background-color: #ffffff
+  border-radius: #{$reservation-form-border-radius}
+  &.compact
+    max-width: 35em
+    margin-left: auto
+    margin-right: auto
+  @include media-phone
+    flex-direction: column
+
+  h3
+    font-size: 2em
+    font-weight: bold
+    margin-top: 0
+    margin-bottom: 0
+
+  .reservation-form-sidebar
+    flex: 1 0 0
+    max-width: 21em
+    text-align: center
+    background-color: #393d72
+    color: #ffffff
+    border-radius: #{$reservation-form-border-radius}
+    padding-top: #{$reservation-form-vertical-padding}
+    padding-bottom: #{$reservation-form-vertical-padding}
+    padding-left: 1.6em
+    padding-right: 1.6em
+    background-image: url("/images/background/logo-boy-transparent.png")
+    background-repeat: no-repeat
+    background-position: bottom 0 left 50%
+    min-height: 500px
+    @include media-phone
+      max-width: none
+      min-height: auto
+
+    .reservation-form-sidebar-subheading
+      font-family: "PatrickHand", "Comic Sans MS", cursive
+      font-size: 1.4em
+      color: #ffae00
+      margin-top: -0.2em
+      margin-bottom: 1.1em
+
+    .reservation-form-sidebar-or
+      font-family: "PatrickHand", "Comic Sans MS", cursive
+      font-size: 1.4em
+      color: #ffffff
+      margin-top: 0.8em
+      margin-bottom: 0.8em
+
+    .reservation-form-sidebar-login
+      text-align: start
+
+    .reservation-form-sidebar-bottom
+      padding-top: 1em
+      padding-bottom: 2em
+
+    .link-forgotten-password
+      color: #ffae00
+      text-decoration: none
+      &:hover
+        text-decoration: underline
+
+  .reservation-form
+    flex: 1 0 0
+    background-color: #ffffff
+    border-radius: #{$reservation-form-border-radius}
+    padding-top: #{$reservation-form-vertical-padding}
+    padding-bottom: #{$reservation-form-vertical-padding}
+    padding-left: 2.3em
+    padding-right: 2.3em
+    display: flex
+    flex-direction: column
+
+    @include media-phone
+      padding-left: 1em
+      padding-right: 1em
+
+    form
+      display: flex
+      flex-direction: column
+      flex: 1 0 0
+
+    textarea
+      min-height: 4.5em
+
+    .reservation-form-heading
+      display: flex
+      flex-direction: row
+      flex-wrap: wrap-reverse
+      margin-left: -0.5em
+      margin-right: -0.5em
+      &>div
+        flex: 1 0 0
+        margin-left: 0.5em
+        margin-right: 0.5em
+
+    .reservation-steps
+      background-color: #f4f4f7
+      border-radius: 1.3em
+      font-weight: bold
+      margin-bottom: 1em
+      ul
+        margin: 0
+        padding: 0
+        display: flex
+        flex-direction: row
+        flex-wrap: nowrap
+        list-style-type: none
+        @include media-phone-tablet
+          flex-direction: column
+          //display: none
+        li
+          flex: 1 0 0
+          text-align: center
+          a
+            text-decoration: none
+          span
+            color: #f32765
+            display: block
+            padding-top: 0.8em
+            padding-bottom: 0.5em
+            padding-left: 1.8em
+            padding-right: 1.8em
+            border-radius: 1.3em
+          &.active
+            span
+              background-color: #f32765
+              color: #ffffff
+          &.disabled
+            span
+              color: #9d9c9d
+
+    h3
+      color: #393d72
+
+    .reservation-form-subheading
+      font-family: "PatrickHand", "Comic Sans MS", cursive
+      font-size: 1.4em
+      color: #ff4880
+      margin-top: -0.2em
+      margin-bottom: 1.1em
+
+    .reservation-form-checkboxes
+      margin-top: 1em
+      margin-bottom: 1em
+
+    .reservation-form-submits
+      display: flex
+      flex-direction: row
+      justify-content: space-between
+      align-self: flex-end
+      margin-top: auto
+
+      .reservation-form-submits-left, .reservation-form-submits-right
+        display: flex
+        flex-direction: row-reverse
+        flex-wrap: wrap
+        margin-left: -0.2em
+        margin-right: -0.2em
+
+        &>div
+          align-items: end
+          justify-content: end
+          display: flex
+          flex-direction: row
+          flex-wrap: wrap
+
+
+.reservation-form-sidebar-children
+  .reservation-form-sidebar-child
+    background-color: #ffffff
+    border: 0.21em solid #393d72
+    color: #393d72
+    border-radius: 1.3em
+    text-align: left
+    padding-top: 0.7em
+    padding-bottom: 0.5em
+    padding-left: 1.2em
+    padding-right: 1.2em
+    font-size: 1.1em
+    display: flex
+    flex-direction: row
+    flex-wrap: wrap
+    justify-content: space-between
+    text-decoration: none
+    margin-top: 1em
+    white-space: nowrap
+    cursor: pointer
+    .reservation-form-sidebar-child-name
+      font-weight: bold
+    .reservation-form-sidebar-child-age
+      font-size: 0.9em
+    .reservation-form-sidebar-child-icon
+      align-self: center
+      width: 1.1em
+      height: 1.1em
+      background-color: #393d72
+      border-radius: 999999px
+      color: #ffffff
+      display: flex
+      align-items: center
+      justify-content: center
+      font-size: 2em
+      font-weight: bold
+      font-family: fantasy
+      &::before
+        display: block
+        content: "+"
+      &::after
+        display: none
+  .reservation-form-sidebar-child.active,.reservation-form-sidebar-child:hover
+    border: 0.21em solid #f32765
+    color: #f32765
+    .reservation-form-sidebar-child-icon
+      background-color: #f32765
+  .reservation-form-sidebar-child.active
+    cursor: auto
+    .reservation-form-sidebar-child-icon::before
+      display: none
+    .reservation-form-sidebar-child-icon::after
+      display: block
+      content: ""
+      margin-top: -0.1em
+      width: 0.17em
+      height: 0.34em
+      border: solid white
+      border-width: 0 0.1em 0.1em 0
+      -webkit-transform: rotate(45deg)
+      -ms-transform: rotate(45deg)
+      transform: rotate(45deg)
+
+.reservation-form-child
+  background-color: #f5f5f5
+  border-radius: 1.3em
+  padding-top: 0.7em
+  padding-bottom: 0.5em
+  padding-left: 1.2em
+  padding-right: 1.2em
+  font-size: 1.1em
+  color: #393d72
+  margin-bottom: 1em
+  display: flex
+  flex-direction: column
+
+  .reservation-form-child-top
+    display: flex
+    flex-direction: row-reverse
+    //justify-content: space-between
+    flex-wrap: wrap
+
+    .reservation-form-child-name
+      flex: 1 0 0
+      h4
+        font-size: 1.3em
+        font-weight: bold
+        white-space: nowrap
+        margin-top: 0
+        margin-bottom: 0.4em
+
+    .reservation-form-child-buttons
+      flex: 0 1 0
+      margin-bottom: 0.4em
+
+      a
+        text-decoration: none
+
+  .reservation-form-child-details
+    display: flex
+    flex-direction: row
+    flex-wrap: wrap
+    margin-left: -0.4em
+    margin-right: -0.4em
+
+    &>div
+      margin-top: 0.5em
+      flex-basis: 25%
+      flex-grow: 1
+      flex-shrink: 0
+      padding-left: 0.4em
+      padding-right: 0.4em
+      white-space: nowrap
+      &:first-child
+        //padding-left: 0
+      &:last-child
+        flex-basis: 50%
+        //padding-right: 0
+        white-space: normal
+
+.reservation-form-child-button
+  background-color: #393d72
+  color: #ffffff
+  border-radius: 9999px
+  font-size: 0.7em
+  padding-top: 0.1em
+  padding-bottom: 0em
+  padding-left: 1.5em
+  padding-right: 1.5em
+  cursor: pointer
+  &.reservation-form-child-button-edit
+    margin-right: 0.5em
+  &.reservation-form-child-button-remove
+    margin-left: 0.5em
+    background-color: #ca1212
+
+.reservation-form-addons
+  $reservation-form-addons-border-radius: 1.5em
+  display: flex
+  flex-direction: row
+  flex-wrap: wrap
+  margin-left: -0.3em
+  margin-right: -0.3em
+
+  .reservation-form-addon
+    flex: 1 0 23%
+    display: flex
+    flex-direction: column
+    margin-left: 0.3em
+    margin-right: 0.3em
+    margin-bottom: 1em
+    background-color: #f5f5f5
+    border-radius: #{$reservation-form-addons-border-radius}
+
+    .reservation-form-addon-icon
+      background-color: #393d72
+      display: flex
+      align-items: center
+      justify-content: center
+      min-height: 8em
+      min-width: 11em
+      border-top-left-radius: #{$reservation-form-addons-border-radius}
+      border-top-right-radius: #{$reservation-form-addons-border-radius}
+
+    .reservation-form-addon-content
+      padding-left: 1em
+      padding-right: 1em
+      text-align: center
+      color: #393d72
+      .reservation-form-addon-name
+        font-weight: bold
+        font-size: 1.2em
+        margin-top: 0.8em
+        margin-bottom: 0.6em
+      .reservation-form-addon-link>a
+        color: #f32765
+
+    .reservation-form-addon-price
+      padding-left: 1em
+      padding-right: 1em
+      padding-top: 1.2em
+      padding-bottom: 0.6em
+      text-align: center
+      color: #393d72
+      font-weight: bold
+      font-size: 1.2em
+      white-space: nowrap
+
+    .reservation-form-addon-bottom
+      margin-top: auto
+
+    .reservation-form-addon-amount
+      display: flex
+      flex-direction: row
+      margin-bottom: 1.5em
+
+      @include media-phone
+        font-size: 1.3em
+
+      &>div
+        flex: 0 1 0
+        text-align: center
+        &:first-child
+          flex-grow: 1
+          text-align: right
+          .reservation-form-addon-amount-button
+            float: right
+        &:last-child
+          flex-grow: 1
+          text-align: left
+          .reservation-form-addon-amount-button
+            float: left
+      .reservation-form-addon-amount-button
+        display: flex
+        align-items: center
+        justify-content: center
+        border: 2px solid #f32765
+        border-radius: 0.38em
+        color: #f32765
+        width: 1.1em
+        height: 1.1em
+        //height: 1.2em
+        text-align: center
+        font-size: 1.5em
+        font-weight: bold
+        //margin-top: -1em
+        cursor: pointer
+        user-select: none
+        text-decoration: none
+        &:hover,&:focus
+          background-color: #f32765
+          color: #ffffff
+        &.disabled
+          border-color: #9d9c9d
+          color: #9d9c9d
+          cursor: default
+          &:hover,&:focus
+            background-color: #f5f5f5
+            border-color: #9d9c9d
+            color: #9d9c9d
+            cursor: default
+        &>span
+          display: block
+          margin-top: -0.15em
+          margin-bottom: -0.30em
+      .reservation-form-addon-amount-current
+        margin-left: 0.4em
+        margin-right: 0.4em
+        display: flex
+        align-items: center
+        justify-content: center
+        border: 2px solid #ffffff
+        border-radius: 0.38em
+        background-color: #ffffff
+        text-align: center
+        font-size: 1.5em
+        font-weight: bold
+        width: 1.1em
+        height: 1.1em
+        &>span
+          color: #393d72
+          font-size: 0.7em
+          margin-top: -0.15em
+          margin-bottom: -0.30em
+
+.reservation-form-sidebar-price
+  text-align: left
+  font-size: 1.2em
+  min-height: 25em
+  h4
+    margin-top: 1.2em
+    margin-bottom: 0.5em
+
+  .reservation-sidebar-price-group-item
+    display: flex
+    flex-direction: row
+    justify-content: space-between
+    flex-wrap: wrap
+    padding-left: 0.2em
+    padding-right: 0.2em
+    .reservation-sidebar-price-group-item-title
+      flex: 1 0 0
+      white-space: nowrap
+    .reservation-sidebar-price-group-item-price
+      flex: 1 0 0
+      text-align: right
+      white-space: nowrap
+  .reservation-sidebar-price-group-subtotal
+    text-align: right
+    white-space: nowrap
+    font-weight: bold
+    border-top: 2px solid #ffffff
+    margin-top: 0.5em
+    padding-top: 0.5em
+    padding-left: 0.2em
+    padding-right: 0.2em
+
+  .reservation-form-sidebar-price-total
+    color: #393d72
+    background-color: #ffffff
+    font-weight: bold
+    font-size: 1.3em
+    text-align: center
+    width: 100%
+    padding-top: 0.6em
+    padding-bottom: 0.3em
+    border-radius: 0.7em
+    margin-top: 1em
+    &>span
+      white-space: nowrap
+
+.reservation-form-finish
+  color: #393d72
+  .reservation-form-finish-group
+    background-color: #f4f4f7
+    border-radius: 1.3em
+    padding: 1em
+    margin-bottom: 1em
+
+    h4
+      margin-top: 0
+      margin-bottom: 0.5em
+      font-size: 1.3em
+      font-weight: normal
+
+  .reservation-form-finish-parent-contact
+    display: flex
+    flex-direction: row
+    flex-wrap: wrap
+    &>div
+      flex: 1 0 0
+      white-space: nowrap
+      &:first-child
+        margin-right: 0.5em
+
+  .reservation-form-finish-children
+    display: flex
+    flex-direction: row
+    flex-wrap: wrap
+    margin-left: -0.5em
+    margin-right: -0.5em
+
+    .reservation-form-finish-child
+      flex: 1 0 0
+      margin-left: 0.5em
+      margin-right: 0.5em
+
+  .reservation-form-finish-child-details
+    display: flex
+    flex-direction: row
+    flex-wrap: wrap
+    &>div
+      flex: 1 0 0
+      white-space: nowrap
+      &:first-child
+        margin-right: 0.5em
+
+  .reservation-form-finish-child-health
+    margin-top: 0.5em
+
+
+.reservation-flash-success
+  background-color: #7cbe47
+  color: #ffffff
+  border-radius: 1.3em
+  padding: 1em
+  padding-bottom: 0.8em
+  margin-bottom: 1em
+  margin-top: 1em
+
+.reservation-form-invoice-info
+  padding-top: 1em
+  padding-bottom: 3em

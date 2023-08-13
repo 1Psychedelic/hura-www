@@ -1,0 +1,39 @@
+{define body}
+
+    {if !$empty}
+        <div class="container-fluid vcd-main-background">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+
+                        {control events}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    {else}
+        <div class="container">
+            <div class="row row-eq-height">
+                <div class="col-sm-7 col-sm-push-5">
+                    <div class="vcd-box">
+                        <h3>Zrovna se nekonají žádné {if $type === $typeCamp}tábory{else}výlety{/if}.</h3>
+                        <p>Možná ale máme naplánované nějaké {if $type === $typeCamp}výlety{else}tábory{/if}: <a n:href="this, type => $type === $typeCamp ? $typeTrip : $typeCamp" class="btn btn-sm btn-success">zobrazit {if $type === $typeCamp}výlety{else}tábory{/if}</a></p>
+                        <p>Také se můžete podívat na minulé události: <span class="btn-group btn-group-sm"><a href="{plink \VCD\UI\FrontModule\EventsModule\ArchivePresenter::LINK_DEFAULT}" class="btn btn-sm btn-success">Zobrazit archiv</a><a href="{plink \VCD\UI\FrontModule\GalleryModule\PhotosPresenter::LINK_DEFAULT}" class="btn btn-sm btn-success">Zobrazit fotky</a></span></p>
+                        {if $showNewsletter}
+                            <div class="well well-sm" style="color:#000">
+                                <p>Přihlašte svůj e-mail k odběru novinek a nepropásněte tak žádné budoucí tábory ani výlety:</p>
+                                {control form}
+                            </div>
+                        {/if}
+                    </div>
+                </div>
+                <div class="col-sm-5 col-sm-pull-7" style="align-self:flex-end">
+                    <img class="img-responsive" src="{$baseUri}/www/assets/img/404.png">
+                </div>
+            </div>
+        </div>
+    {/if}
+{/define}
+
+{define head}{/define}

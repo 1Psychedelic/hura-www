@@ -1,0 +1,72 @@
+
+.alert
+  padding-left: 2em
+  padding-right: 4em
+  padding-top: 1em
+  padding-bottom: 0.7em
+
+  &.alert-danger
+    background-color: #cf3f3f
+    color: #ffffff
+    //border: 0.1em solid #ffffff
+
+  &.alert-success
+    background-color: #7cbe47
+    color: #ffffff
+
+.alerts
+  position: fixed
+  top: 0
+  left: 0
+  width: 100%
+  padding: 1em
+  z-index: 99999
+  pointer-events: none
+
+  .alert
+    position: relative
+    margin-left: auto
+    margin-right: auto
+    width: 100%
+    max-width: 40em
+    margin-bottom: 1em
+    pointer-events: initial
+    box-shadow: 0px 0px 16px rgba(0, 0, 0, .18)
+    opacity: 0.95
+    transition: all 0.2s
+    will-change: transform
+    transform: scale(1)
+    font-size: 1.2em
+    //-webkit-font-smoothing: antialiased
+    //backface-visibility: hidden
+
+    &.idle:hover, &.grabbing-attention
+      opacity: 1
+      box-shadow: 0px 0px 16px rgba(0, 0, 0, .36)
+      //transform: translate3d(0, 0, 0)
+      //transform: perspective(1px) scale(1.1)
+      transform: scale(1.02)
+
+    &.vanishing, &.spawning
+      opacity: 0
+      transform: scale(0.5)
+
+    .close
+      position: absolute
+      right: 0
+      top: 0
+      height: 100%
+      width: 1.5em
+      //background-color: #0a391e
+      cursor: pointer
+      background-color: transparent
+      border: 0
+      font-size: 2em
+      font-weight: bold
+      &:hover>span
+          color: #ffffff
+      &>span
+        display: inline-block
+        padding-top: 0.25em
+        color: #f4f4f7
+

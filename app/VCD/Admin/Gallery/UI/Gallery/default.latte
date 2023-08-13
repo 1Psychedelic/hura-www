@@ -1,0 +1,11 @@
+{if count($gallery)}
+    <span class="btn-group btn-group-sm">
+                    <a onclick="if(!confirm('Zveřejnit vše?'))return false;" class="btn btn-primary btn-sm" n:href="photosSetVisible!, type => $type, event => $currentEvent[id], visible => 1">Zveřejnit vše</a>
+                    <a onclick="if(!confirm('Skrýt vše?'))return false;" class="btn btn-primary btn-sm" n:href="photosSetVisible!, type => $type, event => $currentEvent[id], visible => 0">Skrýt vše</a>
+                    <a onclick="if(!confirm('Smazat vše?'))return false;" class="btn btn-primary btn-sm" n:href="photosDelete!, type => $type, event => $currentEvent[id]">Smazat vše</a>
+                </span>
+{/if}
+
+{control dropzone}
+
+<hr>

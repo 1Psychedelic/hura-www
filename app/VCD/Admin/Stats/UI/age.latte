@@ -1,0 +1,51 @@
+{layout './@layout.latte'}
+
+{block body}
+<div style="overflow: auto;width:100%;height:600px">
+    <canvas id="ageChart" height="150"></canvas>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        var ctx = document.getElementById("ageChart");
+        var ageChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {=array_keys($boys)},
+                datasets: [
+                    {
+                        label: "Kluci",
+                        backgroundColor: "rgba(0,91,255,0.4)",
+                        data: {=array_values($boys)}
+                    },
+                    {
+                        label: "Holky",
+                        backgroundColor: "rgba(255,0,91,0.4)",
+                        data: {=array_values($girls)}
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        stacked: true
+                    }],
+                    yAxes: [{
+                        stacked: true,
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+    });
+</script>
+
+<div class="row">
+    <div class="col-sm-12">
+
+    </div>
+</div>
+{/block}

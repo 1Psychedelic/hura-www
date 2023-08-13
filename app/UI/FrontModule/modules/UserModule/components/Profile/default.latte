@@ -1,0 +1,176 @@
+<div class="row">
+    <div class="col-sm-5">
+        <a name="vcd-profile"></a>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="pull-right">
+                    <a class="btn btn-xs btn-default" href="{plink \VCD\UI\FrontModule\UserModule\PhotoPresenter::LINK_DEFAULT}">{if $userEntity->avatarSmall}Změnit{else}Nastavit{/if} fotku</a>
+                    <a class="btn btn-xs btn-primary" href="{plink \VCD\UI\FrontModule\UserModule\ProfilePresenter::LINK_PARENT}">Změnit údaje</a>
+                </span>
+                <strong>Můj profil</strong>
+                <div class="clearfix"></div>
+            </div>
+            <div class="list-group">
+                <div class="list-group-item">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            {$userEntity->name}<br>
+                            {$userEntity->street}<br>
+                            {$userEntity->city}, {$userEntity->zip}<br>
+                        </div>
+                        <div class="col-lg-6">
+                            {$userEntity->email}<br>
+                            {$userEntity->phone}<br>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-group-item" n:if="$userEntity->creditBalance > 0">
+                    <div>
+                        <div>
+                            Máte kredit <strong>{$userEntity->creditBalance}&nbsp;Kč</strong>, který můžete využít jako slevu.
+                        </div>
+                        <div>
+                            {foreach $credits as $expiration => $amount}
+                                <div class="text-muted">
+                                    <small>
+                                        {$amount}&nbsp;Kč
+                                        {if $expiration}
+                                            má platnost do {$expiration}.
+                                        {else}
+                                            má neomezenou platnost.
+                                        {/if}
+                                    </small>
+                                </div>
+                            {/foreach}
+                        </div>
+                    </div>
+                </div>
+                <a class="list-group-item text-center" href="{plink $reviewLink}" n:if="$canPostReview && $reviewReward > 0">
+                <span class="btn btn-wrap btn-link">
+                {if $userEntity->creditBalance > 0}
+                    Napište recenzi a připíšeme vám dalších <strong>{$reviewReward}&nbsp;Kč</strong>.
+                {else}
+                    Napište recenzi a připíšeme vám <strong>{$reviewReward}&nbsp;Kč</strong>, které můžete využít jako slevu.
+                {/if}
+                </span>
+                </a>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="pull-right">
+                    <a class="btn btn-xs btn-primary" href="{plink \VCD\UI\FrontModule\UserModule\ProfilePresenter::LINK_CHILD, id => NULL}"><span class="glyphicon glyphicon-plus"></span> Přidat dítě</a>
+                </span>
+                <strong>Moje děti</strong>
+                <div class="clearfix"></div>
+            </div>
+            <div class="list-group">
+                {if $userEntity->children->count() === 0}
+                    <div class="list-group-item">
+                        <div class="text-center margin-top-20"><em>Seznam dětí je prázdný.</em></div>
+                    </div>
+                {/if}
+                {var $countDiplomas = 0}
+                {foreach $userEntity->children as $child}
+                    <a class="list-group-item" href="{plink \VCD\UI\FrontModule\UserModule\ChildPresenter::LINK_DEFAULT, id => $child->id}">
+                        <span class="pull-right btn btn-xs btn-link">Zobrazit profil dítěte</span>
+                        {$child->name}
+                        <span class="clearfix"></span>
+                        {php $countDiplomas = count($child->diplomas)}
+                        {if $countDiplomas > 0}
+                            <small>má {=$countDiplomas} diplom{if $countDiplomas > 1 && $countDiplomas < 5}y{elseif $countDiplomas >= 5}ů{/if}</small>
+                        {/if}
+                    </a>
+                {/foreach}
+
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="pull-right">
+                    <a class="btn btn-xs btn-primary" href="{plink $consentsLink}">Udělené souhlasy</a>
+                </span>
+                <strong>Ochrana osobních údajů a GDPR</strong>
+                <div class="clearfix"></div>
+            </div>
+            <div class="list-group">
+                <a class="list-group-item" href="http://včd.eu/GDPR" target="_blank">
+                    <span class="pull-right btn btn-xs btn-link">Zobrazit</span>
+                    Zásady ochrany osobních údajů
+                    <span class="clearfix"></span>
+                </a>
+                <a class="list-group-item" href="{plink json}" target="_blank">
+                    <span class="pull-right btn btn-xs btn-link">Zobrazit</span>
+                    Vaše osobní údaje ve strojově čitelném formátu
+                    <span class="clearfix"></span>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-sm-7">
+        <div class="panel panel-primary" n:snippet="applications">
+            <div class="panel-heading">
+                <strong>Moje přihlášky</strong>
+                {if iterator_count($applications) > 0}
+                    <span class="pull-right">
+                        <a class="btn btn-xs btn-default" href="{plink this, canceled => !$canceled}">
+                            {if $canceled}Skrýt{else}Zobrazit{/if} zrušené přihlášky
+                        </a>
+                    </span>
+                    <div class="clearfix"></div>
+                {/if}
+            </div>
+            <div class="list-group">
+                {if iterator_count($applications) === 0}
+                    <div class="list-group-item">
+                        <div class="text-center margin-top-20"><em>Seznam přihlášek je prázdný.</em></div>
+                    </div>
+                {/if}
+                {foreach $applications as $application}
+                    <a class="list-group-item" href="{plink \VCD\UI\FrontModule\UserModule\ApplicationPresenter::LINK_DEFAULT, id => $application->id, hash => $application->hash}">
+                    <span class="pull-right">
+                        <span class="text-muted">#{$application->id}</span>
+
+                        {if $application->canceledAt !== NULL}
+                            <span class="glyphicon glyphicon-remove text-danger" data-toggle="tooltip" data-placement="top" title="Přihláška byla stornována uživatelem."></span>
+                        {elseif $application->rejectedAt !== NULL}
+                            <span class="glyphicon glyphicon-ban-circle text-danger" data-toggle="tooltip" data-placement="top" title="Přihláška byla odmítnuta pořadatelem."></span>
+                        {elseif $application->acceptedAt !== NULL}
+                            <span class="glyphicon glyphicon-ok text-success" data-toggle="tooltip" data-placement="top" title="Přihláška byla schválena."></span>
+                        {else}
+                            <span class="glyphicon glyphicon-question-sign text-info" data-toggle="tooltip" data-placement="top" title="Přihláška čeká na vyřízení."></span>
+                        {/if}
+
+                        <span class="btn btn-xs btn-link">Zobrazit detaily</span>
+                    </span>
+                        {$application->event->name}
+                        <span class="clearfix"></span>
+                    </a>
+                {/foreach}
+                {if iterator_count($applications) > 0}
+                    <div class="list-group-item">
+                        <strong>*Legenda ke stavu přihlášky:</strong>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <span class="glyphicon glyphicon-question-sign"></span> Přihláška čeká na vyřízení.<br>
+                                <span class="glyphicon glyphicon-ok"></span> Přihláška byla schválena.
+                            </div>
+                            <div class="col-lg-6">
+                                <span class="glyphicon glyphicon-remove"></span> Přihláška byla stornována uživatelem.<br>
+                                <span class="glyphicon glyphicon-ban-circle"></span> Přihláška byla odmítnuta pořadatelem.
+                            </div>
+                        </div>
+                    </div>
+                {/if}
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+

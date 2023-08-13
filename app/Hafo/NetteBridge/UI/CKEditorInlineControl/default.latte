@@ -1,0 +1,119 @@
+<div n:snippet contenteditable="true" style="{$wrapperCss|noescape}">
+	{$content|noescape}
+</div>
+
+{var $snippet = $control->getSnippetId()}
+<script type="text/javascript">
+
+	CKEDITOR.dtd.$removeEmpty['i'] = false;
+	CKEDITOR.dtd.$removeEmpty['div'] = false;
+	CKEDITOR.dtd.$removeEmpty['p'] = false;
+
+	CKEDITOR.config.stylesSet = [
+        {
+            name: 'Normální', element: 'p'
+        },
+		{
+			name: 'Nadpis 1', element: 'h1'/*, attributes: {'class': 'text-center'}*/
+		},
+		{
+			name: 'Nadpis 2', element: 'h2'/*, attributes: {'class': 'text-center'}*/
+		},
+        {
+            name: 'Modrý rámeček', element: 'div', attributes: {'class': 'vcd-box vcd-box-dark'}
+        },
+        {
+            name: 'Modré tlačítko', element: 'a', attributes: {'class': 'btn btn-primary'}
+        },
+        {
+            name: 'Zelené tlačítko', element: 'a', attributes: {'class': 'btn btn-success'}
+        },
+        {
+            name: 'Červené tlačítko', element: 'a', attributes: {'class': 'btn btn-danger'}
+        },
+        {
+            name: 'Bílé tlačítko', element: 'a', attributes: {'class': 'btn btn-default'}
+        },
+        {
+            name: 'Tabulka', element: 'table', attributes: {'class': 'table'}
+        },
+        {
+            name: 'Tabulka s rámečky', element: 'table', attributes: {'class': 'table table-bordered'}
+        },
+        {
+            name: 'Skupina tlačítek', element: 'div', attributes: {'class': 'btn-group'}
+        }
+        {**
+            name: 'Responzivní obrázek', type: 'widget', widget: 'image', attributes: {'class': 'img-responsive'}
+        **}
+	];
+
+    CKEDITOR.config.entities_greek = false;
+    CKEDITOR.config.entities_latin = false;
+
+    //CKEDITOR.config.extraPlugins = 'uploadimage';
+    CKEDITOR.config.extraPlugins = 'inlinesave';
+    CKEDITOR.config.inlinesave = {
+        postUrl: {$control->link('foo!')},
+        onSuccess: function() {
+            var content = CKEDITOR.instances[{$snippet}].getData();
+
+            var data = {};
+            data[{=$control->getUniqueId() . '-content'}] = content;
+
+            $.nette.ajax({
+                type: 'POST',
+                url: {$control->link('save!')},
+                data: data
+            });
+        }
+    };
+
+	CKEDITOR.disableAutoInline = true;
+
+	{$setup|noescape}
+
+	if(CKEDITOR.instances[{$snippet}]) {
+		CKEDITOR.instances[{$snippet}].destroy(true);
+	}
+	ck = CKEDITOR.inline({$snippet});
+    ck.on('instanceReady', function(event) {
+         var editor = event.editor;
+         editor.setReadOnly(false);
+    });
+
+	{if count($control->onBlur) > 0}
+		CKEDITOR.instances[{$snippet}].on('blur', function() {
+
+			var content = CKEDITOR.instances[{$snippet}].getData();
+
+			var data = {};
+			data[{=$control->getUniqueId() . '-content'}] = content;
+
+			$.nette.ajax({
+				type: 'POST',
+				url: {$control->link('blur!')},
+				data: data
+			});
+		});
+	{/if}
+
+	{if count($control->onChange) > 0}
+
+		CKEDITOR.instances[{$snippet}].on('change', function() {
+
+			var content = CKEDITOR.instances[{$snippet}].getData();
+
+			var data = {};
+			data[{=$control->getUniqueId() . '-content'}] = content;
+
+			$.nette.ajax({
+				type: 'POST',
+				url: {$control->link('blur!')},
+				data: data
+			});
+
+		});
+	{/if}
+
+</script>

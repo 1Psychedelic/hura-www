@@ -1,0 +1,66 @@
+.cookies-bar-wrapper
+  position: fixed
+  bottom: 0
+  left: 0
+  width: 100%
+  padding-bottom: 2em
+
+  .cookies-bar
+    position: relative
+    margin-left: auto
+    margin-right: auto
+    max-width: 30em
+    background-color: #393d72
+    color: #ffffff
+    box-shadow: 0px 0px 16px rgba(0, 0, 0, .18)
+    opacity: 0.95
+    transition: all 0.2s
+    will-change: transform
+    transform: scale(1)
+    font-size: 1.2em
+    padding-left: 2em
+    padding-right: 2em
+    padding-top: 1em
+    padding-bottom: 1em
+
+    &:hover
+      opacity: 1
+      box-shadow: 0px 0px 16px rgba(0, 0, 0, .36)
+      //transform: translate3d(0, 0, 0)
+      //transform: perspective(1px) scale(1.1)
+      transform: scale(1.02)
+
+  a.cookies-bar-link
+    color: #ffae00
+    text-decoration: none
+    &:hover
+      text-decoration: underline
+
+  .cookies-bar-customize
+    font-size: 0.9em
+    text-align: center
+    a
+      margin-left: auto
+      margin-right: auto
+
+  .cookies-bar-accept-all
+    padding-top: 1em
+    padding-bottom: 1em
+
+  .form-error-message
+    min-height: 0
+
+  .form-checkbox-wrapper .form-checkbox input[type=checkbox]:checked ~ .form-checkbox-checkmark
+    background-color: #ffffff
+  .form-checkbox-wrapper .form-checkbox input[type=checkbox]:disabled
+    &:hover ~ .form-checkbox-checkmark
+      border-color: #393d72
+
+    &:hover:checked  ~ .form-checkbox-checkmark
+      border-color: #393d72
+
+    & ~ .form-checkbox-checkmark:after
+      border-color: #777777!important
+  .form-checkbox-checkmark
+    &:after
+      border-color: #000000!important

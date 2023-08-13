@@ -1,0 +1,16 @@
+{layout '../@layout.latte'}
+{define body}
+
+    <h1 style="{$css[heading]|noescape}">Přišel Vám pohled z akce!</h1>
+
+    <p>Dobrý den,</p>
+
+    <p>
+        právě Vám byl zaslán pohled z akce! Zobrazit jej a zareagovat na něj můžete na našem webu pod následujícím odkazem:
+    </p>
+
+    <p align="center">
+        <a style="{$css[btnPrimary]|noescape}" href="{$link->link($postOfficeLink)}">Zobrazit poštu</a>
+    </p>
+
+{/define}

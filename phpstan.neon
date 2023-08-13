@@ -1,0 +1,11 @@
+includes:
+  - vendor/phpstan/phpstan-nette/extension.neon
+parameters:
+  bootstrapFiles:
+    - app/config/constants.php
+  level: 1
+  excludePaths:
+    - app/UI/*
+    - app/*/UI/*
+  paths:
+    - app

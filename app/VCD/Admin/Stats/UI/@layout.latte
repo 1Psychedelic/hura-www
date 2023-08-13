@@ -1,0 +1,44 @@
+<div class="row">
+    <div class="col-sm-12">
+        <ul class="pagination">
+            <li n:class="$year === NULL ? active">
+                <a href="{plink this, year => NULL}">Celé období</a>
+            </li>
+            {foreach range(2014, date('Y')) as $yearOption}
+                <li n:class="(int)$year === $yearOption ? active">
+                    <a href="{plink this, year => $yearOption}">{$yearOption}</a>
+                </li>
+            {/foreach}
+        </ul>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <ul class="nav nav-tabs">
+            <li n:class="$presenter->isLinkCurrent('stats', ['tab' => 'attendation']) ? active">
+                <a href="{plink this, tab => attendation}">Účastníci</a>
+            </li>
+            <li n:class="$presenter->isLinkCurrent('stats', ['tab' => 'age']) ? active">
+                <a href="{plink this, tab => age}">Věk</a>
+            </li>
+            <li n:class="$presenter->isLinkCurrent('stats', ['tab' => 'loyalty']) ? active">
+                <a href="{plink this, tab => loyalty}">Věrnost</a>
+            </li>
+            <li n:class="$presenter->isLinkCurrent('stats', ['tab' => 'users']) ? active">
+                <a href="{plink this, tab => users}">Uživatelé</a>
+            </li>
+            <li n:class="$presenter->isLinkCurrent('stats', ['tab' => 'subscribers']) ? active">
+                <a href="{plink this, tab => subscribers}">Odběratelé</a>
+            </li>
+            <li n:class="$presenter->isLinkCurrent('stats', ['tab' => 'average_price']) ? active">
+                <a href="{plink this, tab => average_price}">Průměrná cena</a>
+            </li>
+            <li n:class="$presenter->isLinkCurrent('stats', ['tab' => 'calendar']) ? active">
+                <a href="{plink this, tab => calendar}">Kalendář</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+{include body}

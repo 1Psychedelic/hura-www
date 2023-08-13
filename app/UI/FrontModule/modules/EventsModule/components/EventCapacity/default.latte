@@ -1,0 +1,15 @@
+<div class="progress vcd-capacity-progress">
+  <div n:class="progress-bar-striped, active, progress-bar, $capacity >= 100 ? progress-bar-danger : ($capacity >= 50 ? progress-bar-warning : progress-bar-success)" role="progressbar" aria-valuenow="{$capacity}" aria-valuemin="0" aria-valuemax="100" style="width: {$capacity}%">
+  </div>
+</div>
+<div style="display:none;" class="vcd-capacity">
+  {if $freeSlots === 0}
+    <strong>Žádné</strong> volné místo
+  {elseif $freeSlots === 1}
+    <strong>Poslední</strong> místo!
+  {elseif $freeSlots < 5 && $freeSlots > 1}
+    Poslední <strong>{$freeSlots}</strong> místa!
+  {else}
+    <strong>{$freeSlots}</strong> volných míst
+  {/if}
+</div>

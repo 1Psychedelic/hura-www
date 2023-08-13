@@ -1,0 +1,13 @@
+
+<ul class="nav nav-tabs vcd-event-tabs">
+    <li{ifCurrent event} class="active"{/ifCurrent}><a n:href="event, id => $id">Základní</a></li>
+    <li{ifCurrent eventDesign} class="active"{/ifCurrent}><a n:href="eventDesign, event => $id">Grafika</a></li>
+    <li{ifCurrent eventTabs} class="active"{/ifCurrent}><a n:href="eventTabs, event => $id">Obsah/záložky</a></li>
+    {** <li{ifCurrent eventSteps} class="active"{/ifCurrent}{ifCurrent eventStep} class="active"{/ifCurrent}{ifCurrent eventStepOptions} class="active"{/ifCurrent}{ifCurrent eventStepOption} class="active"{/ifCurrent}><a n:href="eventSteps, event => $id">Mezikroky</a></li> **}
+    <li{ifCurrent eventAddons} class="active"{/ifCurrent}{ifCurrent eventAddon} class="active"{/ifCurrent}><a n:href="eventAddons, event => $id">Doplňky</a></li>
+    <li{ifCurrent eventDiscounts} class="active"{/ifCurrent}{ifCurrent eventDiscount} class="active"{/ifCurrent}><a n:href="eventDiscounts, event => $id">Cena</a></li>
+    <li{ifCurrent photos, type => 0} class="active"{/ifCurrent}><a n:href="photos, type => 0, event => $id">Fotky</a></li>
+    <li{ifCurrent photos, type => 1} class="active"{/ifCurrent}><a n:href="photos, type => 1, event => $id">Ztráty a nálezy</a></li>
+    <li{ifCurrent diplomas} class="active"{/ifCurrent}><a n:href="diplomas, id => $id">Diplomy</a></li>
+    <li{ifCurrent letters} class="active"{/ifCurrent}><a n:href="letters, id => $id">Dopisy</a></li>
+</ul>

@@ -1,0 +1,39 @@
+<div class="row text-center vcd-event-box" n:if="!$event->hasEnded && !$event->hasStarted">
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        TERMÍN<br>
+        {control term}
+    </div>
+    <div class="col-md-2 col-sm-6 col-xs-12">
+        CENA<br>
+        {var $priceInfo = $event->getPriceInfo($userEntity)}
+
+        {if $priceInfo->getDiscountedUntil() !== null}
+            <div style="margin-top:-10px">
+                <small style="text-decoration:line-through;font-weight:normal;">{$priceInfo->getBasePrice()}&nbsp;Kč</small>
+                {$priceInfo->getDiscountPrice()}&nbsp;Kč
+                <div class="text-danger" style="margin-top:-12px"><small>sleva končí za <span class="vcd-event-box-discount" data-until="{$priceInfo->getDiscountedUntil()}">{$event->discountedUntil|discounted_until}</span></small></div>
+            </div>
+        {elseif $priceInfo->getDiscountPrice() !== null}
+            <div style="margin-top:-10px">
+                <small style="text-decoration:line-through;font-weight:normal;">{$priceInfo->getBasePrice()}&nbsp;Kč</small>
+                {$priceInfo->getDiscountPrice()}&nbsp;Kč
+                <div class="text-danger" style="margin-top:-12px"><small>věrnostní sleva</small></div>
+            </div>
+        {else}
+            <div>
+                {$priceInfo->getBasePrice()}&nbsp;Kč
+            </div>
+        {/if}
+    </div>
+    <div class="col-md-2 col-sm-6 col-xs-12">
+        VĚK&nbsp;DĚTÍ<br>
+        {$event->ageMin}&nbsp;-&nbsp;{$event->ageMax}
+    </div>
+    <div class="col-md-2 col-sm-6 col-xs-12 vcd-capacity-hover">
+        KAPACITA<br>
+        {control capacity}
+    </div>
+    <div class="col-md-3 col-sm-12 col-xs-12">
+        {control button}
+    </div>
+</div>

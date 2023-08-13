@@ -1,0 +1,4 @@
+<ul class="nav nav-tabs vcd-event-tabs">
+    <li{ifCurrent blogArticle} class="active"{/ifCurrent}><a n:href="blogArticle, id => $article">Článek</a></li>
+    <li{ifCurrent blogArticlePages} class="active"{/ifCurrent}{ifCurrent blogArticlePage} class="active"{/ifCurrent}><a n:href="blogArticlePages, article => $article">Podstránky</a></li>
+</ul>

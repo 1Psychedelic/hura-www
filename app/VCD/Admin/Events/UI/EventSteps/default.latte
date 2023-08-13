@@ -1,0 +1,43 @@
+<table class="table">
+    <tr>
+        <th>
+            <a href="{plink eventStep, id => NULL, event => $event}" class="btn btn-primary btn-sm">Přidat</a>
+        </th>
+        <th>Nadpis záložky</th>
+        <th>Otázka/výzva</th>
+        <th></th>
+        <th></th>
+    </tr>
+    <tr n:foreach="$list as $item">
+        <td>
+            <a href="{plink eventStep, id => $item[id], event => $event}" class="btn btn-primary btn-sm">{$item[id]}</a>
+        </td>
+        <td>
+            {$item[tab]}
+        </td>
+        <td>
+            {$item[prompt]}
+        </td>
+        <td>
+            <a href="{plink eventStepOptions, event => $event, step => $item[id]}" n:class="btn, btn-sm, count($item->related('vcd_event_step_option')) === 0 ? btn-danger : btn-primary">{count($item->related('vcd_event_step_option'))} možností</a>
+        </td>
+        <td n:if="FALSE">
+            {if $item[multiple]}
+                <input type="checkbox">
+            {else}
+                <input type="radio">
+            {/if}
+            {if $item[required]}
+                Povinné
+            {else}
+                Nepovinné
+            {/if}
+        </td>
+        <td>
+            <span class="btn-group btn-group-sm">
+                <a class="btn btn-sm btn-default" n:href="up!, id => $item[id]">Posunout výš</a>
+                <a class="btn btn-sm btn-default" n:href="down!, id => $item[id]">Posunout níž</a>
+            </span>
+        </td>
+    </tr>
+</table>

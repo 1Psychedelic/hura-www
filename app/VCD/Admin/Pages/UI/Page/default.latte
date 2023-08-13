@@ -1,0 +1,12 @@
+<a href="{plink this, html => !$html}" n:class="btn, $html ? btn-default : btn-primary">Editor</a>
+
+{if $currentPage}
+    {control form}
+    <a n:if="$currentPage[special] === 0" href="{plink //Front:page, id => $id}">{plink //Front:page, id => $id}</a>
+    <hr>
+
+    {control dropzone}
+
+{else}
+    {control form}
+{/if}

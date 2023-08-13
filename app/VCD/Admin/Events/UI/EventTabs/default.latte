@@ -1,0 +1,11 @@
+<ul class="nav nav-tabs vcd-event-tabs">
+    <li n:foreach="$tabs as $tab" role="presentation" n:class="$currentTab !== NULL && $currentTab[id] === $tab[id] ? active"><a href="{plink this, tab => $tab[id]}">{$tab[name]}</a></li>
+    <li role="presentation" n:class="$currentTab === NULL ? active"><a href="{plink this, tab => NULL}">+ Přidat záložku</a></li>
+</ul>
+
+{control form}
+
+{if $currentTab !== NULL}
+    <hr>
+    {control dropzone}
+{/if}

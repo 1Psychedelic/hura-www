@@ -1,0 +1,187 @@
+{if !$useLegacyMenu}
+    {control menu}
+{else}
+
+<ul class="nav navbar-nav navbar-right">
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Web</a>
+        <div class="dropdown-menu text-center" style="min-width:730px;">
+            <div style="width:720px;" class="row-eq-height">
+                    <div class="vcd-admin-block" style="background-color:#cba81e">
+                        <a href="{plink gotoEvents!}">
+                            <img src="{$baseUri}/www/assets/img/admin/events.png" class="img-responsive"><br>
+                            <h3 class="text-center">Tábory a výlety</h3>
+                        </a>
+                    </div>
+                    <div class="vcd-admin-block" style="background-color:#dc542e">
+                        <a href="{plink carousel, carousel => homepage}">
+                            <img src="{$baseUri}/www/assets/img/admin/home.png" class="img-responsive"><br>
+                            <h3 class="text-center">Hlavní stránka</h3>
+                        </a>
+                    </div>
+                    <div class="vcd-admin-block" style="background-color:#28a9e3">
+                        <a href="{plink leaders}">
+                            <img src="{$baseUri}/www/assets/img/admin/users.png" class="img-responsive"><br>
+                            <h3 class="text-center">Vedoucí a lektoři</h3>
+                        </a>
+                    </div>
+                    <div class="vcd-admin-block" style="background-color:#b31919">
+                        <a href="{plink pages}">
+                            <span class="glyphicon glyphicon-duplicate" style="font-size:70px;margin-left:-20px;margin-top:20px;margin-bottom:20px;color:#fff;"></span><br>
+                            <h3 class="text-center">Stránky</h3>
+                        </a>
+                    </div>
+                    <div class="vcd-admin-block" style="background-color:#4d51f7">
+                        <a href="{plink ebooks}">
+                            <span class="glyphicon glyphicon-book" style="font-size:70px;margin-left:-20px;margin-top:20px;margin-bottom:20px;color:#fff;"></span><br>
+                            <h3 class="text-center">E-booky</h3>
+                        </a>
+                    </div>
+                    <div class="vcd-admin-block" style="background-color:#cba81e">
+                        <a href="{plink recruitments}">
+                            <span class="glyphicon glyphicon-user" style="font-size:70px;margin-left:-20px;margin-top:20px;margin-bottom:20px;color:#fff;"></span><br>
+                            <h3 class="text-center">Nábor</h3>
+                        </a>
+                    </div>
+                    <div class="vcd-admin-block" style="background-color:#33bcb1">
+                        <a href="{plink blogArticles}">
+                            <span class="glyphicon glyphicon-pencil" style="font-size:70px;margin-left:-20px;margin-top:20px;margin-bottom:20px;color:#fff;"></span><br>
+                            <h3 class="text-center">Blog</h3>
+                        </a>
+                    </div>
+            </div>
+        </div>
+    </li>
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Lidé</a>
+        <div class="dropdown-menu text-center" style="min-width:530px;">
+            <div class="row-eq-height" style="width:520px;">
+                <div class="vcd-admin-block" style="background-color:#28b779">
+                    <a href="{plink gotoApplications!}">
+                        <span n:if="$newApplications > 0" class="label label-danger pull-right" style="margin-right:-10px;margin-top:-10px;font-size:120%">{$newApplications}</span>
+                        <img src="{$baseUri}/www/assets/img/admin/applications.png" class="img-responsive"><br>
+                        <h3 class="text-center">Přihlášky</h3>
+                    </a>
+                </div>
+                <div class="vcd-admin-block" style="background-color:#f74d4e">
+                    <a href="{plink users}">
+                        <img src="{$baseUri}/www/assets/img/admin/users.png" class="img-responsive"><br>
+                        <h3 class="text-center">Uživatelé</h3>
+                    </a>
+                </div>
+                <div class="vcd-admin-block" style="background-color:#28a9e3">
+                    <a href="{plink children}">
+                        <img src="{$baseUri}/www/assets/img/admin/children.png" class="img-responsive"><br>
+                        <h3 class="text-center">Děti</h3>
+                    </a>
+                </div>
+                <div class="vcd-admin-block" style="background-color:#4d51f7">
+                    <a href="{plink lostFound}">
+                        <img src="{$baseUri}/www/assets/img/admin/lostfound.png" class="img-responsive"><br>
+                        <h3 class="text-center">Ztráty a nálezy</h3>
+                    </a>
+                </div>
+                <div class="vcd-admin-block" style="background-color:#aaaaaa">
+                    <a href="{plink nameDays}">
+                        <span class="glyphicon glyphicon-calendar" style="font-size:70px;margin-left:-20px;margin-top:20px;margin-bottom:20px;color:#fff;"></span><br>
+                        <h3 class="text-center">Svátky</h3>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </li>
+
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Marketing</a>
+        <div class="dropdown-menu text-center" style="min-width:330px;">
+
+            <div class="row-eq-height" style="width:320px;">
+                <div class="vcd-admin-block" style="background-color:#f74d4e">
+                    <a href="{plink newsletter}">
+                        <img src="{$baseUri}/www/assets/img/admin/users.png" class="img-responsive"><br>
+                        <h3 class="text-center">Odběry</h3>
+                    </a>
+                </div>
+                <div class="vcd-admin-block" style="background-color:#4d51f7">
+                    <a href="{plink emails}">
+                        <img src="{$baseUri}/www/assets/img/admin/email.png" class="img-responsive"><br>
+                        <h3 class="text-center">E-maily</h3>
+                    </a>
+                </div>
+                <div class="vcd-admin-block" style="background-color:#b31919">
+                    <a href="{plink discounts}">
+                        <img src="{$baseUri}/www/assets/img/admin/discount.png" class="img-responsive"><br>
+                        <h3 class="text-center">Slevy</h3>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </li>
+
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Pokročilé</a>
+        <div class="dropdown-menu text-center" style="min-width:430px;">
+
+            <div class="row-eq-height" style="width:420px;">
+                <div class="vcd-admin-block" style="background-color:#28a9e3">
+                    <a href="{plink cronTasks}">
+                        <span class="glyphicon glyphicon-time" style="font-size:70px;margin-left:-20px;margin-top:20px;margin-bottom:20px;color:#fff;"></span><br>
+                        <h3 class="text-center">Plánovač úloh</h3>
+                    </a>
+                </div>
+                <div class="vcd-admin-block" style="background-color:#f74d4e">
+                    <a href="{plink logs}">
+                        <span class="glyphicon glyphicon-exclamation-sign" style="font-size:70px;margin-left:-20px;margin-top:20px;margin-bottom:20px;color:#fff;"></span><br>
+                        <h3 class="text-center">Error log</h3>
+                    </a>
+                </div>
+                <div class="vcd-admin-block" style="background-color:#4d51f7">
+                    <a href="{plink files}">
+                        <span class="glyphicon glyphicon-floppy-disk" style="font-size:70px;margin-left:-20px;margin-top:20px;margin-bottom:20px;color:#fff;"></span><br>
+                        <h3 class="text-center">Soubory</h3>
+                    </a>
+                </div>
+                <div class="vcd-admin-block" style="background-color:#aaaaaa">
+                    <a href="{plink website}">
+                        <span class="glyphicon glyphicon-cog" style="font-size:70px;margin-left:-20px;margin-top:20px;margin-bottom:20px;color:#fff;"></span><br>
+                        <h3 class="text-center">Nastavení webu</h3>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </li>
+
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Ostatní</a>
+        <div class="dropdown-menu text-center" style="min-width:430px;">
+            <div class="row-eq-height" style="width:420px;">
+                <div class="vcd-admin-block" style="background-color:#28a9e3">
+                    <a href="https://www.dropbox.com/home/Volný%20čas%20dětí" target="_blank">
+                        <img src="{$baseUri}/www/assets/img/admin/dropbox.png" class="img-responsive"><br>
+                        <h3 class="text-center">Dropbox</h3>
+                    </a>
+                </div>
+                <div class="vcd-admin-block" style="background-color:#f74d4e">
+                    <a href="{plink qr}">
+                        <img src="{$baseUri}/www/assets/img/admin/qr.png" class="img-responsive"><br>
+                        <h3 class="text-center">Generátor QR kódů</h3>
+                    </a>
+                </div>
+                <div class="vcd-admin-block" style="background-color:#4d51f7">
+                    <a href="{plink clicks}">
+                        <span class="glyphicon glyphicon-link" style="font-size:70px;margin-left:-20px;margin-top:20px;margin-bottom:20px;color:#fff;"></span><br>
+                        <h3 class="text-center">Měření prokliků</h3>
+                    </a>
+                </div>
+                <div class="vcd-admin-block" style="background-color:#28b779">
+                    <a href="{plink this, print => TRUE}">
+                        <span class="glyphicon glyphicon-print" style="font-size:70px;margin-left:-20px;margin-top:20px;margin-bottom:20px;color:#fff;"></span><br>
+                        <h3 class="text-center">Tisk stránky</h3>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </li>
+
+</ul>
+{/if}

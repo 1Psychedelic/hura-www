@@ -1,0 +1,31 @@
+<table class="table table-bordered table-condensed">
+    <tr>
+        <th class="text-center"><a n:if="!$presenter->print" class="btn btn-primary btn-sm" href="{plink email, id => NULL}">Přidat</a></th>
+        <th>Předmět</th>
+        <th>Text</th>
+        <th>Přílohy</th>
+        <th>Akce</th>
+    </tr>
+    <tr n:foreach="$emails as $email">
+        <td class="text-center">
+            <a n:tag-if="!$presenter->print" href="{plink email, id => $email[id]}" class="btn btn-primary btn-sm"><strong>{$email[id]}</strong></a>
+        </td>
+        <td>
+            {$email[name]}
+        </td>
+        <td>
+            {$email[message]|truncate:200}
+        </td>
+        <td>
+            {foreach $email->related('vcd_email_attachment') as $attachment}
+                {$attachment[file]}
+            {/foreach}
+        </td>
+        <td>
+                        <span class="btn-group btn-group-sm btn-group-vertical">
+                            <a n:if="FALSE" onclick="if(!confirm('Opravdu odeslat?'))return false;" class="btn btn-primary btn-sm" n:href="newsletterSend!, id => $email[id]">Odeslat přes newsletter</a>
+                            <a onclick="if(!confirm('Opravdu otestovat?'))return false;" class="btn btn-default btn-sm" n:href="emailTest!, id => $email[id]">Otestovat</a>
+                        </span>
+        </td>
+    </tr>
+</table>

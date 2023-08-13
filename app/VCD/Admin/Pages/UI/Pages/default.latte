@@ -1,0 +1,24 @@
+<table class="table table-condensed table-bordered">
+    <tr>
+        <th class="text-center"><a href="{plink page, id => NULL}" n:if="!$presenter->print" class="btn btn-primary btn-sm">Přidat</a></th>
+        <th>Název</th>
+    </tr>
+    <tr n:foreach="$list as $item">
+        <td class="text-center">
+            <a href="{plink page, id => $item[slug]}" n:tag-if="!$presenter->print" class="btn btn-primary btn-sm">Upravit</a>
+        </td>
+        <td>
+            <span class="pull-right">
+                {if $item[special]}
+                    <span class="glyphicon glyphicon-lock"></span>
+                {else}
+                    <span class="glyphicon glyphicon-globe"></span>
+                {/if}
+            </span>
+            <strong>{$item[name]}</strong><br>
+            {if !$item[special]}
+                <a href="{$baseUri}/stranka/{$item['slug']}"><small>{$baseUri}/stranka/{$item['slug']}</small></a>
+            {/if}
+        </td>
+    </tr>
+</table>

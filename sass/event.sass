@@ -1,0 +1,289 @@
+@import "_variables"
+
+.page
+
+  .page__section
+
+    &.page__section--event-detail
+      background-color: #ffffff
+
+.event-detail-wrapper
+  $event-detail-border-radius: 1em
+  $event-detail-margin: 1em
+
+  flex: 1 0 0
+  //margin-left: #{$homepage-events-margin}
+  //margin-right: #{$homepage-events-margin}
+  margin-top: 1em
+  background-color: #ffffff
+  border-radius: #{$event-detail-border-radius}
+  display: flex
+  flex-direction: row
+  //align-items: start
+  //justify-content: center
+  margin-left: -#{$event-detail-margin}
+  margin-right: -#{$event-detail-margin}
+
+  max-width: #{$page-max-width}
+
+  @include media-phone-tablet
+    flex-direction: column
+
+
+  .event-detail-sidebar
+    flex: 1 0 0
+    border-radius: #{$event-detail-border-radius}
+    background-color: #f9f5f0
+
+    margin-left: #{$event-detail-margin}
+    margin-right: #{$event-detail-margin}
+    padding-left: 1em
+    padding-right: 1em
+    padding-top: 1.5em
+    padding-bottom: 1.5em
+    display: flex
+    justify-content: start
+    flex-direction: column
+
+    @include media-desktop
+      max-width: 22em
+      flex-direction: column
+      padding-left: 3em
+      padding-right: 3em
+      padding-top: 2em
+      padding-bottom: 2em
+
+    &>div
+      flex: 0 0 0
+
+    .event-detail-sidebar-section
+      margin-bottom: 3em
+
+      .form-button
+        background-color: #ffae00
+        border-color: #ffae00
+        border-radius: 9999px
+      .form-input-group
+        padding-bottom: 0
+
+        #event-sidebar-subscribe-email
+          background-color: #ffffff
+
+    .event-detail-sidebar-heading
+      color: #393d72
+      font-size: 1.3em
+      font-weight: bold
+      margin-top: 0.5em
+      margin-bottom: 0.5em
+
+    .event-detail-sidebar-events
+      display: flex
+      flex-direction: row
+      flex-wrap: wrap
+      &>a
+        text-decoration: none
+        margin-bottom: 1em
+      @include media-desktop
+        flex-direction: column
+
+      .event-detail-sidebar-event
+        $sidebar-event-border-radius: 1em
+        border-radius: $sidebar-event-border-radius
+        flex: 1 0 0
+        max-width: 16em
+        display: flex
+        flex-direction: column
+        @include media-phone-tablet
+          height: 100%
+          margin-left: 0.5em
+          margin-right: 0.5em
+
+        .event-detail-sidebar-event-banner
+          border-top-left-radius: $sidebar-event-border-radius
+          border-top-right-radius: $sidebar-event-border-radius
+          flex: 1 0 0
+
+        .event-detail-sidebar-event-content
+          background-color: #ffffff
+          border-bottom-left-radius: $sidebar-event-border-radius
+          border-bottom-right-radius: $sidebar-event-border-radius
+          padding-left: 1.5em
+          padding-right: 1.5em
+          padding-top: 0.5em
+          padding-bottom: 0.5em
+          flex: 1 0 0
+
+          .event-detail-sidebar-event-name
+            color: #393d72
+            font-weight: bold
+            font-size: 1.1em
+            margin-bottom: 0.2em
+
+          .event-detail-sidebar-event-date
+            color: #393d72
+            font-size: 0.8em
+            white-space: nowrap
+            //margin-top: auto
+            .event-detail-sidebar-event-date-value
+              color: #ff4880
+
+
+
+    .event-detail-sidebar-bottom
+      margin-top: auto
+      display: none
+      @include media-desktop
+        display: block
+
+  .event-detail
+    max-width: #{$page-max-width}
+    display: flex
+    flex-direction: column
+    //padding-top: 2em
+    flex: 1 0 0
+    margin-left: #{$event-detail-margin}
+    margin-right: #{$event-detail-margin}
+
+    .event-detail-banner
+      display: block
+      margin: 0
+      padding: 0
+      width: 100%
+      border-top-left-radius: #{$event-detail-border-radius}
+      border-top-right-radius: #{$event-detail-border-radius}
+
+    .event-detail-info-box
+      background-color: #f5f5f5
+      border-bottom-left-radius: #{$event-detail-border-radius}
+      border-bottom-right-radius: #{$event-detail-border-radius}
+      padding-left: 0.8em
+      padding-right: 0.8em
+      padding-top: 1.3em
+      padding-bottom: 1.3em
+
+      .event-detail-info-discount-expiration
+        text-align: center
+        font-weight: bold
+        color: #ff4880
+        padding-top: 0.5em
+
+      .event-detail-info-box-row
+        display: flex
+        flex-direction: row
+        flex-wrap: wrap
+
+
+        .event-detail-info
+          flex: 1 0 0
+          text-align: center
+          font-size: 1.2em
+          font-weight: bold
+          padding-left: 0.7em
+          padding-right: 0.7em
+          padding-top: 0.2em
+          padding-bottom: 0.2em
+          white-space: nowrap
+
+          .event-detail-info-label
+            color: #393d72
+          .event-detail-info-value
+            color: #ff4880
+            .event-detail-info-price-before-discount
+              font-size: 0.8em
+              text-decoration: line-through
+              font-weight: normal
+              color: #393d72
+
+          &.event-detail-reserve-button
+            padding-top: 0.9em
+            flex-grow: 1.5
+            a
+              text-decoration: none
+              border-radius: 99999px
+              color: #ffffff
+              background-color: #ff4880
+              padding-left: 1.7em
+              padding-right: 1.7em
+              padding-top: 0.2em
+              padding-bottom: 0em
+              font-size: 1em
+              font-weight: bold
+            span.disabled
+              display: inline-block
+              text-decoration: none
+              border-radius: 99999px
+              color: #ffffff
+              background-color: #9d9c9d
+              padding-left: 1.7em
+              padding-right: 1.7em
+              padding-top: 0.2em
+              padding-bottom: 0em
+              margin-top: -0.9em
+              font-size: 1em
+              font-weight: bold
+
+    .event-detail-content
+      padding-top: 1em
+      @include media-phone-tablet
+        padding-bottom: 3em
+
+      h2
+        font-size: 2em
+        color: #393d72
+
+      .event-detail-content-text
+        padding-top: 1em
+        font-size: 1em
+        line-height: 2em
+        color: #393d72
+        font-family: Rubik, sans-serif
+
+      .event-detail-content-tabs
+        ul
+          padding-left: 0
+          list-style-type: none
+          display: flex
+          flex-direction: row
+          flex-wrap: wrap
+
+          li
+            flex: 0 0 0
+            white-space: nowrap
+            //padding-right: 2em
+            border: 1px solid #ffffff
+            border-bottom: 1px solid #dee2e6
+            border-top-left-radius: 0.2em
+            border-top-right-radius: 0.2em
+            &:last-child
+              flex: 1 0 0
+
+            a
+              text-decoration: none
+              color: #393d72
+              padding-left: 1em
+              padding-right: 1em
+              padding-top: 0.8em
+              padding-bottom: 0.5em
+              display: block
+
+            &.active
+              border: 1px solid #dee2e6
+              border-bottom: 1px solid #ffffff
+              a
+                color: #ff4880
+
+      .event-detail-content-images
+        display: flex
+        flex-direction: row
+        flex-wrap: wrap
+        border-radius: 1em
+        overflow: hidden
+
+        a
+          flex: 1 0 0
+          display: block
+          line-height: 0
+          margin: 1px
+          img
+            min-width: 10em
+

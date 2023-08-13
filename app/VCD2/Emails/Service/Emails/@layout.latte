@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html charset=UTF-8" />
+    <meta name="viewport" content="width=device-width">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="date=no">
+    <meta name="format-detection" content="address=no">
+    <meta name="format-detection" content="email=no">
+    <title>{$subject}</title>
+</head>
+
+{php $sizes = [
+    'emailWidth' => '600',
+]}
+
+{php $colors = [
+    'bodyBackground' => '#f5f5f5',
+    'topBar' => '#3399ff',
+    'emailBodyBackground' => '#ffffff',
+    'hrStrong' => '#ff4880',
+    'hrThin' => '#cccccc',
+    'btnPrimary' => '#ff4880',
+    'textGray' => '#181818',
+    'footerBackground' => '#393d72',
+]}
+
+{php $css = [
+    'heading' => 'margin:0;mso-line-height-rule:exactly;font-size: 1.5em;font-weight:bold;text-align:center;margin-top:3px;margin-bottom:3px;',
+    'subheading' => 'margin:0;mso-line-height-rule:exactly;font-size: 1.2em;font-weight:normal;text-align:center;margin-top:3px;margin-bottom:10px;',
+    'hrStrong' => 'height: 3px; background-color: ' . $colors[hrStrong],
+    'hrThin' => 'height: 1px; background-color: ' . $colors[hrThin],
+    'btnPrimary' => 'text-decoration:none;margin:5px;font-weight:bold;font-size:1.1em; border-radius:10px; padding-left:25px;padding-right:25px; padding-top:9px;padding-bottom:9px; color:#ffffff;background-color:' . $colors[btnPrimary],
+    'applicationItem' => 'padding-top:10px;padding-bottom: 10px',
+    'gap' => 'height:6px',
+]}
+
+{php $components = [
+    'hrStrong' => '<table cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="' . $colors[hrStrong] . '"><tr><td height="3"></td></tr></table>',
+    'hrThin' => '<table cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="' . $colors[hrThin] . '"><tr><td height="1"></td></tr></table>',
+    'gap' => '<table cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td height="6"></td></tr></table>',
+]}
+
+{php $radius = [
+    'top' => '10px',
+]}
+
+<body bgcolor="{$colors[bodyBackground]|noescape}" style="
+    background-color: {$colors[bodyBackground]|noescape};
+    line-height: 1.5;
+    font-family:arial;
+    font-size:1em;
+    margin: 0px;
+    padding: 0px;
+    padding-bottom: 30px;
+    color: #393d72;
+">
+
+    <table cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="{$colors[bodyBackground]|noescape}">
+        <tr>
+            <td align="center">
+
+                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                    <tr>
+                        <td></td>
+                        <td width="{$sizes[emailWidth]}">
+
+                            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                <tr>
+                                    <td height="200"></td>
+                                    <td height="200" width="600"><img src="{$baseUri|noescape}/images/email/header.png"></td>
+                                    <td height="200"></td>
+                                </tr>
+                            </table>
+
+                            <table cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="{$colors[emailBodyBackground]|noescape}">
+                                <tr>
+                                    <td width="40"></td>
+                                    <td height="20"></td>
+                                    <td width="40"></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        {include body, css => $css, colors => $colors, components => $components}
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td height="30" bgcolor="{$colors[emailBodyBackground]|noescape}"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td bgcolor="{$colors[footerBackground]}" height="5"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td bgcolor="{$colors[footerBackground]}" style="color:#ffffff;font-size: 0.9em" align="center">
+                            Děkujeme Vám za Vaši přízeň a těšíme se opět na viděnou
+                            <br>
+                            Vaše Hurá tábory!
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td bgcolor="{$colors[footerBackground]}" height="10"></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td bgcolor="{$colors[footerBackground]}" align="center">
+                            <a n:if="$facebook" href="{$facebook}" target="_blank"><img src="{$baseUri|noescape}/images/email/facebook.png" width="30" height="30"></a>
+                            <a n:if="$instagram" href="{$instagram}" target="_blank"><img src="{$baseUri|noescape}/images/email/instagram.png" width="30" height="30"></a>
+                            <a n:if="$pinterest" href="{$pinterest}" target="_blank"><img src="{$baseUri|noescape}/images/email/pinterest.png" width="30" height="30"></a>
+                        </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td bgcolor="{$colors[footerBackground]}" height="10"></td>
+                        <td></td>
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+    </table>
+
+</body>
+
+</html>

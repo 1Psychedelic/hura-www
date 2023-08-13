@@ -1,0 +1,26 @@
+{layout '../@layout.latte'}
+
+{block title}{if is_array($staticPage)}{$staticPage['name']} · {/if}{/block}
+{block head}
+    {if is_array($staticPage)}
+        <meta property="og:title" content="{$staticPage['name']}">
+    {/if}
+{/block}
+{block body}
+    {if is_array($staticPage)}
+        <section class="page__section page__section--generic-heading">
+            <div class="page__section__content"><span class="page__section__subheading"></span>
+                <h1 class="page__section__heading">{$staticPage['name']}</h1></div>
+        </section>
+        <section class="page__section page__section--reservation-detail">
+        <div class="page__section__content">
+            <div class="reservation-form-wrapper">
+                <div class="reservation-form">
+                    <h3>{$staticPage['name']}</h3>
+                    {$staticPage['content']|noescape}
+                </div>
+            </div>
+        </div>
+        </section>
+    {/if}
+{/block}

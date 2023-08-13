@@ -1,0 +1,27 @@
+
+<div n:if="$url" class="alert alert-success">
+    <p class="text-center">
+        <a href="{$presenter->link('//' . $action, [url => $url])}" target="_blank">{=urldecode($presenter->link('//' . $action, ['url' => $url]))}</a>
+    </p>
+</div>
+
+{control form}
+
+<table class="table table-condensed table-bordered">
+    <tr>
+        <th>Původní odkaz</th>
+        <th>Měřící odkaz</th>
+        <th>Prokliky</th>
+    </tr>
+    <tr n:foreach="$list as $item">
+        <td style="word-break: break-all;">
+            <a href="{$item[url]}" target="_blank">{$item[url]}</a>
+        </td>
+        <td style="word-break: break-all;">
+            <strong><a href="{$presenter->link('//' . $action, [url => $url])}" target="_blank">{=urldecode($presenter->link('//' . $action, ['url' => $item[url]]))}</a></strong>
+        </td>
+        <td>
+            <a href="{plink click, url => $item[url]}" n:tag-if="!$presenter->print" class="btn btn-primary btn-sm">{$item[clicks]} prokliků</a>
+        </td>
+    </tr>
+</table>

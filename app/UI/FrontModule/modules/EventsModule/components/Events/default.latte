@@ -1,0 +1,41 @@
+
+{foreach $events as $event}
+
+    {first 2}<div class="row row-eq-height vcd-event-list">{/first}
+    <div class="col-sm-6">
+        <div class="vcd-event-list-item"{if !$event->visible} style="opacity:0.7"{/if}>
+
+            <a n:if="$event->bannerSmall" href="{plink \VCD\UI\FrontModule\EventsModule\EventPresenter::LINK_DEFAULT, _event => $event->slug}"><img alt="{$event->name}" class="vcd-event-img img-responsive" src="{$baseUri}/www/{$event->bannerSmall}"></a>
+
+
+            <h2><a href="{plink \VCD\UI\FrontModule\EventsModule\EventPresenter::LINK_DEFAULT, _event => $event->slug}">{$event->name}</a></h2>
+
+            <p><strong>{control 'term_' . $event->id}</strong></p>
+
+            {if !$event->isArchived}
+                {var $freeSlots = $event->countFreeSlots()}
+                <div n:if="!$event->hasEnded && $freeSlots < 5" class="text-center">
+                    {if $freeSlots === 0}
+                        <div class="vcd-capacity-list alert alert-danger" style="max-width: 130px;"><strong>Plně obsazeno</strong></div>
+                    {elseif $freeSlots === 1}
+                        <div class="vcd-capacity-list alert alert-warning" style="max-width: 170px;"><strong>Poslední volné místo</strong></div>
+                    {elseif $freeSlots < 5 && $freeSlots > 1}
+                        <div class="vcd-capacity-list alert alert-warning" style="max-width: 170px;"><strong>Poslední volná místa</strong></div>
+                    {/if}
+                    {** control 'capacity_' . $event->id **}
+                </div>
+            {/if}
+
+            <p>{$event->description}</p>
+
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <a class="btn btn-success" href="{plink \VCD\UI\FrontModule\EventsModule\EventPresenter::LINK_DEFAULT, _event => $event->slug}">Více informací</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    {last 2}</div> <div class="clearfix"></div> {/last}
+
+{/foreach}

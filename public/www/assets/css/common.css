@@ -1,0 +1,25 @@
+/** Make buttons smaller */
+.table-condensed .btn-sm {
+    padding: 0px 6px 0px 6px;
+}
+
+
+/** Fixed table header background */
+.table-fixed .tableFloatingHeaderOriginal {
+    border-top: none;
+    border-bottom: none;
+    background-color: rgba(255, 255, 255, 0.95);
+}
+
+/** table field that visually replaces checkbox */
+.table-checkbox-field {
+    cursor:pointer;
+}
+
+/** checkbox inside table */
+.table-condensed input[type=checkbox] {
+    margin:0px;
+    /*visibility:hidden;
+    width:0px;
+    height:0px;*/
+}

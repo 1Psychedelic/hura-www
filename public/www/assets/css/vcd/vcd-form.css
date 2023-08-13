@@ -1,0 +1,4 @@
+form .alert.alert-danger {
+    text-transform: none;
+    font-weight: normal;
+}

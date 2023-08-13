@@ -1,0 +1,11 @@
+<h3>Mezikroky vyplněné u akce "{$application->event->name}"</h3>
+{foreach $application->stepChoices as $stepChoice}
+    <div>
+        {$stepChoice->step->prompt}
+        <strong>{$stepChoice->option->option}</strong>
+    </div>
+{/foreach}
+
+<h3>Mezikroky pro akci "{$event->name}"</h3>
+
+{control form}

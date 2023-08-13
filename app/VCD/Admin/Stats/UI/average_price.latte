@@ -1,0 +1,59 @@
+{layout './@layout.latte'}
+
+{block body}
+<div style="overflow: auto;width:100%;height:600px">
+    <canvas id="averagePriceByEventChart" height="150"></canvas>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        var ctx = document.getElementById("averagePriceByEventChart");
+        var averagePriceByEventChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {=array_keys($averagePrice)},
+                datasets: [
+                    {
+                        label: "Průměrná cena",
+                        backgroundColor: "rgba(0,91,255,0.4)",
+                        data: {=array_values($averagePrice)}
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        stacked: true
+                    }],
+                    yAxes: [{
+                        stacked: true,
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+    });
+</script>
+
+<div class="row">
+    <div class="col-sm-12">
+        <table class="table table-bordered table-condensed">
+            <tr>
+                <th></th>
+                <th>Název akce</th>
+                <th class="text-right">Průměrná cena</th>
+            </tr>
+            {foreach $averagePrice as $name => $price}
+                <tr>
+                    <td>{$iterator->counter}.</td>
+                    <th>{$name}</th>
+                    <td class="text-right">{$price|number:2:',':' '}&nbsp;Kč</td>
+                </tr>
+            {/foreach}
+        </table>
+    </div>
+</div>
+{/block}

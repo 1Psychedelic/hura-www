@@ -1,0 +1,20 @@
+{layout './@layout.latte'}
+
+{define body}
+
+
+    <div class="row vcd-content">
+        <div class="col-xs-12">
+
+            {include './@user.latte'}
+
+            {control usr}
+
+        </div>
+    </div>
+
+{/define}
+
+{define head}{/define}
+{define back}<li><a n:href="users">Zpět na seznam</a></li>
+{/define}

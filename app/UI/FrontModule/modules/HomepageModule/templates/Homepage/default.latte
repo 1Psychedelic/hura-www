@@ -1,0 +1,50 @@
+{define body}
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-sm-12">
+
+                {cache carousel, tags => ["vcd.carousel"], expire => '6 hours'}
+                    {control carousel}
+                {/cache}
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid vcd-main-background-homepage">
+        <div class="container">
+
+            <div class="row vcd-landing row-eq-height">
+                <div class="col-sm-4 text-center">
+                    <div class="vcd-landing-column vcd-color-camps">
+                        <img src="{$baseUri}/www/assets/img/camp.png" class="img-responsive" alt="Letní tábory">
+                        <h3>Letní tábory</h3>
+                        <p>Každoroční letní tábory s propracovaným tematickým programem. Děti si užijí pobyt v krásné přírodě, sportovní, dobrodružné a noční hry a poznají také nové kamarády!</p>
+                        <div class="vcd-landing-button text-center"><a n:href="\VCD\UI\FrontModule\EventsModule\EventsPresenter::LINK_DEFAULT, type => 1" class="btn btn-default">Seznam táborů</a></div>
+                    </div>
+                </div>
+                <div class="col-sm-4 text-center">
+                    <div class="vcd-landing-column vcd-color-trips">
+                        <img src="{$baseUri}/www/assets/img/trip.png" class="img-responsive" alt="Víkendové výlety">
+                        <h3>Víkendové výlety</h3>
+                        <p>Poznávací, sportovní a jiné výlety na jeden až tři dny jednou měsíčně. Vybíráme nejlepší místa po celé České republice s těmi nejzajímavějšími atrakcemi!</p>
+                        <div class="vcd-landing-button text-center"><a n:href="\VCD\UI\FrontModule\EventsModule\EventsPresenter::LINK_DEFAULT, type => 2" class="btn btn-default">Seznam výletů</a></div>
+                    </div>
+                </div>
+                <div class="col-sm-4 text-center">
+                    <div class="vcd-landing-column vcd-color-groups">
+                        <img src="{$baseUri}/www/assets/img/group.png" class="img-responsive" alt="Kroužky sebeobrany">
+                        <h3>Kroužky sebeobrany</h3>
+                        <p>Opět pro vás připravujeme kroužky, které se odehrají přímo na školách, kam vaše dítě chodí. Tento rok jsme si dali pauzu, abychom propracovali systém kroužků, na které se vaše děti budou těšit každý den! A to nejen kroužků sebeobrany, s více informacemi vás již brzy mile překvapíme!</p>
+                        <div class="vcd-landing-button text-center"><a class="btn btn-default disabled">Připravují se...</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{/define}
+
+{define head}{/define}

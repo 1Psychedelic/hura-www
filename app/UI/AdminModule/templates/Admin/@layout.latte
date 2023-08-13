@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8">
+    <title>{if isset($titlePrefix)}{$titlePrefix} | {/if}Hurá tábory{if isset($titleSuffix)} | {$titleSuffix}{/if}</title>
+    {if $print}
+        <link rel="stylesheet" href="{$baseUri}/www/assets/print.min.css?v={$hash}">
+    {else}
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{$baseUri}/www/assets/admin.min.css?v={$hash}">
+        <link rel="manifest" href="/manifest.json">
+        <script type="text/javascript" src="{$baseUri}/www/assets/js/ckeditor/ckeditor.js?v="></script>
+        <script type="text/javascript" src="{$baseUri}/www/assets/admin.min.js?v="></script>
+        <script type="text/javascript">
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+            $('[data-toggle="popover"]').popover()
+        });
+        </script>
+    {/if}
+    <link rel="shortcut icon" href="{$baseUri}/www/assets/img/favicon.ico" type="image/x-icon">
+</head>
+<body>
+
+{if !$presenter->print}
+    <nav class="navbar navbar-vcd-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#vcd-navbar-top" aria-expanded="false">
+                    <span>Menu</span>
+                </button>
+
+                <div class="navbar-text">
+
+                </div>
+
+            </div>
+            <div class="collapse navbar-collapse" id="vcd-navbar-top">
+                <ul class="nav navbar-nav navbar-left">
+                    <li><a href="/"><img src="{$baseUri}/www/assets/img/vcd.png?v=2" style="max-height:20px;display:inline-block" class="img-responsive"><span class="visible-xs-inline"> Zpět na web</span></a></li>
+                    <li><a href="{plink default}"><span class="glyphicon glyphicon-cog"></span><span class="visible-xs-inline"> Administrace</span></a></li>
+                    <li><a href="{plink notifications}"><span class="glyphicon glyphicon-bell"></span> <span class="label label-danger" n:if="$newNotifications > 0">{$newNotifications}</span><span class="visible-xs-inline"> Upozornění</span></a></li>
+                    <li><a href="{link logout!}"><span class="glyphicon glyphicon-log-out"></span></a></li>
+                    {include back}
+                </ul>
+
+                {control menu}
+
+            </div>
+        </div>
+    </nav>
+{/if}
+
+    <div class="vcd-main" n:tag-if="!$print">
+        <div class="container">
+            {snippet flashes}
+                {control flashes}
+            {/snippet}
+
+        </div>
+        <div n:class="$fluid ? container-fluid : container" n:tag-if="!$print">
+
+            {include body}
+        </div>
+        <div class="clearfix"></div>
+
+        <p class="text-center" n:if="!$print"><a href="#top">Skočit na začátek stránky</a></p>
+
+        <div class="clearfix"></div>
+    </div>
+{if !$print}
+    <div class="vcd-footer">
+        <div class="container">
+            <div class="row">
+
+            </div>
+        </div>
+    </div>
+{/if}
+</body>
+</html>

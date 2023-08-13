@@ -1,0 +1,20 @@
+{layout './@layout.latte'}
+
+{define body}
+
+    <div class="row vcd-content">
+        <div class="col-xs-12">
+
+            <h1>Vygenerovat QR kód</h1>
+
+            {control form}
+
+            <img n:if="$text" src="{link qrCode, text => $text, label => $label, size => $size}">
+
+        </div>
+    </div>
+
+{/define}
+
+{define head}{/define}
+{define back}{/define}

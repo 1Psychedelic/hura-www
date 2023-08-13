@@ -1,0 +1,3 @@
+{foreach $files as $path => $file}
+    <a href="{plink log, filename => $file->getFileName()}">{$file->getFileName()}</a>{sep}<br>{/sep}
+{/foreach}

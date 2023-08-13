@@ -1,0 +1,18 @@
+{layout './@layout.latte'}
+
+{define body}
+
+    <div class="row vcd-content">
+        <div class="col-xs-12">
+
+            {include './@blog.latte'}
+
+            {control category}
+
+        </div>
+    </div>
+
+{/define}
+
+{define head}{/define}
+{define back}<li><a n:href="blogCategories">Zpět na seznam</a></li>{/define}

@@ -1,0 +1,16 @@
+{layout '../@layout.latte'}
+{define body}
+
+    <h1 style="{$css[heading]|noescape}">Váš odkaz pro stažení e-booku!</h1>
+
+    <p>Dobrý den,</p>
+
+    <p>
+        posíláme Vám jednorázový odkaz pro stažení e-booku zdarma. Odkaz má platnost {$expirationText}. E-book stáhnete kliknutím na následující odkaz:
+    </p>
+
+    <p>
+        <a href="{$link->link($downloadLink, [hash => $hash])}">{$link->link($downloadLink, [hash => $hash])}</a>
+    </p>
+
+{/define}

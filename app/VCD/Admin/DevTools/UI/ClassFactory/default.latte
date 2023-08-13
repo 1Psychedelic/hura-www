@@ -1,0 +1,48 @@
+<div class="row">
+    <div class="col-sm-11">
+        <h3>Nový model</h3>
+        <form n:name="newModel" class="form-inline">
+            <select n:name="topns" class="form-control input-sm"></select>\
+            <input n:name="cls" class="form-control input-sm" placeholder="Common\SomeModel\ConcreteModel" style="width: 330px">
+            <button n:name="create" class="btn btn-sm btn-primary">
+                <i class="fa fa-check"></i>
+            </button><br>
+            <textarea n:name="deps" class="form-control input-sm" rows="6" placeholder="database:Nette\Database\Context" style="width: 430px"></textarea>
+        </form>
+
+        <h3>Nová entita</h3>
+        <form n:name="newEntity" class="form-inline">
+            <input n:name="topns" class="form-control input-sm">\<input n:name="name" class="form-control input-sm" placeholder="User"><br>
+            <input n:name="tableName" class="form-control input-sm" placeholder="system_user">
+            <button n:name="create" class="btn btn-sm btn-primary">
+                <i class="fa fa-check"></i>
+            </button>
+        </form>
+
+        <h3>Nová komponenta</h3>
+        <form n:name="newControl" class="form-inline">
+            <select n:name="topns" class="form-control input-sm"></select>\
+            <input n:name="ns" class="form-control input-sm" placeholder="Common\Something" style="width: 150px">\UI\
+            <input n:name="className" class="form-control input-sm" placeholder="List" style="width: 100px">Control
+            <button n:name="create" class="btn btn-sm btn-primary">
+                <i class="fa fa-check"></i>
+            </button><br>
+            <input n:name="params" class="form-control form-control-sm" placeholder="id,organization">
+            {input factory}
+            {input form}
+        </form>
+    </div>
+    <div class="col-sm-13">
+        <h3>DI kontejner <small>&middot; {count($factories)}</small></h3>
+        <div class="list-group" n:snippet="container" style="white-space: nowrap">
+            <div style="overflow-y: scroll; max-height: 600px; overflow-x: visible">
+            {foreach $factories as $key => $factory}
+                <div class="list-group-item" n:snippet="{$makeKey($key)}">
+                    <h4 class="list-group-item-heading"><a n:href="dump!, name => $key" class="ajax" n:tag-if="!isset($dumps[$key])">{$key}</a></h4>
+                    {if isset($dumps[$key])}{$dumps[$key]|noescape}{/if}
+                </div>
+            {/foreach}
+            </div>
+        </div>
+    </div>
+</div>

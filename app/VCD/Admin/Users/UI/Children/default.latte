@@ -1,0 +1,83 @@
+
+{if !$presenter->print}
+    <div class="pull-right">
+        {control search}
+    </div>
+    <div class="clearfix"></div>
+
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li>
+                <a n:tag-if="!$paginator->isFirst()" href="{plink this, page => $paginator->getPage() - 1}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {for $i = 1; $i <= $paginator->getPageCount(); $i++}
+            <li n:class="$paginator->getPage() === $i ? active">
+                <a href="{plink this, page => $i}">{$i}</a>
+            </li>
+            {/for}
+            <li>
+                <a n:tag-if="!$paginator->isLast()" href="{plink this, page => $paginator->getPage() + 1}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div class="pull-right">Nalezeno <strong>{$paginator->getItemCount()}</strong>&nbsp;záznamů</div>
+    <div class="clearfix"></div>
+{/if}
+
+<table class="table table-bordered table-condensed table-responsive">
+    <tr>
+        <th class="text-center"><a href="{plink child, id => NULL}" n:if="!$presenter->print" class="btn btn-primary btn-sm">Přidat</a></th>
+        <th>Jméno</th>
+        <th>Rodič</th>
+        <th>Zdravotní stav</th>
+        <th>ADHD</th>
+        <th>Poznámka</th>
+    </tr>
+    {foreach $children as $c}
+        <tr>
+            <td class="text-center">
+                <a href="{plink child, id => $c->id}" n:if="!$presenter->print" class="btn btn-primary btn-sm">{$c->id}</a>
+            </td>
+
+            <td>
+                <span class="pull-right text-right">
+                    <span n:if="!$c->swimmer" class="glyphicon glyphicon-warning-sign" data-toggle="tooltip" title="Neplavec"></span>
+                    {$age($c->dateBorn)} let
+                </span>
+                <strong>{$c->name}</strong><br>
+                <small>{$c->dateBorn|date:'m. d. Y'}</small>
+                <div class="clearfix"></div>
+            </td>
+
+            <td>
+                {foreach $c->parents as $parent}
+                    <strong>{$parent->name}</strong><br>
+                    <small>{$parent->phone} <a href="mailto:{$parent->email}">{$parent->email}</a></small>
+                    {sep}<br>{/sep}
+                {/foreach}
+            </td>
+
+            <td>
+                {$c->health|breaklines}
+            </td>
+
+            <td>
+                {if $c->adhd}
+                    <span class="glyphicon glyphicon-ok-sign"></span>
+                {else}
+                    <span class="glyphicon glyphicon-remove"></span>
+                {/if}
+            </td>
+
+            <td>
+                {$c->notes}
+            </td>
+
+        </tr>
+
+    {/foreach}
+</table>

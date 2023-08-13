@@ -1,0 +1,109 @@
+<div class="row">
+    <div class="col-sm-5">
+        {if $user->isLoggedIn()}
+
+            <div n:class="panel, panel-default, count($myChildren) === 0 ? hidden-xs">
+                <div class="panel-heading"><h2 class="panel-title">Moje děti</h2></div>
+                {if count($myChildren) > 0}
+                    <div class="list-group">
+                        {foreach $myChildren as $myChild}
+                            {if $isApplying($myChild)}
+                                <div class="list-group-item">
+                                    <strong>{$myChild->name}</strong>
+                                    <span class="btn btn-xs btn-text text-success pull-right"><span class="glyphicon glyphicon-ok"></span> v přihlášce</span>
+                                </div>
+                            {else}
+                                <a class="list-group-item" n:href="add!, child => $myChild->id">
+                                    <strong>{$myChild->name}</strong>
+                                    <span class="btn btn-xs btn-success pull-right">Přihlásit</span>
+                                </a>
+                            {/if}
+                        {/foreach}
+                    </div>
+                {else}
+                    <div class="panel-body text-center">
+                        <em>Váš seznam dětí je prázdný</em>
+                    </div>
+                {/if}
+                <div class="panel-body text-center" n:if="FALSE && !$overflow">
+                    <a class="btn btn-success" href="{plink this, step => 2, child => NULL, save => TRUE}#tabs"><span class="glyphicon glyphicon-plus"></span> Přidat dítě do seznamu</a>
+                </div>
+            </div>
+        {else}
+            <div class="panel panel-default hidden-xs">
+                <div class="panel-heading"><h2 class="panel-title">Moje děti</h2></div>
+                <p class="text-center"><em>Seznam je prázdný, protože nejste přihlášen(a).</em></p>
+            </div>
+        {/if}
+    </div>
+    <div class="col-sm-7">
+        <div class="panel panel-primary">
+            <div class="panel-heading"><h2 class="panel-title">Přihlašovaní účastníci</h2></div>
+            {if count($children) === 0}
+                <div class="panel-body text-center">
+                    <strong>Žádné děti k přihlášení</strong>
+                    {if $user->isLoggedIn()}
+                        <br><em>({if count($myChildren) > 0}Vyberte ze svého seznamu nebo p{else}P{/if}oužijte tlačítko níže)</em>
+                    {/if}
+                </div>
+            {/if}
+            <div class="list-group">
+                {foreach $children as $child}
+                    <div class="list-group-item">
+                        <span class="lead">
+                            <strong>{$child->name}</strong>
+                        </span>
+                        <span class="btn-group btn-group-sm pull-right">
+                            <a n:if="$child->child === NULL && $user->isLoggedIn()" class="btn btn-sm btn-success" n:href="save!, $child->id">Uložit do profilu</a>
+                            <span class="btn btn-sm btn-text text-success" n:if="FALSE && $user->isLoggedIn() && $child->child !== NULL"><span class="glyphicon glyphicon-ok"></span> v profilu</span>
+                            <a class="btn btn-sm btn-primary" href="{plink child, id => $child->id}">Upravit</a>
+                            <a class="btn btn-sm btn-danger" href="{plink childDelete, id => $child->id}">Odebrat</a>
+                        </span>
+                        <div class="clearfix"></div>
+                        <div class="margin-top-5">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    {$child->dateBorn|date:'d. m. Y'}<br>
+                                </div>
+                                <div class="col-md-8">
+                                    Zdravotní stav:
+                                    <small class="text-muted">
+                                        {$child->health}
+                                    </small>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    {if $child->swimmer}P{else}Nep{/if}lavec
+
+                                </div>
+                                <div class="col-md-8">
+                                    Poznámka:
+                                    <small class="text-muted">
+                                        {$child->notes}
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    {if $child->adhd}M{else}Nem{/if}á ADHD
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                {/foreach}
+            </div>
+            <div class="panel-body text-center" n:if="$draft->event->hasEnoughCapacityFor(count($draft->children))">
+                <span class="btn-group btn-group-lg">
+                    <a n:class="btn, count($children) > 0 ? btn-primary : btn-success, btn-lg" href="{plink child, id => NULL}#tabs"><span class="glyphicon glyphicon-plus"></span> Přidat dítě</a>
+                    <a class="btn btn-success btn-lg" n:if="count($children) > 0" href="{plink default}#tabs">Pokračovat <span class="glyphicon glyphicon-arrow-right"></span></a>
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+

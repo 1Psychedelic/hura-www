@@ -1,0 +1,25 @@
+<table class="table table-condensed table-bordered">
+    <tr>
+        <th class="text-center"><a href="{plink code, id => NULL}" n:if="!$presenter->print" class="btn btn-primary btn-sm">Přidat</a></th>
+        <th>Název</th>
+        <th>Omezení</th>
+        <th></th>
+    </tr>
+    <tr n:foreach="$codes as $code">
+        <td class="text-center">
+            <a href="{plink code, id => $code[id]}" n:tag-if="!$presenter->print" class="btn btn-primary btn-sm"><strong>{$code[id]}</strong></a>
+        </td>
+        <td>
+            <strong>{$code[name]}</strong>
+        </td>
+        <td>
+            {$visibility($code[visible])}
+        </td>
+        <td>
+                        <span class="btn-group btn-group-sm">
+                            <a class="btn btn-sm btn-default" n:href="codeUp!, id => $code[id]">Posunout výš</a>
+                            <a class="btn btn-sm btn-default" n:href="codeDown!, id => $code[id]">Posunout níž</a>
+                        </span>
+        </td>
+    </tr>
+</table>

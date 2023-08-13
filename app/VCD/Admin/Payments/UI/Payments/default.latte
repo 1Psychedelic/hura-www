@@ -1,0 +1,77 @@
+{if !$presenter->print}
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li>
+                <a n:tag-if="!$paginator->isFirst()" href="{plink this, page => $paginator->getPage() - 1}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {for $i = 1; $i <= $paginator->getPageCount(); $i++}
+                <li n:class="$paginator->getPage() === $i ? active">
+                    <a href="{plink this, page => $i}">{$i}</a>
+                </li>
+            {/for}
+            <li>
+                <a n:tag-if="!$paginator->isLast()" href="{plink this, page => $paginator->getPage() + 1}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div class="pull-right">Nalezeno <strong>{$paginator->getItemCount()}</strong>&nbsp;záznamů</div>
+    <div class="clearfix"></div>
+{/if}
+
+<table class="table table-bordered table-condensed table-responsive">
+    <tr>
+        <th class="text-center">ID</th>
+        <th>Datum</th>
+        <th>Částka</th>
+        <th>Přihláška</th>
+        <th>Fio platba</th>
+    </tr>
+    {foreach $list as $item}
+        <tr n:class="!$item->isPaid ? danger">
+            <td class="text-center">{$item->id}</td>
+            <td>{$item->createdAt|date:'j. n. Y - H:i'}</td>
+            <td>{$item->amount}&nbsp;Kč</td>
+            <td>
+                {if $item->application !== NULL}
+                    {$item->application->id}
+                {/if}
+            </td>
+            <td>
+                {if $item->fioPayment !== NULL}
+                    {$item->fioPayment->fioId}
+                {/if}
+                {if $item->gopayPayment !== NULL}
+                    <em>GoPay platba :-(</em>
+                {/if}
+            </td>
+        </tr>
+    {/foreach}
+</table>
+
+{if !$presenter->print}
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li>
+                <a n:tag-if="!$paginator->isFirst()" href="{plink this, page => $paginator->getPage() - 1}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {for $i = 1; $i <= $paginator->getPageCount(); $i++}
+                <li n:class="$paginator->getPage() === $i ? active">
+                    <a href="{plink this, page => $i}">{$i}</a>
+                </li>
+            {/for}
+            <li>
+                <a n:tag-if="!$paginator->isLast()" href="{plink this, page => $paginator->getPage() + 1}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div class="pull-right">Nalezeno <strong>{$paginator->getItemCount()}</strong>&nbsp;záznamů</div>
+    <div class="clearfix"></div>
+{/if}

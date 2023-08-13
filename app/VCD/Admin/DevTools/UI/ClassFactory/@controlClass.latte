@@ -1,0 +1,39 @@
+{include './@phpHeader.latte'}
+
+class {$className}Control extends Control {
+
+    private $container;
+
+    function __construct(Container $container{foreach $params as $param}, ${$param}{/foreach}) {
+        $this->container = $container;
+
+        $this->onAnchor[] = function(){if count($params)} use ({foreach $params as $param}${$param}{sep}, {/sep}{/foreach}){/if} {
+            {if $form}
+            $f = $this->container->get(FormFactory::class)->create();
+            $f->addSubmit('save', 'Uložit');
+            $f->onSuccess[] = function(Form $f){if count($params)} use ({foreach $params as $param}${$param}{sep}, {/sep}{/foreach}){/if} {
+                if($f->isSubmitted() === $f['save']) {
+                    $data = $f->getValues(TRUE);
+
+
+
+                    $this->presenter->flashMessage('OK', 'success');
+                    $this->presenter->redirect('this');
+                }
+            }
+            $this->addComponent($f, 'form');
+            {/if}
+
+        };
+    }
+
+    function render() {
+        $this->template->setFile(__DIR__ . '/default.latte');
+        $this->template->render();
+    }
+
+    private function db() {
+        return $this->container->get(Context::class);
+    }
+
+}

@@ -1,0 +1,403 @@
+{define contactChangeMessage}Změnu kontaktních údajů je nutné nahlásit na e-mail <a href="mailto:info@volnycasdeti.cz">info@volnycasdeti.cz</a>{/define}
+
+<div class="row" n:if="!$user->isLoggedIn()">
+    <div class="col-md-5">
+        {include '../warning.latte'}
+    </div>
+    <div class="col-md-7">
+        <a name="form"></a>
+        <h3 class="text-center">Údaje o zákonném zástupci</h3>
+        <form n:name="form" class="form-horizontal vcd-application-form">
+            <div class="row">
+                <div class="col-sm-5 vcd-application-form-label">
+                    {label name /}
+                </div>
+                <div class="col-sm-7">
+                    <input n:name="name" class="form-control" autocomplete="section-parent name">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5 vcd-application-form-label">
+                    {label email /}
+                </div>
+                <div class="col-sm-7">
+                    <input n:name="email" class="form-control vcd-blur-ajax" data-ajax-url="{link checkEmail!, email => '__email__'}" data-ajax-value-placeholder="__email__" data-ajax-show-spinner="1" autocomplete="section-parent email">
+
+                    {snippet emailError}
+                        <div n:if="isset($emailErrorMessage)" class="alert alert-danger" style="opacity: 1;">
+                            <span class="glyphicon glyphicon-alert" style="font-size:0.8em;"></span> {$emailErrorMessage}
+                        </div>
+                    {/snippet}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5 vcd-application-form-label">
+                    {label phone /}
+                </div>
+                <div class="col-sm-7">
+                    <input n:name="phone" class="form-control" autocomplete="section-parent tel">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5 vcd-application-form-label">
+                    {label street /}
+                </div>
+                <div class="col-sm-7">
+                    <input n:name="street" class="form-control" autocomplete="section-parent street-address">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5 vcd-application-form-label">
+                    {label city /}
+                </div>
+                <div class="col-sm-7">
+                    <input n:name="city" class="form-control" autocomplete="section-parent locality">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5 vcd-application-form-label">
+                    {label zip /}
+                </div>
+                <div class="col-sm-7">
+                    <input n:name="zip" class="form-control" autocomplete="section-parent postal-code">
+                </div>
+            </div>
+
+            {if $draft->canBePaidOnInvoice}
+
+                <div class="row">
+                    <div class="col-sm-5"></div>
+                    <div class="col-sm-7">
+                        <div class="checkbox form-group btn-form-group-invoice">
+                            <div class="btn-group btn-group-invoice" data-toggle="buttons">
+                                <label n:class="btn, btn-vcd-payment, btn-wrap, $form[isPayingOnInvoice]->getValue() ? active">
+                                    <input n:name="isPayingOnInvoice">{$form[isPayingOnInvoice]->getLabelPart()->getText()}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="invoiceData">
+                    <div class="row">
+                        <div class="col-sm-5 vcd-application-form-label">
+                            {label invoiceIco}
+                        </div>
+                        <div class="col-sm-7">
+                            <input n:name="invoiceIco" class="form-control vcd-blur-ajax" data-ajax-url="{link loadSubject!, ico => '__ico__'}" data-ajax-value-placeholder="__ico__" data-ajax-show-spinner="1" autocomplete="section-invoice">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-5 vcd-application-form-label">
+                            {label invoiceName}
+                        </div>
+                        <div class="col-sm-7">
+                            <input n:name="invoiceName" class="form-control" autocomplete="section-invoice organization">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-5 vcd-application-form-label">
+                            {label invoiceDic}
+                        </div>
+                        <div class="col-sm-7">
+                            <input n:name="invoiceDic" class="form-control" autocomplete="section-invoice">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-5 vcd-application-form-label">
+                            {label invoiceStreet}
+                        </div>
+                        <div class="col-sm-7">
+                            <input n:name="invoiceStreet" class="form-control" autocomplete="section-invoice street-address">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-5 vcd-application-form-label">
+                            {label invoiceCity}
+                        </div>
+                        <div class="col-sm-7">
+                            <input n:name="invoiceCity" class="form-control" autocomplete="section-invoice locality">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-5 vcd-application-form-label">
+                            {label invoiceZip}
+                        </div>
+                        <div class="col-sm-7">
+                            <input n:name="invoiceZip" class="form-control" autocomplete="section-invoice postal-code">
+                        </div>
+                    </div>
+                </div>
+            {/if}
+
+            <div class="row">
+                <div class="col-sm-5 vcd-application-form-label">
+                </div>
+                <div class="col-sm-7">
+                    <div class="checkbox">
+                        {input agreedPersonalData}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5 vcd-application-form-label">
+                </div>
+                <div class="col-sm-7">
+                    <div class="checkbox">
+                        {input agreedTermsAndConditions}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5 vcd-application-form-label">
+                </div>
+                <div class="col-sm-7">
+                    <div class="checkbox">
+                        {input agreedPhotography}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5 vcd-application-form-label">
+                </div>
+                <div class="col-sm-7">
+                    <div class="checkbox">
+                        {input agreedSms}
+                    </div>
+                </div>
+            </div>
+            <div class="row" n:if="isset($form[newsletter])">
+                <div class="col-sm-5 vcd-application-form-label">
+                </div>
+                <div class="col-sm-7">
+                    <div class="checkbox">
+                        {input newsletter}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5"></div>
+                <div class="col-sm-7">
+                    {input send, class => 'btn btn-primary'}
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div n:if="$user->isLoggedIn()" class="row">
+    <div class="col-xs-12">
+        <a name="form"></a>
+        <h3>Údaje o zákonném zástupci</h3>
+        <form n:name="form" class="form-horizontal vcd-application-form">
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="row form-group">
+                        <div class="col-sm-5 vcd-application-form-label">
+                            {label name /}
+                        </div>
+                        <div class="col-sm-7">
+                            <input n:name="name" class="form-control" autocomplete="section-parent name">
+                        </div>
+                    </div>
+                    {if $userEntity->emailVerified}
+                        <div class="row form-group">
+                            <div class="col-sm-5 vcd-application-form-label">
+                                <label>E-mail *</label>
+                            </div>
+                            <div class="col-sm-7" data-toggle="tooltip" data-placement="left" title="{include contactChangeMessage|stripHtml}">
+                                <input class="form-control" type="text" value="{$userEntity->email}" disabled>
+                            </div>
+                        </div>
+                    {else}
+                        <div class="row form-group">
+                            <div class="col-sm-5 vcd-application-form-label">
+                                {label email /}
+                            </div>
+                            <div class="col-sm-7">
+
+                                <input n:name="email" class="form-control" autocomplete="section-parent email">
+
+                                {snippet emailError2}
+                                    <div n:if="isset($emailErrorMessage)" class="alert alert-danger" style="opacity: 1;">
+                                        <span class="glyphicon glyphicon-alert" style="font-size:0.8em;"></span> {$emailErrorMessage}
+                                    </div>
+                                {/snippet}
+                            </div>
+                        </div>
+                    {/if}
+                    {if $userEntity->phoneVerified}
+                        <div class="row form-group">
+                            <div class="col-sm-5 vcd-application-form-label">
+                                <label>Telefon *</label>
+                            </div>
+                            <div class="col-sm-7" data-toggle="tooltip" data-placement="left" title="{include contactChangeMessage|stripHtml}">
+                                <input class="form-control" type="text" value="{$userEntity->phone}" disabled>
+                            </div>
+                        </div>
+                    {else}
+                        <div class="row form-group">
+                            <div class="col-sm-5 vcd-application-form-label">
+                                {label phone /}
+                            </div>
+                            <div class="col-sm-7">
+                                <input n:name="phone" class="form-control" autocomplete="section-parent tel">
+                            </div>
+                        </div>
+                    {/if}
+                </div>
+                <div class="col-md-5">
+                    <div class="row form-group">
+                        <div class="col-sm-5 vcd-application-form-label">
+                            {label street /}
+                        </div>
+                        <div class="col-sm-7">
+                            <input n:name="street" class="form-control" autocomplete="section-parent street-address">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-5 vcd-application-form-label">
+                            {label city /}
+                        </div>
+                        <div class="col-sm-7">
+                            <input n:name="city" class="form-control" autocomplete="section-parent locality">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-5 vcd-application-form-label">
+                            {label zip /}
+                        </div>
+                        <div class="col-sm-7">
+                            <input n:name="zip" class="form-control" autocomplete="section-parent postal-code">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {if $draft->canBePaidOnInvoice}
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-9">
+                        <div class="checkbox form-group btn-form-group-invoice">
+                            <div class="btn-group btn-group-invoice" data-toggle="buttons">
+                                <label n:class="btn, btn-vcd-payment, btn-wrap, $form[isPayingOnInvoice]->getValue() ? active">
+                                    <input n:name="isPayingOnInvoice">{$form[isPayingOnInvoice]->getLabelPart()->getText()}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="invoiceData">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="row form-group">
+                                <div class="col-sm-5 vcd-application-form-label">
+                                    {label invoiceIco}
+                                </div>
+                                <div class="col-sm-7">
+                                    <input n:name="invoiceIco" class="form-control vcd-blur-ajax" data-ajax-url="{link loadSubject!, ico => '__ico__'}" data-ajax-value-placeholder="__ico__" data-ajax-show-spinner="1" autocomplete="section-invoice">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-sm-5 vcd-application-form-label">
+                                    {label invoiceName}
+                                </div>
+                                <div class="col-sm-7">
+                                    <input n:name="invoiceName" class="form-control" autocomplete="section-invoice organization">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-sm-5 vcd-application-form-label">
+                                    {label invoiceDic}
+                                </div>
+                                <div class="col-sm-7">
+                                    <input n:name="invoiceDic" class="form-control" autocomplete="section-invoice">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="row form-group">
+                                <div class="col-sm-5 vcd-application-form-label">
+                                    {label invoiceStreet}
+                                </div>
+                                <div class="col-sm-7">
+                                    <input n:name="invoiceStreet" class="form-control" autocomplete="section-invoice street-address">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-sm-5 vcd-application-form-label">
+                                    {label invoiceCity}
+                                </div>
+                                <div class="col-sm-7">
+                                    <input n:name="invoiceCity" class="form-control" autocomplete="section-invoice locality">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-sm-5 vcd-application-form-label">
+                                    {label invoiceZip}
+                                </div>
+                                <div class="col-sm-7">
+                                    <input n:name="invoiceZip" class="form-control" autocomplete="section-invoice postal-code">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            {/if}
+
+            <div class="row">
+                <div class="col-sm-3 vcd-application-form-label">
+                </div>
+                <div class="col-sm-9">
+                    <div class="checkbox form-group">
+                        {input agreedPersonalData}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3 vcd-application-form-label">
+                </div>
+                <div class="col-sm-9">
+                    <div class="checkbox form-group">
+                        {input agreedTermsAndConditions}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-9">
+                    <div class="checkbox form-group">
+                        {input agreedPhotography}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-9">
+                    <div class="checkbox form-group">
+                        {input agreedSms}
+                    </div>
+                </div>
+            </div>
+            <div class="row" n:if="isset($form[newsletter])">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-9">
+                    <div class="checkbox form-group">
+                        {input newsletter}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3"></div>
+                <div class="col-sm-9">
+                    {input send, class => 'btn btn-lg btn-success'}
+                </div>
+            </div>
+        </form>
+        <p class="text-muted text-center" n:if="$userEntity->phoneVerified || $userEntity->emailVerified">
+            * {include contactChangeMessage}
+        </p>
+    </div>
+</div>
+

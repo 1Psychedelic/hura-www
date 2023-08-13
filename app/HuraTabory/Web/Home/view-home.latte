@@ -1,0 +1,54 @@
+{layout '../@layout.latte'}
+
+{block title}{/block}
+{block head}{/block}
+{block body}
+
+    <section class="page__section page__section--homepage-events">
+        <div class="page__section__content">
+                    <span class="page__section__subheading">{$reactState['website']['slogan']} <img
+                                src="/images/homepage/homepage-subheading-star.png" alt=""/></span>
+            <h1 class="page__section__heading">{$reactState['website']['heading']}</h1>
+
+            <div class="homepage-events">
+                {foreach $reactState['homepage']['events'] as $event}
+                    <div class="homepage-event" key="{$event['id']}">
+                        <a href={$event['url']}><img class="homepage-event-banner" src={$event['banner']}  alt="{$event['name']}"/></a>
+                        <div class="homepage-event-content">
+                            <div>
+                                <h2><a href={$event['url']}>{$event['name']}</a></h2>
+                                <div class="homepage-event-text">
+                                    {$event['description']}
+                                </div>
+                            </div>
+                            <div class="homepage-event-bottom">
+                                <div class="homepage-event-info">
+                                    <div class="homepage-event-info-details">
+                                        <span>Datum:</span> <span>{$event['date']}</span>
+                                    </div>
+                                    <div class="homepage-event-info-details">
+                                        <span>Věk:</span> <span>{$event['age']}</span>
+                                    </div>
+                                </div>
+                                <div class="homepage-event-price-button">
+                                    <div class="homepage-event-price">
+                                        {$event['priceText']}
+                                    </div>
+                                    <div class="homepage-event-button">
+                                        {if $event['hasOpenApplications']}
+                                            <a href="{$event['url'] . '/rezervace'}">Rezervovat</a>
+                                        {else}
+                                            <a href="{$event['url']}">Zobrazit</a>
+                                        {/if}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {/foreach}
+            </div>
+            <div class="homepage-events-arrow"></div>
+        </div>
+    </section>
+
+{/block}

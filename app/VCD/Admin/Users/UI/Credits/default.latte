@@ -1,0 +1,50 @@
+
+<a href="{plink creditsGive}" class="btn btn-primary">Rozdat kredity</a>
+
+<a href="{plink this, showAll => !$showAll}" class="btn btn-default">
+    {if $showAll}
+        Zobrazit pouze poslední pohyby
+    {else}
+        Zobrazit všechny pohyby
+    {/if}
+</a>
+
+<p>Kredity v oběhu: <strong>{$circulatingCredits}&nbsp;Kč</strong></p>
+
+<table class="table table-bordered table-condensed">
+    <tr>
+        <th class="text-center"></th>
+        <th>Uživatel</th>
+        <th class="text-right">Změna</th>
+        <th class="text-right">Výsledek</th>
+        <th class="text-right">Datum</th>
+        <th>Poznámka</th>
+    </tr>
+    {var $processed = []}
+    {foreach $list as $item}
+        <tr n:class="!array_key_exists($item->user->id, $processed) ? active">
+            {continueIf !$showAll && array_key_exists($item->user->id, $processed)}
+            <td class="text-center">
+                {$item->id}
+            </td>
+            <td>
+                <strong>{$item->user->name}</strong><span class="pull-right label label-primary">#{$item->user->id}</span><br>
+            </td>
+            <td n:class="$item->isNegative ? danger : success, text-right">
+                {if !$item->isNegative}+{/if}{$item->difference}&nbsp;Kč
+            </td>
+            <td class="text-right">
+                <strong n:if="!array_key_exists($item->user->id, $processed)">
+                {$item->user->creditBalance}&nbsp;Kč
+                </strong>
+            </td>
+            <td class="text-right">
+                {$item->createdAt|date:'j. n. Y - H:i'}
+            </td>
+            <td>
+                {$item->notes}
+            </td>
+        </tr>
+        {php $processed[$item->user->id] = TRUE}
+    {/foreach}
+</table>

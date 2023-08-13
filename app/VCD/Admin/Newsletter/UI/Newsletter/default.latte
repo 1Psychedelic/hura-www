@@ -1,0 +1,26 @@
+{control form}
+
+<p>
+    <a href="{plink this, divider => "\n"}" class="btn btn-primary btn-sm">Použít nový řádek místo středníku</a>
+</p>
+
+<small>Odběratelé ({=count($emails)}):</small><br>
+<textarea style="width:100%;" readonly>{foreach $emails as $email}{$email[email]}{sep}{$divider|noescape}{/sep}{/foreach}</textarea>
+
+<small>Účastníci akcí ({=count($attendants)}):</small><br>
+<textarea style="width:100%;" readonly>{foreach $attendants as $email}{$email}{sep}{$divider|noescape}{/sep}{/foreach}</textarea>
+
+<small>Všichni ({=count($allEmails)}):</small><br>
+<textarea style="width:100%;" readonly>{foreach $allEmails as $email}{$email}{sep}{$divider|noescape}{/sep}{/foreach}</textarea>
+<table class="table table-condensed table-bordered">
+    <tr>
+        <th>Přihlášen</th>
+        <th>E-mail</th>
+        <th></th>
+    </tr>
+    <tr n:foreach="$emails as $email">
+        <td>{$email[added_at]|date:'j. n. Y H:i'}</td>
+        <td><a href="mailto:{$email[email]}">{$email[email]}</a></td>
+        <td><a onclick="if(!confirm('Odhlásit?'))return false;" n:href="unsubscribe!, id => $email[email]" class="btn btn-danger btn-sm">Odhlásit z odběru</td>
+    </tr>
+</table>

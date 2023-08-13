@@ -1,0 +1,105 @@
+{if !$presenter->print}
+    Filtry:
+    <span class="btn-group btn-group-sm" n:if="FALSE">
+                    <a n:class="btn, btn-sm, isset($filters[type]) && $filters[type] == $typeTrip ? btn-default : btn-primary" href="{plink this, filters => array_merge($filters, [type => (isset($filters[type]) && $filters[type] == $typeTrip ? NULL : $typeCamp)])}">Tábory</a>
+                    <a n:class="btn, btn-sm, isset($filters[type]) && $filters[type] == $typeCamp ? btn-default : btn-primary" href="{plink this, filters => array_merge($filters, [type => (isset($filters[type]) && $filters[type] == $typeCamp ? NULL : $typeTrip)])}">Výlety</a>
+                </span>
+    <span class="btn-group btn-group-sm">
+                    <a n:class="btn, btn-sm, $past ? btn-primary : btn-default" href="{plink this, past => !$past}">Proběhlé</a>
+                </span>
+    <span class="pull-right">
+                    {var $lost = $photos(NULL, 1)}
+        <a href="{plink photos, event => NULL, type => 1}" n:class="btn, $lost > 0 ? btn-primary : btn-danger, btn-sm">{$lost} nezařazených ztrát a nálezů</a>
+                </span>
+{/if}
+
+<table class="table table-bordered table-condensed">
+    <tr>
+        <th class="text-center"><a n:if="!$presenter->print" class="btn btn-primary btn-sm" href="{plink event, id => NULL}">Přidat</a></th>
+        <th>Základní info</th>
+        <th>Název</th>
+        <th>Termíny</th>
+        <th n:if="!$presenter->print">Obsah</th>
+        <th n:if="!$presenter->print">Ostatní</th>
+    </tr>
+    {var $eventTabs}
+    {var $designOk}
+    {var $fotos}
+    {var $applied}
+    {var $event}
+    {var $eventChildren}
+    <tr n:foreach="$events as $event">
+        {php $applied = count($event->newApplications)}
+        <td class="text-center">
+            <a n:tag-if="!$presenter->print" href="{plink event, id => $event->id}" class="btn btn-primary btn-sm"><strong>{$event->id}</strong></a>
+            {if $event->acceptedEmail === NULL && !$event->hasEnded}
+                <br><span class="glyphicon glyphicon-warning-sign" data-toggle="tooltip" title="Není nastaven e-mail 'přihláška schválena'!"></span>
+            {/if}
+        </td>
+        <td>
+            <img class="pull-left" src="{$baseUri}/www/assets/img/{$types[$event->type]}.png" style="width:40px;height:40px;">
+            <span n:class="pull-right, glyphicon, $event->visible ? glyphicon-globe : glyphicon-lock"></span>
+            <a href="{plink eventDiscounts, event => $event->id}"><strong>{$event->price}&nbsp;Kč</strong></a><br>
+            {$event->ageMin}-{$event->ageMax}&nbsp;let<br>
+            <a n:class="$applied > 0 ? 'btn btn-sm btn-success'" href="{plink applications, filters => [event => $event->id]}">{if $applied > 0}Nové přihlášky: {$applied}{else}Žádná nová přihláška{/if}</a>
+            <div class="clearfix"></div>
+        </td>
+        <td>
+                        <span class="pull-right">
+                            <a href="{plink eventQrCode, $event->id}" target="_blank"><span class="glyphicon glyphicon-qrcode"></span></a>
+                        </span>
+            <strong>{$event->name}</strong><br>
+            <small>
+                <a href="/{$event->type === 1 ? 'tabor' : 'vylet'}/{$event->slug}">/{$event->type === 1 ? 'tabor' : 'vylet'}/{$event->slug}</a><br>
+            </small>
+            <div class="pull-right">
+                <small>
+                    {foreach $event->steps as $step}
+                        <div style="display:inline-block;margin-left:2px;margin-right:2px">
+                            {foreach $step->options as $option}
+                                <div style="display:inline-block;margin:0px;margin-right:-4px;padding:2px 5px 2px 5px;border:1px solid rgb(127,127,127);">
+                                    <span title="{$option->option}" data-toggle="tooltip">
+                                        {$option->timesUsedAccepted}
+                                    </span>
+                                </div>
+                            {/foreach}
+                        </div>
+                    {/foreach}
+                </small>
+            </div>
+            <small>
+                <div>
+                    {php $eventChildren = $event->acceptedByGender}
+                    <div n:if="$eventChildren[$male] > 0" style="display:inline-block;margin:2px;padding:2px 5px 2px 5px;border:1px solid rgb(127,127,127);background-color:rgba(0,91,255, 0.2)">
+                        {$eventChildren[$male]}
+                    </div>
+                    <div n:if="$eventChildren[$female] > 0" style="display:inline-block;margin:2px;padding:2px 5px 2px 5px;border:1px solid rgb(127,127,127);background-color:rgba(255,0,91,0.2)">
+                        {$eventChildren[$female]}
+                    </div>
+                    <strong n:if="array_sum($eventChildren) > 0">{array_sum($eventChildren)} dětí</strong>
+                </div>
+            </small>
+            <div class="clearfix"></div>
+        </td>
+        <td>
+            <span data-placement="right" data-toggle="tooltip" title="Uzavírka přihlášek" class="text-muted">{$event->applicableUntil|date:'j. n. Y H:i'}</span>
+            <div style="background-color:rgba(0,91,255, 0.2)"><span data-placement="right" data-toggle="tooltip" title="Odjezd">{$event->starts|date:'j. n. Y H:i'}</span><br><span data-placement="right" data-toggle="tooltip" title="Příjezd">{$event->ends|date:'j. n. Y H:i'}</span></div>
+        </td>
+        <td n:if="!$presenter->print">
+            {php $eventTabs = $tabs($event->id)}
+            {php $designOk = $event->bannerSmall !== NULL && $event->bannerLarge !== NULL}
+            {php $fotos = $photos($event->id)}
+            {php $lost = $photos($event->id, 1)}
+            <span class="btn-group btn-group-sm btn-group-vertical">
+                            <a href="{plink eventTabs, event => $event->id}" n:class="btn, $eventTabs > 0 ? btn-primary : btn-danger, btn-sm">{$eventTabs} záložek</a>
+                            <a href="{plink eventDesign, event => $event->id}" n:class="btn, $designOk ? btn-primary : btn-danger, btn-sm">Nastavit grafiku</a>
+                        </span>
+        </td>
+        <td n:if="!$presenter->print">
+                        <span class="btn-group btn-group-sm btn-group-vertical">
+                            <a href="{plink photos, event => $event->id, type => 0}" n:class="btn, $fotos > 0 ? btn-primary : btn-danger, btn-sm">{$fotos} fotek</a>
+                            <a href="{plink photos, event => $event->id, type => 1}" n:class="btn, $lost > 0 ? btn-primary : btn-danger, btn-sm">{$lost} ztrát a nálezů</a>
+                        </span>
+        </td>
+    </tr>
+</table>

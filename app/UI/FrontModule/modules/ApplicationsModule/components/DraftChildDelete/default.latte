@@ -1,0 +1,25 @@
+<div class="row">
+    <div class="col-sm-5">
+    </div>
+    <div class="col-sm-7">
+        <a name="form"></a>
+        <h3>Opravdu chcete odebrat dítě '{$child->name}' z přihlášky?</h3>
+        <form n:name="form" class="form-horizontal vcd-application-form">
+            <div class="row" n:if="$user->isLoggedIn() && $child->child !== NULL">
+                <div class="col-sm-12">
+                    <div class="radio">
+                        {input deleteOption}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <span class="btn-group btn-group-lg">
+                        <input n:name="delete" class="btn btn-lg btn-danger">
+                        <input n:name="back" class="btn btn-lg btn-default">
+                    </span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,101 @@
+
+    <div id="vcd-carousel" class="carousel slide"{if $ride} data-ride="carousel" data-interval="10000"{/if}>
+        {var $eventEntity}
+        {var $event}
+        <ol class="carousel-indicators" n:inner-foreach="$pages as $i => $page">
+            <li data-target="#vcd-carousel" data-slide-to="{$i}" n:class="$i === $startpage ? active"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox" n:inner-foreach="$pages as $i => $page">
+
+            <div n:class="item, $i === $startpage ? active">
+
+                <div class="row row-eq-height">
+
+                    <div class="col-sm-6" style="align-self:flex-end">
+                        <a n:tag-if="$page->link" href="{$page->link}"><img src="{$baseUri}/www/{$page->backgroundImage}" alt="" class="img-responsive center-block"></a>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="vcd-box center-block">
+                            {if $isEventPage($page)}
+                                <h3><a href="{plink \VCD\UI\FrontModule\EventsModule\EventPresenter::LINK_DEFAULT, _event => $page->event->slug}">{$page->event->name}</a><small class="pull-right" style="color:rgb(255,255,255);margin-top:8px">{control $i}</small></h3>
+                                <p>{$page->event->description|noescape}</p>
+
+                                <p class="text-center">
+                                    {if $page->event->hasStarted && !$page->event->hasEnded}
+                                        <small>Událost právě probíhá.</small><br>
+                                        <a href="{plink \VCD\UI\FrontModule\EventsModule\EventPresenter::LINK_DEFAULT, _event => $page->event->slug}" class="btn btn-success">
+                                            Více informací
+                                        </a>
+                                    {elseif $page->event->hasEnded}
+                                        <small>Událost již proběhla.</small><br>
+                                        <span class="btn-group">
+                                            <a n:if="$page->event->hasPhotos" href="{plink \VCD\UI\FrontModule\GalleryModule\PhotosPresenter::LINK_DEFAULT, id => $page->event->slug}" class="btn btn-success">
+                                                Fotky
+                                            </a>
+                                            <a href="{plink \VCD\UI\FrontModule\EventsModule\EventPresenter::LINK_DEFAULT, _event => $page->event->slug}" n:class="btn, $page->event->hasPhotos ? btn-primary : btn-success">
+                                                Archiv
+                                            </a>
+                                        </span>
+                                    {else}
+
+                                        {if $userEntity !== NULL && $userEntity->isVip && $page->event->priceVip > 0}
+                                            <small style="text-decoration:line-through;font-weight:normal;">{$page->event->priceBeforeDiscount}&nbsp;Kč</small>
+                                            {$page->event->priceVip}&nbsp;Kč&nbsp;/&nbsp;dítě
+                                        {elseif $page->event->isDiscounted}
+                                            <small style="text-decoration:line-through;font-weight:normal;">{$page->event->priceBeforeDiscount}&nbsp;Kč</small>
+                                            {$page->event->price}&nbsp;Kč&nbsp;/&nbsp;dítě
+                                        {else}
+                                            {$page->event->price}&nbsp;Kč&nbsp;/&nbsp;dítě
+                                        {/if}
+
+                                        {if $page->event->siblingDiscount > 0}<br><small>Sourozenecká sleva {$page->event->siblingDiscount}&nbsp;Kč&nbsp;/&nbsp;dítě</small>{/if}
+                                        <br>
+                                        <a href="{plink \VCD\UI\FrontModule\EventsModule\EventPresenter::LINK_DEFAULT, _event => $page->event->slug}" class="btn btn-success">
+                                            Více informací
+                                        </a>
+                                    {/if}
+                                </p>
+                            {else}
+                                {$page->content|noescape}
+                                {if $page->button && $page->link}
+                                <p class="text-center">
+                                    <a href="{$page->link}" class="btn btn-success">{$page->button}</a>
+                                </p>
+                                {/if}
+                            {/if}
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <a n:if="count($pages) > 1" class="hidden-xs left carousel-control" href="#vcd-carousel" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        </a>
+        <a n:if="count($pages) > 1" class="hidden-xs right carousel-control" href="#vcd-carousel" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        </a>
+    </div>
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+        var c = $("#vcd-carousel");
+        c.on('swiperight', function (event) {
+            $(this).carousel('prev');
+        });
+        c.on('swipeleft', function (event) {
+            $(this).carousel('next');
+        });
+        {if $ride}
+        $(window).on('resize scroll', function(e) {
+            if($(window).scrollTop() > c.offset().top) {
+                c.carousel('pause');
+            } else {
+                c.carousel('cycle');
+            }
+        });
+        {/if}
+    });
+    </script>

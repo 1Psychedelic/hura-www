@@ -1,0 +1,38 @@
+
+<ul class="nav navbar-nav navbar-right" id="vcd-login-box" n:tag-if="$wrapper">
+    <li n:class="dropdown">
+        <a name="login" n:href="#" class="dropdown-toggle vcd-color-user vcd-color-button" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            Přihlásit se <span class="caret"></span>
+        </a>
+        <div class="dropdown-menu text-center vcd-login-dropdown">
+            <div class="text-center">
+                <div class="btn-group btn-group-vertical text-center" style="width:100%">
+                    <a class="btn btn-fb btn-wrap" href="#" onclick="{\Hafo\Facebook\FacebookSDK::buttonOnclick($facebookAuthorize, $facebookDeauthorize)|noescape}">
+                        <span class="pull-left">Přihlásit přes Facebook</span> <span class="pull-right vcd-login-icon socicon socicon-facebook"></span>
+                        <div class="clearfix"></div>
+                    </a>
+                    <a class="btn btn-wrap btn-danger" href="#" onclick="{\Hafo\Google\GoogleSDK::buttonOnclick($googleAuthorize)|noescape}">
+                        <span class="pull-left">Přihlásit přes Google</span> <span class="pull-right vcd-login-icon socicon socicon-googleplus"></span>
+                        <div class="clearfix"></div>
+                    </a>
+                </div>
+            </div>
+            <p class="text-center">nebo</p>
+            <form class="form-horizontal" n:name="loginForm">
+                <div class="form-group">
+                    {label email /}
+                    <input class="form-control input-sm" n:name="email">
+                </div>
+                <div class="form-group">
+                    {label password /}
+                    <input class="form-control input-sm" n:name="password">
+                </div>
+                <div class="form-group text-center">
+                    <input n:name="login" class="btn btn-primary" style="width:100%">
+                </div>
+            </form>
+            <p class="small text-center"><a href="{plink \VCD\UI\AuthModule\RestorePasswordPresenter::LINK_DEFAULT}">Obnovit zapomenuté heslo</a></p>
+            <p class="small text-center"><a href="{plink \VCD\UI\AuthModule\SignupPresenter::LINK_DEFAULT}">Zaregistrovat se</a></p>
+        </div>
+    </li>
+</ul>

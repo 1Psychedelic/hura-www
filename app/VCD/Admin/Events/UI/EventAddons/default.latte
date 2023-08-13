@@ -1,0 +1,35 @@
+<table class="table">
+    <tr>
+        <th>
+            <a href="{plink eventAddon, id => NULL, event => $event}" class="btn btn-primary btn-sm">Přidat</a>
+        </th>
+        <th></th>
+        <th>Název</th>
+        <th>Cena</th>
+        <th>Aktivní</th>
+        <th></th>
+    </tr>
+    <tr n:foreach="$list as $item">
+        <td>
+            <a href="{plink eventAddon, id => $item[id], event => $event}" class="btn btn-primary btn-sm">{$item[id]}</a>
+        </td>
+        <td class="text-center" style="background-color: #393d72">
+            <img src="{$item[icon]}" style="max-height: 30px">
+        </td>
+        <td>
+            {$item[name]}
+        </td>
+        <td>
+            {$item[price]}&nbsp;Kč
+        </td>
+        <td>
+            {$item[enabled] ? 'Ano' : 'Ne'}
+        </td>
+        <td>
+            <span class="btn-group btn-group-sm">
+                <a class="btn btn-sm btn-default" n:href="up!, id => $item[id]">Posunout výš</a>
+                <a class="btn btn-sm btn-default" n:href="down!, id => $item[id]">Posunout níž</a>
+            </span>
+        </td>
+    </tr>
+</table>

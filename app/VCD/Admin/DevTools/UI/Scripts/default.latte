@@ -1,0 +1,7 @@
+{control form}
+
+{foreach $flashes as $flash}
+    {if $flash->type === 'html'}
+        {$flash->message}
+    {/if}
+{/foreach}

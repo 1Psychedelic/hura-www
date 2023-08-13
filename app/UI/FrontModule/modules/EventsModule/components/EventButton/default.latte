@@ -1,0 +1,24 @@
+{if $event->hasOpenApplications && $event->hasEnoughCapacityFor(1)}
+    {if $event->areApplicationsOpenForUser($userEntity)}
+        {if $hasApplied}
+            {if $userEntity->countAppliedApplicationsForEvent($event) > 1}
+                <a class="btn btn-primary btn-lg" href="{plink $profileLink}#tabs"><small>Zobrazit přihlášky</small></a><br>
+                <small style="font-weight: normal"><a href="{plink $draftLink, _event => $event->slug}#tabs">Přihlásit další dítě</a></small>
+            {else}
+                {var $application = $userEntity->appliedApplications->getBy(['event' => $event])}
+                <a class="btn btn-primary btn-lg" href="{plink $finishedLink, id => $application->id, hash => $application->hash}#tabs"><small>Zobrazit přihlášku</small></a><br>
+                <small style="font-weight: normal"><a href="{plink $draftLink, _event => $event->slug}#tabs">Přihlásit další dítě</a></small>
+            {/if}
+        {else}
+            <a class="btn btn-success btn-lg" href="{plink $draftLink, _event => $event->slug}#tabs">Objednat</a>
+        {/if}
+    {else}
+        <span class="text-danger">
+            Pouze pro<br>věrné členy
+        </span>
+    {/if}
+{else}
+    <span class="text-danger">
+        Přihlášky<br>uzavřeny
+    </span>
+{/if}

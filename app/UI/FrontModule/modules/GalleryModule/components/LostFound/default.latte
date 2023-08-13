@@ -1,0 +1,103 @@
+{if count($items) === 0}
+    <div class="container">
+        <div class="row row-eq-height">
+            <div class="col-sm-7 col-sm-push-5">
+                <div class="vcd-box">
+                    <h3>Nejsou zde žádné ztráty a nálezy</h3>
+                    <p>Ne vždy stíháme zveřejnit všechny ztráty a nálezy.</p>
+                    <p>Pokud Vám nějaká věc chybí, neváhejte a kontaktujte nás.</p>
+                </div>
+            </div>
+            <div class="col-sm-5 col-sm-pull-7" style="align-self:flex-end">
+                <img class="img-responsive" src="{$baseUri}/www/assets/img/404.png">
+            </div>
+        </div>
+    </div>
+{else}
+
+    <div class="container-fluid vcd-main-background">
+        <div class="container">
+            <div class="row vcd-content">
+                <div class="col-xs-12">
+                    {if $selectedItem}
+                        <p>
+                            <a id="vcd-gallery-back" href="{plink this#vcd-main, id => NULL, photo => NULL}">Zpět na všechny ztráty</a>
+                        </p>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <center>
+                                    {if isset($control[form])}
+                                        <form n:name="form">
+                                            <input n:name="claim" class="btn btn-success btn-wrap" onclick="if(!confirm('Opravdu je věc na fotce vaše?')){ return false; }">
+                                        </form>
+                                    {elseif !$user->isLoggedIn() && $selectedItem['claimed_by'] === NULL}
+                                        <p><small>Patří věc na fotce vám? Přihlašte se a dejte nám vědět jednoduše kliknutím na tlačítko.</small></p>
+                                    {/if}
+                                    <div class="vcd-box-item">
+                                        <a id="vcd-gallery-previous" n:if="$previous" class="left carousel-control" href="{plink this#vcd-main, id => $previous[event], photo => $previous[name]}" style="background:none;">
+                                            <span class="glyphicon glyphicon-chevron-left"></span>
+                                        </a>
+                                        <a n:tag-if="$next"  href="{plink this#vcd-main, id => $next[event], photo => $next[name]}"><img src="{$baseUri}/www/lostfound/{(int)$selectedItem[event]}/{$selectedItem[name]}" class="img-responsive"></a>
+                                        <a id="vcd-gallery-next" n:if="$next" class="right carousel-control" href="{plink this#vcd-main, id => $next[event], photo => $next[name]}" style="background:none;">
+                                            <span class="glyphicon glyphicon-chevron-right"></span>
+                                        </a>
+                                    </div>
+                                    {if isset($control[form])}
+                                        <form n:name="form">
+                                            <input n:name="claim" class="btn btn-success btn-wrap" onclick="if(!confirm('Opravdu je věc na fotce vaše?')){ return false; }">
+                                        </form>
+                                    {elseif !$user->isLoggedIn() && $selectedItem['claimed_by'] === NULL}
+                                        <p><small>Patří věc na fotce vám? Přihlašte se a dejte nám vědět jednoduše kliknutím na tlačítko.</small></p>
+                                    {/if}
+                                </center>
+                            </div>
+                        </div>
+
+                        <script type="text/javascript">
+                            $(document).ready(function() {
+                                var el;
+                                var doRedirect = function() {
+                                    if(typeof el !== 'undefined' && typeof el.prop('href') !== 'undefined') {
+                                        window.location.href = el.prop('href');
+                                    }
+                                };
+                                $('.vcd-box-item img').swiperight(function() {
+                                    el = $('#vcd-gallery-previous');
+                                    doRedirect();
+                                });
+                                $('.vcd-box-item img').swipeleft(function() {
+                                    el = $('#vcd-gallery-next');
+                                    doRedirect();
+                                });
+                                $(window).on('keyup', function(e) {
+                                    if(e.keyCode === 37) {
+                                        el = $('#vcd-gallery-previous');
+                                    } else if(e.keyCode === 39) {
+                                        el = $('#vcd-gallery-next');
+                                    } else if(e.keyCode === 27) {
+                                        el = $('#vcd-gallery-back');
+                                    }
+                                    doRedirect();
+                                });
+                            });
+                        </script>
+                    {else}
+                        <center>
+                            {var $currentEvent = NULL}
+                            {foreach $items as $item}
+                                {if $currentEvent !== $item['event'] || $iterator->isFirst()}
+                                    {php $currentEvent = $item['event']}
+                                    <h3>{if $currentEvent === NULL}Nezařazené{else}{$event($currentEvent)}{/if}</h3>
+                                {/if}
+                                <div class="vcd-box-item">
+                                    <a href="{plink this#vcd-main, id => $currentEvent, photo => $item[name]}"><img src="{$baseUri}/www/lostfound/{(int)$currentEvent}/thumb_{$item[name]}" style="{$thumbnail($item[thumb_w], $item[thumb_h])|noescape};max-height:180px"></a>
+                                </div>
+                            {/foreach}
+                        </center>
+                    {/if}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{/if}

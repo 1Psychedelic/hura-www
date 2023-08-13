@@ -1,0 +1,494 @@
+@import "_variables"
+
+.page
+
+  .page__section
+
+    &.page__section--homepage-events
+      background-color: #f5f5f5
+      padding-top: 2.7em
+
+      @include media-desktop-wide
+        background-image: url("/images/background/sun.png"), url("/images/background/girl.png"), url("/images/background/boy.png"), url("/images/background/lightbulb.png"), url("/images/background/pencil.png"), url("/images/background/boat.png")
+        background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat, no-repeat
+        background-position: top 2em left 11em, top 20em left 2em, top 20em right 8em, top 5em right 25em, bottom 10em left -3em, bottom 7em right -2em
+
+      span.page__section__subheading
+        font-size: 2em
+        color: #ff4880
+        text-align: start
+        //text-shadow: 0 0 10px #f5f5f5, 0 0 10px #f5f5f5, 0 0 20px #f5f5f5, 0 0 20px #f5f5f5, 0 0 30px #f5f5f5, 0 0 40px #f5f5f5, 0 0 40px #f5f5f5, 0 0 40px #f5f5f5, 0 0 40px #f5f5f5, 0 0 40px #f5f5f5
+
+      h1.page__section__heading,h2.page__section__heading
+        font-size: 4.3em
+        color: #393d72
+        margin-top: 0.2em
+        padding-bottom: 0.3em
+        text-align: start
+        //text-shadow: 0 0 10px #f5f5f5, 0 0 10px #f5f5f5, 0 0 20px #f5f5f5, 0 0 20px #f5f5f5, 0 0 30px #f5f5f5, 0 0 40px #f5f5f5, 0 0 40px #f5f5f5, 0 0 40px #f5f5f5, 0 0 40px #f5f5f5, 0 0 40px #f5f5f5
+
+    &.page__section--homepage-why-us
+      background-color: #ffffff
+
+    &.page__section--homepage-reviews
+      background-color: #f9f5f0
+
+    &.page__section--homepage-games
+      background-color: #5798fe
+      background-image: url("/images/background/blue-texture.jpg")
+      background-repeat: repeat
+      background-attachment: fixed
+
+      span.page__section__subheading
+        color: #ffffff
+
+      h2.page__section__heading
+        color: #ffffff
+
+    &.page__section--homepage-fairytales
+      background-color: #393d72
+      background-image: url("/images/background/dark-blue-texture.jpg")
+      background-repeat: repeat
+      background-attachment: fixed
+
+      span.page__section__subheading
+        color: #ffffff
+
+      h2.page__section__heading
+        color: #ffffff
+
+    &.page__section--homepage-next-event
+      background-color: #ffffff
+
+    &.page__section--homepage-subscribe
+      background-color: #ffae00
+      background-image: url("/images/background/orange-texture.jpg")
+      background-repeat: repeat
+      background-attachment: fixed
+      &>.page__section__content
+        display: flex
+        flex-direction: row
+        &>div,&>form
+          padding-left: 1em
+          padding-right: 1em
+          &:last-child
+            flex: 1 0 0
+            padding-top: 0.5em
+            display: flex
+            flex-direction: row
+            .form-input-group
+              flex: 1 0 0
+              padding-bottom: 0
+            input[type=submit]
+              height: 2.9em
+              margin-top: 0
+              background-color: #7cbe47
+              border-color: #7cbe47
+
+      h2.page__section__heading
+        font-size: 1.7em
+        color: #ffffff
+        text-align: start
+
+      span.page__section__subheading
+        font-size: 1.3em
+        color: #ff4880
+        text-align: start
+
+    &.page__section--homepage-archive
+      background-color: #f5f5f5
+
+.homepage-events
+  $homepage-events-margin: 1em
+
+  max-width: #{$page-max-width}
+  display: flex
+  flex-direction: row
+  justify-content: center
+  flex-wrap: wrap
+  margin-top: -1em
+  margin-left: -#{$homepage-events-margin}
+  margin-right: -#{$homepage-events-margin}
+
+  &.homepage-events-wide
+    .homepage-event
+      flex-basis: 100%
+
+  .homepage-event
+    $homepage-event-border-radius: 1em
+
+    flex: 1 0 0
+    margin-left: #{$homepage-events-margin}
+    margin-right: #{$homepage-events-margin}
+    margin-top: 1em
+    background-color: #ffffff
+    border-radius: #{$homepage-event-border-radius}
+    display: flex
+    flex-direction: column
+    max-width: #{($page-max-width / 2) - 2}
+    &.ph-item
+      height: 20em
+
+    .homepage-event-banner
+      display: block
+      margin: 0
+      padding: 0
+      width: 100%
+      border-top-left-radius: #{$homepage-event-border-radius}
+      border-top-right-radius: #{$homepage-event-border-radius}
+
+    .homepage-event-content
+      padding-top: 2em
+      padding-bottom: 2em
+      padding-left: 3em
+      padding-right: 3em
+      flex: 1 0 0
+      display: flex
+      flex-direction: column
+
+      h2>a,h3>a
+        font-size: 1.5em
+        color: #393d72
+        text-decoration: none
+        margin-top: 0
+        margin-bottom: 1em
+        &:hover
+          text-decoration: underline
+
+      .homepage-event-text
+        flex: 1 0 0
+        color: #858687
+        font-size: 1.1em
+        line-height: 1.4em
+
+      .homepage-event-bottom
+        margin-top: auto
+
+      .homepage-event-info
+        border-top: 1px solid #f9f5f0
+        color: #ff4880
+        padding-top: 2em
+        margin-top: 2em
+        display: flex
+        flex-direction: row
+        justify-content: space-between
+        font-size: 1em
+        width: 100%
+
+        .homepage-event-info-details
+          &:first-child
+            padding-right: 0.2em
+          &:last-child
+            padding-left: 0.2em
+          &>span
+            white-space: nowrap
+          &>span:first-child
+            color: #393d72
+
+
+      .homepage-event-price-button
+        display: flex
+        flex-direction: row
+        justify-content: space-between
+        align-items: center
+        width: 100%
+        padding-top: 1.2em
+
+      .homepage-event-price
+        flex: 2 0 0
+        color: #393d72
+        font-size: 2em
+        font-weight: bold
+        white-space: nowrap
+
+      .homepage-event-button
+        flex: 1 0 0
+        text-align: end
+        white-space: nowrap
+        &>a
+          text-decoration: none
+          border-radius: 99999px
+          color: #ffffff
+          background-color: #ff4880
+          padding-left: 1.7em
+          padding-right: 1.7em
+          padding-top: 0.4em
+          //padding-bottom: 0em
+          font-size: 1em
+          font-weight: bold
+
+      .homepage-event-archive-button-wrapper
+        text-align: center
+        margin-top: 3em
+      .homepage-event-archive-button
+        text-decoration: none
+        border-radius: 99999px
+        color: #ffffff
+        background-color: #ffae00
+        padding-left: 2.5em
+        padding-right: 2.5em
+        padding-top: 0.6em
+        padding-bottom: 0.3em
+        font-size: 1em
+        font-weight: bold
+
+
+
+.homepage-events-arrow
+  background: url("/images/homepage/homepage-events-arrow.png") no-repeat center bottom
+  height: 50px
+  margin-top: #{$page-section-content-vertical-padding}
+  margin-bottom: -#{$page-section-content-vertical-padding}
+
+.homepage-why-us
+  $homepage-why-us-circles-margin: 1em
+
+  max-width: #{$page-max-width}
+  display: flex
+  flex-direction: row
+  justify-content: center
+  flex-wrap: wrap
+  margin-left: -#{$homepage-why-us-circles-margin}
+  margin-right: -#{$homepage-why-us-circles-margin}
+  margin-top: 5em
+
+  .homepage-why-us-circle-wrapper
+    flex: 1 0 0
+    margin-left: #{$homepage-why-us-circles-margin}
+    margin-right: #{$homepage-why-us-circles-margin}
+    display: flex
+    flex-direction: column
+    justify-content: start
+    align-items: center
+    max-width: 10em
+
+  .homepage-why-us-text
+    //flex-basis: 10.5em
+    flex: 1 0 0
+    text-align: center
+    padding-top: 2em
+    font-weight: bold
+    line-height: 1.5em
+    font-size: 1.2em
+    color: #393d72
+
+  .homepage-why-us-circle
+    border-radius: 50%
+    padding: 0.25em
+
+.homepage-reviews-stars
+  text-align: center
+
+.homepage-reviews
+  $homepage-reviews-margin: 1em
+
+  max-width: #{$page-max-width}
+  display: flex
+  flex-direction: row
+  flex-wrap: wrap
+  justify-content: center
+  margin-left: -#{$homepage-reviews-margin}
+  margin-right: -#{$homepage-reviews-margin}
+  margin-top: -3em
+  padding-top: 3em
+
+  .homepage-review
+    $homepage-review-border-radius: 1em
+
+    display: flex
+    flex-direction: column
+    flex: 1 0 0
+    margin-left: #{$homepage-reviews-margin}
+    margin-right: #{$homepage-reviews-margin}
+    margin-top: 3em
+    border-radius: #{$homepage-review-border-radius}
+    //min-width: 30em
+    max-width: 50em
+
+    .homepage-review-content-wrapper
+      flex: 1 0 0
+      border-radius: #{$homepage-review-border-radius}
+      padding-top: 4em
+      padding-bottom: 4em
+      padding-left: 5em
+      padding-right: 5em
+      position: relative
+
+      &:before
+        border-radius: #{$homepage-review-border-radius}
+        content: ' '
+        display: block
+        position: absolute
+        left: 0
+        top: 0
+        width: 100%
+        height: 100%
+        opacity: 0.15
+        background-image: url("/images/background/quote.png")
+        background-repeat: no-repeat
+        background-position: 50% 50%
+
+    .homepage-review-content
+      position: relative
+      color: #ffffff
+      font-size: 1.7em
+      line-height: 1.25em
+
+    .homepage-review-author
+      padding-top: 2em
+      padding-left: 10em
+      display: flex
+      flex-direction: row
+      align-items: center
+
+    .homepage-review-author-avatar
+      border-radius: 50%
+      width: 5em
+      height: 5em
+      margin-right: 1em
+
+    .homepage-review-author-name
+      display: block
+      font-weight: bold
+      color: #393d72
+      margin-bottom: 0.2em
+      font-size: 1.3em
+
+    .homepage-review-author-date
+      display: block
+      color: #858687
+      margin-top: 0.2em
+      font-size: 1em
+      font-weight: bold
+
+    &.homepage-review1
+      .homepage-review-content-wrapper
+        background-color: #fa496e
+
+      .homepage-review-author
+        background-image: url("/images/homepage/homepage-review-bubble-tip1.png")
+        background-repeat: no-repeat
+        background-position: top 0 left 5em
+
+    &.homepage-review2
+      .homepage-review-content-wrapper
+        background-color: #5798fe
+
+      .homepage-review-author
+        background-image: url("/images/homepage/homepage-review-bubble-tip2.png")
+        background-repeat: no-repeat
+        background-position: top 0 left 5em
+
+.homepage-fairytales
+  $homepage-fairytales-margin: 1em
+
+  max-width: #{$page-max-width}
+  display: flex
+  flex-direction: column
+  flex-wrap: wrap
+  justify-content: center
+  margin-left: -#{$homepage-fairytales-margin}
+  margin-right: -#{$homepage-fairytales-margin}
+  margin-top: 3em
+
+  .homepage-fairytales-row
+    display: flex
+    flex-direction: row
+    flex-wrap: wrap
+    margin-top: -#{$homepage-fairytales-margin * 2}
+    margin-bottom: #{$homepage-fairytales-margin * 2}
+
+  .homepage-fairytale
+    $homepage-fairytale-border-radius: 1em
+
+    background-color: #ffffff
+
+    flex: 1 0 0
+    margin-left: #{$homepage-fairytales-margin}
+    margin-right: #{$homepage-fairytales-margin}
+    margin-top: #{$homepage-fairytales-margin * 2}
+    border-radius: #{$homepage-fairytale-border-radius}
+    display: flex
+    flex-direction: row
+
+    .homepage-fairytale-banner
+      border-top-left-radius: #{$homepage-fairytale-border-radius}
+      border-bottom-left-radius: #{$homepage-fairytale-border-radius}
+
+    .homepage-fairytale-text
+      padding-top: 3em
+      padding-bottom: 3em
+      padding-left: 4em
+      padding-right: 4em
+
+.homepage-next-event
+  $homepage-next-event-margin: 0.75em
+
+  max-width: #{$page-max-width}
+  display: flex
+  flex-direction: row
+  justify-content: center
+  flex-wrap: wrap
+  margin-top: -#{$homepage-next-event-margin * 2}
+
+  &>div
+    margin-top: 0
+    display: flex
+    flex-direction: row
+    justify-content: center
+    flex-wrap: wrap
+
+  .homepage-next-event-circle
+    border-radius: 50%
+    margin-left: #{$homepage-next-event-margin}
+    margin-right: #{$homepage-next-event-margin}
+    margin-top: #{$homepage-next-event-margin * 2}
+    padding: 3em
+
+    .homepage-next-event-content
+      width: 4em
+      height: 4em
+      text-align: center
+
+    .homepage-next-event-number
+      color: #ffffff
+      font-size: 3em
+      font-weight: bold
+
+    .homepage-next-event-label
+      color: #ffffff
+      font-size: 1.2em
+      font-weight: bold
+
+    &.homepage-next-event-days
+      background-color: #ff4880
+    &.homepage-next-event-hours
+      background-color: #ffae00
+    &.homepage-next-event-minutes
+      background-color: #5798fe
+    &.homepage-next-event-seconds
+      background-color: #7cbe47
+
+.homepage-centered-button
+  text-align: center
+  margin-top: 5em
+  a
+    margin-left: auto
+    margin-right: auto
+    border-radius: 99999px
+    background-color: #ffae00
+    color: #ffffff
+    text-decoration: none
+    font-weight: bold
+    font-size: 1.1em
+    padding-left: 3em
+    padding-right: 3em
+    padding-top: 1em
+    padding-bottom: 0.8em
+
+.homepage-subscribe
+  max-width: #{$page-max-width}
+  // todo
+
+
+

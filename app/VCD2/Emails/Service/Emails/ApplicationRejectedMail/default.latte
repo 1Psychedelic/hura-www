@@ -1,0 +1,12 @@
+{layout '../@layout.latte'}
+{define body}
+
+    <h1 style="{$css[heading]|noescape}">Přihláška byla odmítnuta.</h1>
+
+    <p>Dobrý den,</p>
+    <p>Vaši přihlášku na {\VCD2\Events\Event::TYPES_NAMES[$application->event->type]|lower} jsme bohužel odmítli.</p>
+    <p n:if="$reason">Důvod odmítnutí: {$reason}</p>
+
+    {include '../myApplication.latte', application => $application, components => $components, css => $css, bankAccount => $bankAccount}
+
+{/define}

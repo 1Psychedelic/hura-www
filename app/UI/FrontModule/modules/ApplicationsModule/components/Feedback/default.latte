@@ -1,0 +1,29 @@
+{if isset($control[form])}
+    <hr>
+    {$content|noescape}
+    <form n:name="form" class="form-horizontal">
+        <div class="row">
+            <div class="col-sm-4 control-label">
+                {label feedback_score}
+            </div>
+            <div class="col-sm-8">
+                <input n:name="feedback_score">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4 control-label">
+                {label feedback /}
+            </div>
+            <div class="col-sm-8">
+                <textarea class="form-control" n:name="feedback"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-8">
+                <input n:name="send" class="btn btn-primary">
+            </div>
+        </div>
+    </form>
+
+{/if}

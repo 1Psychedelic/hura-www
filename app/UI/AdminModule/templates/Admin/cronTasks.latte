@@ -1,0 +1,20 @@
+{layout './@layout.latte'}
+
+{define body}
+
+
+    <div class="row vcd-content">
+        <div class="col-xs-12">
+
+            {include './@cron.latte'}
+
+            {control cronTasks}
+
+        </div>
+    </div>
+
+{/define}
+
+{define head}{/define}
+{define back}
+{/define}

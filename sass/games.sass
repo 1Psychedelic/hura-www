@@ -1,0 +1,51 @@
+@import "_variables"
+
+.games
+  display: flex
+  flex-direction: column
+
+  .game
+    display: flex
+    flex-direction: row
+    flex-wrap: nowrap
+    background-color: #ffffff
+    border-radius: 1em
+    margin-bottom: 3em
+    @include media-tablet-desktop
+      &:nth-child(odd)
+        .game-image
+          border-top-left-radius: 1em
+          border-bottom-left-radius: 1em
+      &:nth-child(even)
+        flex-direction: row-reverse
+        .game-image
+          border-top-right-radius: 1em
+          border-bottom-right-radius: 1em
+    @include media-phone
+      flex-direction: column
+    .game-image
+      max-width: 60%
+      object-fit: cover
+      @include media-tablet
+        max-width: 30%
+      @include media-phone
+        max-width: 100%
+        border-top-right-radius: 1em
+        border-top-left-radius: 1em
+        border-bottom-right-radius: 0
+        border-bottom-left-radius: 0
+    .game-description
+      font-size: 1.3em
+      color: #393d72
+      padding-left: 3em
+      padding-right: 3em
+      padding-top: 1em
+      padding-bottom: 2em
+      h2
+        font-size: 1.5em
+        color: #393d72
+      @include media-phone
+        padding-left: 1em
+        padding-right: 1em
+        padding-top: 1em
+        padding-bottom: 0

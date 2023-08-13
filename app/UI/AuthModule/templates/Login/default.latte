@@ -1,0 +1,64 @@
+{define body}
+    <div class="container-fluid vcd-main-background">
+        <div class="container">
+            <div class="row vcd-content">
+                <div class="col-xs-12">
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h1>{if $go === NULL}Přihlášení{else}Tato akce vyžaduje přihlášení{/if}</h1>
+
+                            <div class="row">
+                                <div class="col-sm-7">
+
+                                    <form n:name="user-loginForm" class="form-horizontal vcd-application-form">
+                                        <div class="row">
+                                            <div class="col-sm-4 vcd-application-form-label">
+                                                {label email /}
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" n:name="email">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4 vcd-application-form-label">
+                                                {label password /}
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <input class="form-control" n:name="password">
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 col-sm-1 hidden-sm hidden-xs"></div>
+                                            <div class="col-md-8 col-sm-11">
+                                                <input n:name="login" class="btn btn-lg btn-primary">
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+                                <div class="col-sm-5 text-center">
+                                    <div class="btn-group btn-group-vertical text-center">
+                                        <a class="btn btn-fb btn-wrap" href="#" onclick="{\Hafo\Facebook\FacebookSDK::buttonOnclick($control[user]->facebookAuthorizeUrl(), $control[user]->facebookDeauthorizeUrl())|noescape}" style="text-transform:uppercase;color:#fff;">
+                                            <span class="pull-left">Přihlásit přes Facebook</span> <span class="pull-right vcd-login-icon socicon socicon-facebook"></span>
+                                            <div class="clearfix"></div>
+                                        </a>
+                                        <a class="btn btn-wrap btn-danger" href="#" onclick="{\Hafo\Google\GoogleSDK::buttonOnclick($control[user]->googleAuthorizeUrl())|noescape}" style="text-transform:uppercase;color:#fff;">
+                                            <span class="pull-left">Přihlásit přes Google</span> <span class="pull-right vcd-login-icon socicon socicon-googleplus"></span>
+                                            <div class="clearfix"></div>
+                                        </a>
+                                    </div>
+                                    <p class="text-center"><a href="{plink \VCD\UI\AuthModule\RestorePasswordPresenter::LINK_DEFAULT}">Obnovit zapomenuté heslo</a></p>
+                                    <p class="text-center"><a href="{plink \VCD\UI\AuthModule\SignupPresenter::LINK_DEFAULT}">Zaregistrovat se</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{/define}
+
+{define head}{/define}

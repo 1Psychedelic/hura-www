@@ -1,0 +1,24 @@
+{layout '../@layout.latte'}
+{define body}
+
+    <h1 style="{$css[heading]|noescape}">Obdrželi jsme platbu!</h1>
+
+    <p>Dobrý den,</p>
+
+    <p>
+        potvrzujeme Vám uhrazení částky za
+        {\VCD2\Events\Event::TYPES_NAMES[$application->event->type]|lower}
+        v celkové výši {$amount}&nbsp;Kč.
+    </p>
+
+    <p n:if="$application->isPaid">
+        Přihláška je tímto uhrazena v plné výši. Děkujeme.
+    </p>
+
+    <p n:if="!$application->isPaid && $application->isDepositPaid">
+        Záloha je tímto uhrazena. Děkujeme.
+    </p>
+
+    {include '../myApplication.latte', application => $application, components => $components, css => $css, bankAccount => $bankAccount}
+
+{/define}

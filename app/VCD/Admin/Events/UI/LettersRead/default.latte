@@ -1,0 +1,26 @@
+<div class="row">
+    {foreach $countUnreadLetters as $userId => $countUnread}
+
+        <div class="col-sm-4">
+
+            <div class="alert alert-info">
+                <span class="pull-right">
+                    <span class="glyphicon glyphicon-bell"></span> <span class="label label-danger">{$countUnread}</span>
+                </span>
+                <h4>{$users[$userId]->name}</h4>
+                <small>({$children($userOptions[$userId])})</small>
+                <div class="clearfix"></div>
+            </div>
+
+        </div>
+
+    {/foreach}
+</div>
+<div class="row">
+    <div class="col-sm-12 text-center">
+        <span class="btn-group btn-group-lg">
+            <a n:href="pdf!" class="btn btn-success btn-lg" target="_blank">Stáhnout dopisy v PDF</a>
+            <a n:href="read!" class="btn btn-default btn-lg" onclick="if(!confirm('Opravdu označit jako přečtené?')) { return false;}">Označit dopisy jako přečtené</a>
+        </span>
+    </div>
+</div>

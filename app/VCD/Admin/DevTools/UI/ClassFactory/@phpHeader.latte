@@ -1,0 +1,7 @@
+{='<?php'|noescape}
+
+namespace {$namespace};
+
+{foreach $use as $ns => $alias}
+use {$ns}{if $alias} as {$alias}{/if};
+{/foreach}

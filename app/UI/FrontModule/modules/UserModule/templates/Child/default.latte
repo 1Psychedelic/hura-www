@@ -1,0 +1,125 @@
+{define body}
+    <div class="container-fluid vcd-main-background">
+        <div class="container">
+            <div class="row vcd-content">
+                <div class="col-xs-12">
+                    <p><a href="{plink \VCD\UI\FrontModule\UserModule\ProfilePresenter::LINK_DEFAULT}">Zpět do mého profilu</a></p>
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <strong>{$child->name}</strong>
+                                    <span class="pull-right">
+                                        <a class="btn btn-xs btn-primary" href="{plink \VCD\UI\FrontModule\UserModule\ProfilePresenter::LINK_CHILD, id => $child->id}">
+                                            Změnit údaje
+                                        </a>
+                                    </span>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="list-group">
+                                    <div class="list-group-item">
+                                        <strong>Datum narození</strong>
+                                        <span class="pull-right">{$child->dateBorn|date:'d. m. Y'}</span>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <strong>Pohlaví</strong>
+                                        <span class="pull-right">
+                                            {if $child->gender === 'm'}
+                                                Chlapec
+                                            {else}
+                                                Dívka
+                                            {/if}
+                                        </span>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <strong>Plavec</strong>
+                                        <span class="pull-right">
+                                            {if $child->swimmer}
+                                                Ano <span class="glyphicon glyphicon-ok"></span>
+                                            {else}
+                                                Ne <span class="glyphicon glyphicon-remove"></span>
+                                            {/if}
+                                        </span>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <strong>Poznámka</strong><br>
+                                        <span>
+                                            {$child->notes}
+                                        </span>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <strong>ADHD nebo podobná diagnóza</strong>
+                                        <span class="pull-right">
+                                            {if $child->adhd}
+                                                Má <span class="glyphicon glyphicon-ok"></span>
+                                            {else}
+                                                Nemá <span class="glyphicon glyphicon-remove"></span>
+                                            {/if}
+                                        </span>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <strong>Zdravotní stav</strong><br>
+                                        <span>
+                                            {$child->health}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <strong>Předchozí účast a diplomy</strong>
+                                </div>
+                                <div class="list-group">
+                                    {if count($child->potentialDiplomas) === 0}
+                                        <div class="list-group-item">
+                                            <div class="text-center">
+                                                <em>Žádná předchozí účast</em>
+                                            </div>
+                                        </div>
+                                    {/if}
+                                    {foreach $child->potentialDiplomas as $applicationChild}
+                                        <div class="list-group-item">
+                                            <div class="pull-right">
+                                                <a n:if="$applicationChild->hasDiploma" href="{$baseUri}/www/{$applicationChild->diploma}" target="_blank" style="margin-left:10px;margin-right:10px"><img alt="Diplom: {$applicationChild->application->event->name}" src="{$baseUri}/www/{$applicationChild->diplomaThumb}" style="max-height:88px;"></a>
+                                                <span class="btn-group btn-group-sm btn-group-vertical pull-right" style="margin-left:10px;margin-right:10px">
+                                                    <a class="btn btn-default btn-sm" n:href="\VCD\UI\FrontModule\UserModule\ApplicationPresenter::LINK_DEFAULT, id => $applicationChild->application->id, hash => $applicationChild->application->hash">
+                                                        Zobrazit přihlášku
+                                                    </a>
+                                                    <a n:href="\VCD\UI\FrontModule\GalleryModule\PhotosPresenter::LINK_DEFAULT, id => $applicationChild->application->event->slug" class="btn btn-sm btn-success">
+                                                        Zobrazit fotogalerii
+                                                    </a>
+                                                    <a n:if="$foundEbook = $ebook($applicationChild->application->event->id)" href="{plink \VCD\UI\FrontModule\WebModule\EbooksPresenter::LINK_DEFAULT#ebook-$foundEbook}" class="btn btn-sm btn-primary">
+                                                        Zobrazit e-book
+                                                    </a>
+                                                </span>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <strong>
+                                                {$applicationChild->application->event->name}
+                                            </strong>
+                                            <br>
+                                            {control 'term_' . $applicationChild->application->event->id}
+                                            <br>
+                                            <a href="{plink \VCD\UI\FrontModule\EventsModule\EventPresenter::LINK_DEFAULT, _event => $applicationChild->application->event->slug}">
+                                                Zobrazit detaily akce
+                                            </a>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    {/foreach}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{/define}
+
+{define head}{/define}

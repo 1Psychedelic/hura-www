@@ -1,0 +1,48 @@
+{if !$presenter->print}
+    Filtry:
+    <span class="btn-group btn-group-sm">
+        <a n:class="btn, btn-sm, $expired ? btn-primary : btn-default" href="{plink this, expired => !$expired}">Nepoužitelné</a>
+    </span>
+{/if}
+
+<table class="table table-condensed table-bordered">
+    <tr>
+        <th class="text-center"><a href="{plink discount, id => NULL}" n:if="!$presenter->print" class="btn btn-primary btn-sm">Přidat</a></th>
+        <th>Hodnota</th>
+        <th>Vlastnosti</th>
+    </tr>
+    <tr n:foreach="$discounts as $discount">
+        <td class="text-center">
+            <a href="{plink discount, id => $discount->id}" n:tag-if="!$presenter->print" class="btn btn-primary btn-sm"><strong>{$discount->code}</strong></a>
+        </td>
+        <td>
+            <a class="pull-right" href="{plink discountQrCode, $discount->id}" target="_blank"><span class="glyphicon glyphicon-qrcode"></span></a>
+            <strong>{$discount->discount}&nbsp;Kč</strong> {if $discount->multiplyByChildren}za každé dítě{/if}
+            <div class="clearfix"></div>
+        </td>
+        <td>
+            Zbývá použití
+            <span class="pull-right">
+                <a href="{link recalculateUsagesLeft!, id => $discount->id}">{if $discount->usagesLeft === NULL}neomezeno{else}{$discount->usagesLeft}{/if}</a>
+            </span><div class="clearfix"></div>
+            Použito
+            <span class="pull-right">{$discount->timesUsed}</span><div class="clearfix"></div>
+            {if $discount->forUser !== NULL}
+                Pouze pro uživatele
+                <span class="pull-right">{$discount->forUser->name}</span><div class="clearfix"></div>
+            {/if}
+            {if count($discount->forEvents) > 0}
+                Pouze pro událost{if count($discount->forEvents) > 1}i{/if}
+                <span class="pull-right text-right">
+                                {foreach $discount->forEvents as $event}
+                                    {$event->name}{sep}<br>{/sep}
+                                {/foreach}
+                            </span><div class="clearfix"></div>
+            {/if}
+            {if $discount->expires !== NULL}
+                Expirace
+                <span class="pull-right">{$discount->expires|date:'j. n. Y - H:i'}</span><div class="clearfix"></div>
+            {/if}
+        </td>
+    </tr>
+</table>

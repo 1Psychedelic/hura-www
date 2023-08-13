@@ -1,0 +1,16 @@
+{layout '../@layout.latte'}
+{define body}
+
+    <h1 style="{$css[heading]|noescape}">Potvrďte svou e-mailovou adresu.</h1>
+
+    <p>Dobrý den,</p>
+    <p>děkujeme, že jste se u nás zaregistrovali!</p>
+    <p>Než se budete moct přihlásit, potřebujeme ještě ověřit Vaši e-mailovou adresu. To provedete jednoduše kliknutím na následující odkaz:</p>
+
+    <p align="center">
+        <a style="{$css[btnPrimary]|noescape}" href="{$baseUri|noescape}/overit-email?email={$email}&hash={$hash}">
+            Ověřit moji e-mailovou adresu
+        </a>
+    </p>
+
+{/define}

@@ -1,0 +1,75 @@
+
+<a href="{plink this, completed => !$completed}" n:class="btn, $completed ? btn-primary : btn-default">{if $completed}Skrýt{else}Zobrazit{/if} dokončené</a>
+
+
+<table class="table table-condensed table-bordered">
+    <tr>
+        <th class="text-center"></th>
+        <th>Příkaz</th>
+        <th>Kategorie</th>
+        <th>Vytvořeno</th>
+        <th>Naplánováno na</th>
+        <th>Opakování</th>
+        <th class="col-xs-3">Spuštěno</th>
+        <th class="col-xs-2"></th>
+    </tr>
+    {var $succeeded = FALSE}
+    {var $failed = FALSE}
+    {foreach $list as $task}
+        {php $succeeded = $task[executed_at] !== NULL && $task[result_code] !== NULL && $task[result_code] === 0}
+        {php $failed = $task[executed_at] !== NULL && $task[result_code] !== NULL && $task[result_code] !== 0}
+    <tr n:class="$succeeded ? bg-success, $failed ? bg-danger">
+        <td class="text-center">
+            {$task[id]}
+        </td>
+        <td>
+            <pre><small>{$task[service]}::{$task[method]}({$args($task['args'])|noescape})</small></pre>
+            {if $task[description] !== NULL}
+                <br>{$task[description]}
+            {/if}
+        </td>
+        <td>
+            {$task[category]}
+        </td>
+        <td>
+            {$task[created_at]|date:'j. n. Y H:i'}
+        </td>
+        <td>
+            {$task[planned_to]|date:'j. n. Y H:i'}
+        </td>
+        <td>
+            {$task[repeat]}
+        </td>
+        <td>
+            {if $task[executed_at]}
+                <textarea readonly class="pull-right" n:if="$task[result_info] !== NULL && $task[result_info] !== ''">{$task[result_info]}</textarea>
+                {$task[executed_at]|date:'j. n. Y H:i'}<br>
+                {if $task[locked_at] !== NULL && $task[result_code] === NULL}
+                    (běží)
+                {elseif $task[result_code] !== NULL}
+                    {if $task[result_code] === 0}
+                        (úspěch)
+                    {else}
+                        (chyba: {$task[result_code]})
+                    {/if}
+                {/if}
+            {/if}
+        </td>
+        <td>
+            <form n:name="executeForm-$task[id]" class="form-inline">
+                <div class="btn-group btn-group-xs">
+                    <input n:if="!$succeeded || $failed" n:name="execute" class="btn btn-primary btn-xs" onclick="if(!confirm('Opravdu spustit?')){ return false; }">
+                    <input n:if="!$succeeded || $failed" n:name="delete" class="btn btn-danger btn-xs" onclick="if(!confirm('Opravdu smazat?')){ return false; }">
+                </div>
+
+                <div class="input-group">
+                    <input n:name="time" style="max-width:99px" class="form-control input-xs">
+                    <span class="input-group-btn">
+                        <input n:name="plan" class="btn btn-default btn-xs" onclick="if(!confirm('Opravdu přeplánovat?')){ return false; }">
+                    </span>
+                </div>
+            </form>
+        </td>
+    </tr>
+    {/foreach}
+</table>

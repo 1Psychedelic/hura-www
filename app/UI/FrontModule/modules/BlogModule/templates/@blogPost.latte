@@ -1,0 +1,85 @@
+{var $comments = count($post->related('vcd_blog_comment', 'article'))}
+<div class="row">
+    <div class="col-sm-8">
+        <h3><a n:tag-if="!$isDetail" n:href="\VCD\UI\FrontModule\BlogModule\PostPresenter::LINK_DEFAULT, id => $post[slug], browse => $browse">{$post[title]}</a></h3>
+    </div>
+    <div class="col-sm-4">
+        <span class="pull-right text-muted" style="margin-top:25px">{$post[published_at]|date:'%e. %B %Y'}</span>
+    </div>
+</div>
+
+{**
+<small class="text-muted">Zveřejnil {$post->ref('system_user', 'author')[name]}
+    - {$post[published_at]|date:'%e. %B %Y'}
+    {if $post[category]} - <a n:href="blog, id => $post->ref('category')[slug]">{$post->ref('category')[title]}</a>{/if}
+    - <a n:href="blogPost, id => $post[slug]">{if $comments === 0}Článek zatím nikdo neokomentoval{elseif $comments === 1}1 komentář{elseif $comments > 1 && $comments < 5}{$comments} komentáře{else}{$comments} komentářů{/if}</a>
+</small>
+**}
+
+{if !$isDetail || $page === NULL}
+{$post[perex]|noescape}
+{/if}
+
+{if $isDetail}
+    {$content|noescape}
+
+    <div n:if="count($pages) > 0">
+        <div class="col-xs-12 text-center">
+
+            <nav>
+                <ul class="pagination">
+                    <li n:class="$page === NULL ? active"><a href="{plink \VCD\UI\FrontModule\BlogModule\PostPresenter::LINK_DEFAULT, id => $post[slug], browse => $browse, page => NULL}">1</a></li>
+                    {foreach $pages as $subpage}
+                        <li n:class="(int)$page === (int)$subpage[position] ? active">
+                            <a href="{plink \VCD\UI\FrontModule\BlogModule\PostPresenter::LINK_DEFAULT, id => $post[slug], browse => $browse, page => $subpage[position]}">{$iterator->counter + 1}</a>
+                        </li>
+                    {/foreach}
+                </ul>
+            </nav>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6 col-sm-push-6 text-right text-muted">
+            {$author}
+        </div>
+        <div class="col-sm-6 col-sm-pull-6">
+            <div class="fb-like"
+                 data-href="{plink //this, browse => NULL}"
+                 data-layout="standard"
+                 data-action="like"
+                 data-show-faces="true"
+                 data-share="true">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="fb-comments" data-href="{plink //this, browse => NULL}" data-numposts="5"></div>
+        </div>
+    </div>
+    <hr style="border:1px solid #00a8ca;">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="text-center pull-left">
+                {if $next}
+                    <small>Novější článek</small><br>
+                    <a n:href="\VCD\UI\FrontModule\BlogModule\PostPresenter::LINK_DEFAULT, id => $next[slug], browse => $browse" class="btn btn-primary">&laquo; {$next[title]}</a>
+                {/if}
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="text-center pull-right">
+                {if $previous}
+                    <small>Starší článek</small><br>
+                    <a n:href="\VCD\UI\FrontModule\BlogModule\PostPresenter::LINK_DEFAULT, id => $previous[slug], browse => $browse" class="btn btn-primary">{$previous[title]} &raquo;</a>
+                {/if}
+            </div>
+        </div>
+    </div>
+{else}
+    <p class="text-center">
+        <a class="btn btn-success" n:href="\VCD\UI\FrontModule\BlogModule\PostPresenter::LINK_DEFAULT, id => $post[slug], browse => $browse">Zobrazit celý článek</a>
+    </p>
+{/if}

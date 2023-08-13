@@ -1,0 +1,77 @@
+{if !$presenter->print}
+
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li>
+                <a n:tag-if="!$paginator->isFirst()" href="{plink this, page => $paginator->getPage() - 1}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {for $i = 1; $i <= $paginator->getPageCount(); $i++}
+                <li n:class="$paginator->getPage() === $i ? active">
+                    <a href="{plink this, page => $i}">{$i}</a>
+                </li>
+            {/for}
+            <li>
+                <a n:tag-if="!$paginator->isLast()" href="{plink this, page => $paginator->getPage() + 1}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div class="pull-right">Nalezeno <strong>{$paginator->getItemCount()}</strong>&nbsp;záznamů</div>
+    <div class="clearfix"></div>
+{/if}
+
+<table class="table table-bordered table-condensed table-responsive">
+    <tr>
+        <th class="text-center"><a href="{plink invoice, id => NULL}" n:if="!$presenter->print" class="btn btn-primary btn-sm">Přidat</a></th>
+        <th>Přihláška</th>
+        <th>VS</th>
+        <th>Částka</th>
+        <th>Vystaveno</th>
+        <th>Splatnost</th>
+        <th>Zapl.</th>
+        <th>Odběratel</th>
+        <th></th>
+    </tr>
+    {foreach $list as $item}
+        <tr>
+            <td class="text-center"><a n:tag-if="!$presenter->print" href="{plink invoice, id => $item->id}" class="btn btn-primary btn-sm"><strong>{$item->invoiceId}</strong></a></td>
+            <td>
+                {if $item->application !== NULL}<a href="{plink applications, filters => [id => $item->application->id, status => $statusAllExceptUnfinished]}">#{$item->application->id}</a>{/if}
+            </td>
+            <td>{$item->variableSymbol}</td>
+            <td>{$item->totalPrice}&nbsp;Kč</td>
+            <td>{$item->createdAt|date:'j. n. Y - H:i'}</td>
+            <td>{$item->payTill|date:'j. n. Y - H:i'}</td>
+            <td>{if $item->isPaid}<span class="glyphicon glyphicon-ok"></span>{else}<span class="glyphicon glyphicon-remove"></span>{/if}</td>
+            <td>{$item->name}</td>
+            <td><a href="{plink invoice!, id => $item->invoiceId}" target="_blank">Zobrazit</a></td>
+        </tr>
+    {/foreach}
+</table>
+
+{if !$presenter->print}
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li>
+                <a n:tag-if="!$paginator->isFirst()" href="{plink this, page => $paginator->getPage() - 1}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {for $i = 1; $i <= $paginator->getPageCount(); $i++}
+                <li n:class="$paginator->getPage() === $i ? active">
+                    <a href="{plink this, page => $i}">{$i}</a>
+                </li>
+            {/for}
+            <li>
+                <a n:tag-if="!$paginator->isLast()" href="{plink this, page => $paginator->getPage() + 1}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div class="pull-right">Nalezeno <strong>{$paginator->getItemCount()}</strong>&nbsp;záznamů</div>
+    <div class="clearfix"></div>
+{/if}

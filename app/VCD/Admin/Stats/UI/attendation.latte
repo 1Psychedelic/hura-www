@@ -1,0 +1,111 @@
+{layout './@layout.latte'}
+
+{block body}
+<div style="overflow: auto;width:100%;height:600px">
+    <canvas id="attendationByEventChart" height="150"></canvas>
+</div>
+
+<div style="overflow: auto;width:100%;height:600px">
+    <canvas id="attendationPieChart" height="150"></canvas>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        var ctx = document.getElementById("attendationByEventChart");
+        var attendationByEventChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {=array_keys($attendationByEvent)},
+                datasets: [
+                    {
+                        label: "Kluci",
+                        backgroundColor: "rgba(0,91,255,0.4)",
+                        data: {=array_values($attendationByEventBoys)}
+                    },
+                    {
+                        label: "Holky",
+                        backgroundColor: "rgba(255,0,91,0.4)",
+                        data: {=array_values($attendationByEventGirls)}
+                    },
+                    {
+                        label: "Nevyužitá kapacita",
+                        backgroundColor: "rgba(127,127,127,0.1)",
+                        data: {=array_values($attendationCapacity)}
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        stacked: true
+                    }],
+                    yAxes: [{
+                        stacked: true,
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+        var attendationPieChart = new Chart(document.getElementById("attendationPieChart"), {
+            type: 'pie',
+            data: {
+                labels: ["Kluci", "Holky", "Nevyužitá kapacita"],
+                datasets: [
+                    {
+                        data: [
+                            {=array_sum($attendationByEventBoys)},
+                            {=array_sum($attendationByEventGirls)},
+                            {=array_sum($attendationCapacity)}
+                        ],
+                        backgroundColor: [
+                            "rgba(0,91,255,0.4)",
+                            "rgba(255,0,91,0.4)",
+                            "rgba(127,127,127,0.1)"
+                        ]
+                    }
+                ]
+            },
+            options: {
+                tooltips: {
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                            var allData = data.datasets[tooltipItem.datasetIndex].data;
+                            var tooltipLabel = data.labels[tooltipItem.index];
+                            var tooltipData = allData[tooltipItem.index];
+                            var total = 0;
+                            for (var i in allData) {
+                                total += allData[i];
+                            }
+                            var tooltipPercentage = Math.round((tooltipData / total) * 100);
+                            return tooltipLabel + ': ' + tooltipData + ' (' + tooltipPercentage + '%)';
+                        }
+                    }
+                }
+            }
+        });
+
+    });
+</script>
+
+<div class="row">
+    <div class="col-sm-12">
+        <table class="table table-bordered table-condensed">
+            <tr>
+                <th></th>
+                <th>Jméno</th>
+                <th>Počet přihlášených akcí</th>
+            </tr>
+            {foreach $attendation as $name => $data}
+                <tr>
+                    <td>{$iterator->counter}.</td>
+                    <th>{$data[name]}</th>
+                    <td>{$data[count]}</td>
+                </tr>
+            {/foreach}
+        </table>
+    </div>
+</div>
+{/block}

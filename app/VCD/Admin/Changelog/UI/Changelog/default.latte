@@ -1,0 +1,38 @@
+<table class="table table-condensed" style="empty-cells: hide">
+    <tr>
+        <th class="danger">{$types[danger]}</th>
+        <th class="success">{$types[success]}</th>
+        <th class="info">{$types[info]}</th>
+        <th class="warning">{$types[warning]}</th>
+    </tr>
+
+    {var $danger}
+    {var $success}
+    {var $info}
+    {var $warning}
+    {foreach $log as $day => $logs}
+        <tr>
+            <th colspan="4" class="text-center active">{$day}</th>
+        </tr>
+        {while TRUE}
+            {if isset($logs[major])}
+                <tr>
+                    <td colspan="4">
+                        {$logs[major]|noescape}
+                    </td>
+                </tr>
+            {/if}
+            <tr>
+                {php $danger = isset($logs[danger]) ? current($logs[danger]) : NULL}
+                {php $success = isset($logs[success]) ? current($logs[success]) : NULL}
+                {php $info = isset($logs[info]) ? current($logs[info]) : NULL}
+                {php $warning = isset($logs[warning]) ? current($logs[warning]) : NULL}
+                {breakIf !$warning && !$info && !$success && !$danger}
+                <td n:class="$danger ? danger"{if !$danger} style="border-top:none;"{/if}>{if $danger}{$danger|noescape}{php next($logs[danger])}{/if}</td>
+                <td n:class="$success ? success"{if !$success} style="border-top:none;"{/if}>{if $success}{$success|noescape}{php next($logs[success])}{/if}</td>
+                <td n:class="$info ? info"{if !$info} style="border-top:none;"{/if}>{if $info}{$info|noescape}{php next($logs[info])}{/if}</td>
+                <td n:class="$warning ? warning"{if !$warning} style="border-top:none;"{/if}>{if $warning}{$warning|noescape}{php next($logs[warning])}{/if}</td>
+            </tr>
+        {/while}
+    {/foreach}
+</table>

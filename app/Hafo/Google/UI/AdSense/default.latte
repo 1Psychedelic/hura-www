@@ -1,0 +1,18 @@
+{if in_array($state, [$control::STATE_ENABLED, $control::STATE_TEST_GOOGLE])}
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- {if empty($width) && empty($height)}Responzivní{else}{$width}x{$height}{/if} -->
+    <ins n:class="adsbygoogle, (expand)$classes"
+         style="{if empty($width) && empty($height)}display:block;{else}display:inline-block;width:{$width}px;height:{$height}px;{/if}"
+         data-ad-client="{$adClient}"
+         {if $state === $control::STATE_TEST_GOOGLE}data-ad-test="on"{/if}
+         data-ad-slot="{$adSlot}"
+         {if empty($width) && empty($height)}data-ad-format="auto"{/if}
+    ></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+{elseif $state === $control::STATE_TEST_LOCAL}
+    <div n:class="(expand)$classes" style="display:inline-block;width:{$width}px;height:{$height}px;border:1px solid #000;">
+        Test AdSense
+    </div>
+{/if}

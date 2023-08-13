@@ -1,0 +1,22 @@
+{layout '../@layout.latte'}
+{define body}
+
+    <h1 style="{$css[heading]|noescape}">Váš uživatelský účet</h1>
+
+    <p>Dobrý den,</p>
+    <p>na webu Hurá tábory.cz Vám byl právě založen uživatelský účet{if !$isNew}, ke kterému jsme rovnou i zpětně přiřadili všechny
+        Vaše přihlášky a děti{/if}.</p>
+
+    <p>Posíláme Vám jednorázový odkaz pro přihlášení do účtu. Po jeho otevření budete vyzváni k nastavení hesla nebo propojení s&nbsp;Facebook či Google účtem.</p>
+
+    {$components[gap]|noescape}
+
+    <p style="text-align:center">
+        <a style="{$css[btnPrimary]|noescape}" href="{$baseUri|noescape}/aktivovat-ucet?hash={$hash}">Přihlásit se do mého účtu</a>
+    </p>
+
+    {$components[gap]|noescape}
+
+    <p>Upozorňujeme, že bez přihlášení k účtu není možné pod tímto e-mailem nadále odesílat přihlášky.</p>
+    <p>V případě jakýchkoliv problémů nás neváhejte kontaktovat.</p>
+{/define}

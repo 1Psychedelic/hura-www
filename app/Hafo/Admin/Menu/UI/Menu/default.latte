@@ -1,0 +1,23 @@
+<ul class="nav navbar-nav navbar-right">
+    {foreach $menu->getItems() as $submenu}
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            {$submenu->getLabel()}
+            {if $submenu->needsAttention()}<i class="fa fa-exclamation text-danger"></i>{/if}
+        </a>
+        <div class="dropdown-menu text-center" style="min-width:{count($submenu)|noescape}40px;">
+            <div style="width:{count($submenu)|noescape}30px;" class="row-eq-height">
+                {foreach $submenu->getItems() as $item}
+                <div class="vcd-admin-block" style="background-color:{$item->getColor()|noescape}">
+                    <a href="{$item->getHref()}"{if $item->getTargetBlank()} target="_blank"{/if}>
+                        <span n:if="$item->getInformation()" class="label label-{$item->getInformationClass()|noescape} pull-right" style="margin-right:-10px;margin-top:-10px;font-size:120%">{$item->getInformation()}</span>
+                        {$item->getIcon()}<br>
+                        <h3 class="text-center">{$item->getLabel()}</h3>
+                    </a>
+                </div>
+                {/foreach}
+            </div>
+        </div>
+    </li>
+    {/foreach}
+</ul>

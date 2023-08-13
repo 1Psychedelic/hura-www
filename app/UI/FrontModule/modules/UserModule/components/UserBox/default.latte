@@ -1,0 +1,83 @@
+
+<ul class="nav navbar-nav navbar-right" id="vcd-login-box" n:tag-if="$wrapper">
+    <li n:class="dropdown">
+        <a n:href="#" class="dropdown-toggle vcd-color-user vcd-color-button" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            <img style="width:38px;height:38px;margin:-10px 5px -10px 0px" class="img-circle" n:if="$userEntity->avatarSmall" src="{$baseUri}/www{$userEntity->avatarSmall}"> {$name} <span class="caret"></span>
+        </a>
+        <div class="dropdown-menu text-center vcd-login-dropdown">
+            <p class="text-center"><strong>{$userEntity->name}</strong></p>
+
+            <p n:if="$userEntity->isVip" class="text-center" style="text-transform: none;font-weight:normal;padding-top:0px">Věrný člen</p>
+
+            <div class="text-center" n:if="$credit !== 0">
+                <small>Kredity: <strong>{$credit}&nbsp;Kč</strong></small>
+                {ifset $allCreditsExpireAt}
+                    <br><small class="text-muted">Všechny kredity vyprší {$allCreditsExpireAt|date:'j. n. Y'}</small>
+                {/ifset}
+                {ifset $someCreditsExpireAt}
+                    <br><small class="text-muted">Část kreditů vyprší {$someCreditsExpireAt|date:'j. n. Y'}</small>
+                {/ifset}
+            </div>
+
+            <p class="text-center">
+                <span class="btn-group btn-group-vertical">
+                    <a href="{plink $linkProfile}" class="btn btn-success">Můj účet</a>
+                    <a href="{plink $linkLetters}" class="btn btn-default btn-sm">
+                        Moje pošta
+                        {if $countUnreadLetters > 0}
+                            <span class="label label-danger">{$countUnreadLetters}</span>
+                        {/if}
+                    </a>
+                </span>
+            </p>
+
+            {if !$originalUser}
+                <p class="text-center">
+                <span class="btn-group btn-group-sm btn-group-vertical">
+                    {if $userEntity->password === NULL}
+                        <a href="{plink \VCD\UI\FrontModule\UserModule\AddPasswordPresenter::LINK_DEFAULT}" class="btn btn-sm btn-primary">Nastavit heslo</a>
+                    {else}
+                        <a href="{plink \VCD\UI\FrontModule\UserModule\ChangePasswordPresenter::LINK_DEFAULT}" class="btn btn-sm btn-default">Změnit heslo</a>
+                    {/if}
+                    {if !strlen($userEntity->facebookId)}
+                        <a class="btn btn-sm btn-primary" href="#" onclick="{\Hafo\Facebook\FacebookSDK::buttonOnclick($facebookAuthorize, $facebookDeauthorize)|noescape}">Připojit Facebook účet <span class="vcd-login-icon socicon socicon-facebook"></span></a>
+                    {/if}
+                    {if !strlen($userEntity->googleId)}
+                        <a class="btn btn-sm btn-primary" href="#" onclick="{\Hafo\Google\GoogleSDK::buttonOnclick($googleAuthorize)|noescape}">Připojit Google účet <span class="vcd-login-icon socicon socicon-googleplus"></span></a>
+                    {/if}
+                </span>
+                </p>
+            {/if}
+
+            <p class="text-center" n:if="$admin">
+                <span class="btn-group btn-group-sm btn-group-vertical">
+                    <a href="{plink \VCD\UI\AdminModule\AdminPresenter::LINK_DEFAULT}" class="btn btn-sm btn-primary">Administrace</a>
+                    <a href="{plink \VCD\UI\AdminModule\AdminPresenter::LINK_NOTIFICATIONS}" n:class="btn, btn-sm, $notifications > 0 ? btn-success : btn-default">
+                        {if $notifications > 0}
+                            {$notifications} upozornění
+                        {else}
+                            Žádná upozornění
+                        {/if}
+                    </a>
+                </span>
+            </p>
+
+            {if $originalUser}
+                <p class="text-center">
+                <span class="btn-group btn-group-sm btn-group-vertical">
+                    <a n:if="$originalUser" n:href="fakeLogout!" class="btn btn-sm btn-primary">Přihlásit zpět jako {$originalUser->name}</a>
+                </span>
+                </p>
+            {else}
+                <p class="text-center">
+                <span class="btn-group btn-group-sm btn-group-vertical">
+                    <a n:href="remoteLogout!" class="btn btn-sm btn-default">Vzdálené odhlášení*</a>
+                    <a href="{plink \VCD\UI\FrontModule\HomepageModule\HomepagePresenter::LINK_DEFAULT, do => logout}" class="btn btn-sm btn-danger">Odhlásit se</a>
+                </span>
+                </p>
+                <small class="text-muted">* Použijte toto tlačítko pokud jste se zapomněli odhlásit např. na cizím PC.</small>
+            {/if}
+
+        </div>
+    </li>
+</ul>

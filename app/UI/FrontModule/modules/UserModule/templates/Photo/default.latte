@@ -1,0 +1,33 @@
+{define body}
+    <div class="container-fluid vcd-main-background">
+        <div class="container">
+            <div class="row vcd-content">
+                <div class="col-xs-12">
+
+                    <p><a href="{plink \VCD\UI\FrontModule\UserModule\ProfilePresenter::LINK_DEFAULT}">Zpět do mého profilu</a></p>
+
+                    <h1>Nastavit fotku</h1>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            {control photo}
+
+                            <div class="row">
+                                <div class="col-sm-3"></div>
+                                <div class="col-sm-9">
+                                    <a class="btn btn-primary btn-fb" n:href="facebookPhoto!" n:if="$fb">Nahrát fotku z Facebooku</a>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{/define}
+
+{define head}{/define}

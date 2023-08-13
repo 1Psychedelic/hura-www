@@ -1,0 +1,47 @@
+<form n:name="form" class="dropzone">
+    <div class="fallback">
+        <input n:name="file"><br>
+        <input n:name="upload">
+    </div>
+</form>
+<script type="text/javascript">
+Dropzone.options[{$control::formatHtmlId($control['form']->getElementPrototype()->id)}] = {
+    paramName: "file[]",
+    maxFilesize: {floor(\Hafo\Utils\HttpHelper::uploadMaxSize()/1024/1024)},
+    previewTemplate: '<div class="dz-preview dz-file-preview">\
+      <div class="dz-details">\
+        <img data-dz-thumbnail />\
+      </div>\
+      <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>\
+        <div class="dz-size" data-dz-size></div>\
+    </div>',
+    init: function() {
+        var dz = this;
+        var uploading = false;
+        dz.on('success', function(file, responseText) {
+            var el = document.createElement('div');
+            el.innerHTML = responseText;
+            file.previewTemplate.appendChild(el);
+        }).on('sending', function() {
+            uploading = true;
+        }).on('queuecomplete', function() {
+            if(uploading) {
+                location.reload();
+            }
+        });
+        var mock = [];
+        {var $i = 0}
+        {foreach $files as $name => $fileinfo}
+            mock[{$i}] = { name: {$fileinfo->getBasename()} , size: {$fileinfo->getSize()} };
+            dz.emit('addedfile', mock[{$i}]);
+            {if in_array($fileinfo->getExtension(), ['jpg', 'jpeg', 'png', 'gif'])}
+                dz.emit('thumbnail', mock[{$i}], {=$baseUri . str_replace($baseDir, '', $name)});
+                dz.createThumbnailFromUrl(mock[{$i}], {=$baseUri . str_replace($baseDir, '', $name)});
+            {/if}
+            dz.emit('complete', mock[{$i}]);
+            dz.emit('success', mock[{$i}], {if $thumbnailFactory !== NULL}{=$thumbnailFactory($fileinfo->getBasename())}{else}{=$baseUri . str_replace($baseDir, '', $name)}{/if});
+            {?$i++}
+        {/foreach}
+    }
+};
+</script>

@@ -1,0 +1,26 @@
+<div class="row" n:if="$currentPage !== NULL">
+    <div class="col-sm-12">
+
+        {control carousel}
+
+    </div>
+</div>
+
+<div class="row vcd-content">
+    <div class="col-xs-12">
+
+        <ul class="nav nav-tabs vcd-event-tabs">
+            {var $i = 0}
+            <li n:foreach="$pages as $page" role="presentation" n:class="$currentPage !== NULL && $currentPage[id] === $page[id] ? active"><a href="{plink this, page => $page[id]}">{++$i} <span n:class="glyphicon, $page[visible] ? glyphicon-globe : glyphicon-lock"></span></a></li>
+            <li role="presentation" n:class="$currentPage === NULL && $type === 0 ? active"><a href="{plink this, page => NULL, type => 0}">+ Přidat stránku</a></li>
+            <li role="presentation" n:class="$currentPage === NULL && $type === 1 ? active"><a href="{plink this, page => NULL, type => 1}">+ Přidat událost</a></li>
+        </ul>
+        {control form}
+
+        {if $currentPage}
+            <hr>
+            {control image}
+        {/if}
+
+    </div>
+</div>

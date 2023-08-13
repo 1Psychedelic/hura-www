@@ -1,0 +1,18 @@
+{layout '../@layout.latte'}
+{define body}
+
+    <h1 style="{$css[heading]|noescape}">Potvrďte svou e-mailovou adresu.</h1>
+
+    <p>Dobrý den,</p>
+    <p>děkujeme, že máte zájem o naší akci!</p>
+    <p>Neregistrovaní uživatelé již nadále nemohou vyplňovat přihlášky. Jelikož pod tímto e-mailem registrujeme
+    minulé přihlášky, je potřeba před založením účtu ověřit vaši e-mailovou adresu.</p>
+    <p>Ověření provedete jednoduše kliknutím na následující odkaz:</p>
+
+    <p align="center">
+        <a style="{$css[btnPrimary]|noescape}" href="{$link->link($applicationLink, [verifyEmail => $email, verifyEmailHash => $hash, _event => $event->slug])}">
+            Ověřit moji e-mailovou adresu a pokračovat v přihlášce
+        </a>
+    </p>
+
+{/define}

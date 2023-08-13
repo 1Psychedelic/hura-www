@@ -1,0 +1,8 @@
+{layout '../@layout.latte'}
+{define body}
+
+    <h1 style="{$css[heading]|noescape}">{$subject}</h1>
+
+    <p><strong>{$name} ({$email}) píše:</strong></p>
+    <p>{$message|noescape}</p>
+{/define}

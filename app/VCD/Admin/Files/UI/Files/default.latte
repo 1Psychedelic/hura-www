@@ -1,0 +1,33 @@
+{if $dir !== NULL}
+    {var $tmpDir}
+    <ol class="breadcrumb">
+    {foreach $dirParts as $part}
+        {if $iterator->isFirst()}
+            <li><a href="{plink this, dir => NULL}">www</a></li>
+        {/if}
+        {php $tmpDir .= $part . '/'}
+        {if $iterator->isLast()}
+            <li class="active">{$part}</li>
+        {else}
+            <li><a href="{plink this, dir => $tmpDir}">{$part}</a></li>
+        {/if}
+    {/foreach}
+    </ol>
+    <br>
+{else}
+    <ol class="breadcrumb">
+        <li class="active">www</li>
+    </ol>
+{/if}
+
+{foreach $dirs as $innerDir}
+    <a href="{plink this, dir => $dir . '/' . $innerDir->getBaseName()}" class="btn btn-default"><span class="glyphicon glyphicon-folder-open"></span> {$innerDir->getBaseName()}</a>
+{/foreach}
+
+<hr>
+
+{control dropzone}
+
+<hr>
+
+{control form}

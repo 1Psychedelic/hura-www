@@ -1,0 +1,50 @@
+{define body}
+    <div class="container-fluid vcd-main-background">
+        <div class="container">
+            <div class="row vcd-content">
+                <div class="col-xs-12">
+
+                    <div class="row">
+                        <div class="col-sm-12">
+
+                            {$content|noescape}
+
+                            <p>&nbsp;</p>
+
+                            {if !$user->isLoggedIn()}
+                                <p>Pro vložení recenze se nejdříve <a href="{plink \VCD\UI\AuthModule\LoginPresenter::LINK_DEFAULT, go => $presenter->link('this')}">přihlašte</a>.</p>
+                            {/if}
+
+                            {if $showForm}
+                                {control form}
+                            {/if}
+
+                            {foreach $reviews as $review}
+                                <div>
+                                    <div class="panel panel-primary collapse-partial" data-height="200" data-button="Zobrazit celou recenzi">
+                                        <div class="panel-heading">
+                                    <span class="pull-left">
+                                        {foreach range(1, 5) as $i}
+                                            <span n:class="glyphicon, $i <= $review->score ? 'glyphicon-star vcd-star-rating' : glyphicon-star-empty"{if $i > $review->score} style="opacity:0.5"{/if}></span>
+                                        {/foreach}
+                                        &nbsp;&nbsp;&nbsp;{$review->addedAt|date:'j. n. Y'}
+                                    </span>
+                                            <h3 class="panel-title text-right">{if $review->user === null}{$review->name}{else}{$review->user->name}{/if}</h3>
+                                        </div>
+                                        <div class="panel-body lead">
+                                            <em>"{$review->review}"</em>
+                                        </div>
+                                    </div>
+                                </div>
+                            {/foreach}
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{/define}
+
+{define head}{/define}

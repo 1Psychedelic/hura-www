@@ -1,0 +1,28 @@
+<table class="table table-condensed table-bordered">
+    <tr>
+        <th class="text-center"></th>
+        <th>Začátek</th>
+        <th>Konec</th>
+        <th>Úspěch</th>
+        <th>Selhání</th>
+    </tr>
+    {foreach $list as $log}
+        <tr>
+            <td class="text-center">
+                {$log[id]}
+            </td>
+            <td>
+                {$log[started_at]|date:'j. n. Y H:i'}
+            </td>
+            <td>
+                {$log[finished_at]|date:'j. n. Y H:i'}
+            </td>
+            <td n:class="$log[tasks_succeeded] > 0 ? bg-success">
+                {$log[tasks_succeeded]}
+            </td>
+            <td n:class="$log[tasks_failed] > 0 ? bg-danger">
+                {$log[tasks_failed]}
+            </td>
+        </tr>
+    {/foreach}
+</table>

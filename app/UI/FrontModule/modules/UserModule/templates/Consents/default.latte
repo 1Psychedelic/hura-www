@@ -1,0 +1,44 @@
+{define body}
+    <div class="container-fluid vcd-main-background">
+        <div class="container">
+            <div class="row vcd-content">
+                <div class="col-xs-12">
+
+                    <p><a href="{plink \VCD\UI\FrontModule\UserModule\ProfilePresenter::LINK_DEFAULT}">Zpět do mého profilu</a></p>
+
+                    {$content|noescape}
+
+                    <div class="row">
+                        <div class="col-sm-12">
+
+                            <form n:name="form" class="form-horizontal">
+
+                                <div class="list-group">
+                                    <div class="list-group-item">
+                                        <span n:if="$smsConsent !== NULL" class="text-muted pull-right">Souhlas udělen {$smsConsent->consentedAt|date:'d. m. Y - H:i'}</span>
+                                        <label><input n:name="smsConsent" class="checkbox-inline"> Souhlasím se zasíláním novinek formou SMS</label>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="list-group-item">
+                                        <span n:if="$emailConsent !== NULL" class="text-muted pull-right">Souhlas udělen {$emailConsent->consentedAt|date:'d. m. Y - H:i'}</span>
+                                        <label><input n:name="emailConsent" class="checkbox-inline"> Souhlasím se zasíláním novinek na e-mail</label>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+
+                                <div class="text-center">
+                                    <input n:name="save" class="btn btn-primary btn-lg">
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{/define}
+
+{define head}{/define}

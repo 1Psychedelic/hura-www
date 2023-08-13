@@ -1,0 +1,698 @@
+@import "_variables"
+
+*
+  -webkit-box-sizing: border-box /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box    /* Firefox, other Gecko */
+  box-sizing: border-box         /* Opera/IE 8+ */
+
+html
+  scroll-behavior: smooth
+
+html,body
+  height: 100%
+
+body
+  font-family: BalloTamma2, sans-serif
+  //overflow-x: hidden
+  //overflow-y: scroll
+  font-size: 1rem
+  scroll-behavior: smooth
+
+$page-section-content-vertical-padding: 5rem
+$page-section-content-horizontal-padding: 1rem
+$page-max-width: 75rem
+
+.fade-wrapper
+  position: relative
+  width: 100%
+  height: 100%
+  &>div
+    position: absolute
+    width: 100%
+    height: 100%
+
+.page-wrapper
+  min-width: 100%
+  min-height: 100%
+  position: relative
+  top: 0
+  bottom: 100%
+  right: 0
+
+.page-topbar
+  //height: 50px
+  //padding: 5px
+  //padding-left: 10px
+  position: relative
+  //overflow-y: hidden
+  top: 0
+  left: 0
+  width: 100%
+  z-index: 2
+  @include media-phone
+    position: fixed
+
+.mobile-menu-trigger
+  position: fixed
+  clip: rect(0, 0, 0, 0)
+  display: none
+
+label[for="mobile-menu-trigger"]
+  position: fixed
+  padding-top: 0.55em
+  padding-right: 0.4em
+  top: 0
+  right: 0
+  z-index: 3
+  width: 55px
+  height: 40px
+  color: #ffffff
+  cursor: pointer
+  text-align: end
+  font-weight: bold
+  font-size: 2em
+  display: none
+  @include media-phone
+    display: block
+
+label[for="mobile-menu-trigger"]:before
+  content: "\2261"
+  //content: "\e236"
+
+//.mobile-menu-trigger:checked + label
+  //transform: rotate(135deg)
+  //top: 0
+  //right: 0.45em
+
+.mobile-menu-trigger:checked + label:before
+  content: "\00d7"
+
+
+.mobile-menu-trigger:checked ~ .page-wrapper>.page
+  transform: translate(-310px,0)
+  box-shadow: 0 0 10px 10px rgba(127,127,127,0.2)
+  opacity: 0.5
+
+.mobile-menu-trigger + label, .page-wrapper>.page, .mobile-menu
+  transition: transform 0.2s, opacity 0.2s //, top 0.2s, right 0.2s
+
+.mobile-menu-trigger:checked ~ .mobile-menu
+  opacity: 1
+  z-index: 1
+
+.mobile-menu
+  list-style: none
+  width: 100%
+  max-width: 310px
+  height: 100%
+  position: fixed
+  top: 0
+  right: 0
+  bottom: 0
+  z-index: 0
+  opacity: 0
+  padding: 1.5em
+  padding-top: 5em
+  overflow: auto
+  overflow-y: scroll
+  font-family: Rubik, sans-serif
+  display: none
+
+  @include media-phone
+    display: block
+
+  ul
+    list-style-type: none
+    padding: 0
+
+    li
+      margin-top: 1.3em
+
+  a
+    text-decoration: none
+    color: #393d72
+    font-weight: bold
+    font-size: 1.2em
+    &:hover
+      text-decoration: underline
+
+img
+  max-width: 100%
+
+.page
+  min-width: 100%
+  min-height: 100%
+  height: 100%
+  z-index: 1
+
+.page__section
+  width: 100%
+  //overflow-x: hidden
+  padding-left: #{$page-section-content-horizontal-padding}
+  padding-right: #{$page-section-content-horizontal-padding}
+  //display: flex
+  //flex-direction: row
+  //justify-content: center
+
+  &__content
+    //width: 100%
+    max-width: #{$page-max-width}
+    padding-top: #{$page-section-content-vertical-padding}
+    padding-bottom: #{$page-section-content-vertical-padding}
+    margin-left: auto
+    margin-right: auto
+
+    /*&>*
+      flex: 1 0 0
+      min-width: 0*/
+
+  span.page__section__subheading
+    font-size: 1.4em
+    color: #ff4880
+    display: block
+    text-align: center
+    font-family: "PatrickHand", "Comic Sans MS", cursive
+
+  h1.page__section__heading,h2.page__section__heading
+    font-size: 3.9em
+    color: #393d72
+    margin-top: 0.4em
+    margin-bottom: 0.5em
+    text-align: center
+
+  &.page__section--error404
+    background-color: #f5f5f5
+    padding-top: 1.7em
+    //background-image: url("/images/background/404.png")
+
+    .page__section__content
+      padding-top: 0
+      margin-bottom: -10em
+
+    span.page__section__subheading
+      color: #ff4880
+      text-align: left
+      font-size: 2em
+
+    h1.page__section__heading,h2.page__section__heading
+      color: #393d72
+      text-align: left
+      font-size: 4em
+      margin-top: 0.2em
+      margin-bottom: -0.1em
+
+  &.page__section--generic-heading
+    background-color: #393d72
+    //background-image: url("../images/background/dark-blue-texture.jpg")
+    //background-repeat: repeat
+    //background-attachment: fixed
+
+    .page__section__content
+      padding-top: 3.1em
+      padding-bottom: 2.8em
+
+    span.page__section__subheading
+      color: #ffae00
+
+    h1.page__section__heading,h2.page__section__heading
+      color: #ffffff
+      font-size: 4em
+      margin-top: 0.2em
+      margin-bottom: 0.2em
+
+  &.page__section--top-menu
+    background-color: #169ab6
+    padding-top: 0.8em
+    padding-bottom: 0.8em
+
+    .page__section__content
+      padding-top: 0
+      padding-bottom: 0
+      font-family: Rubik, sans-serif
+      display: flex
+      flex-direction: row
+      flex: 1 0 0
+      justify-content: space-between
+      align-items: center
+
+      @include media-tablet
+        flex-direction: column
+        justify-content: center
+
+      &>.top-menu>nav>ul>li>a,.contact-info a
+        margin-top: 0
+        margin-bottom: 0
+        margin-left: 1.5em
+        margin-right: 0
+        text-decoration: none
+        color: #ffffff
+        //font-weight: bold
+
+        &:hover
+          text-decoration: underline
+
+      .contact-info
+        font-size: 0.9em
+        display: flex
+        flex: 1 0 0
+        flex-direction: row
+        flex-wrap: wrap
+        padding-right: 2.5em
+
+        @include media-tablet
+          justify-content: center
+          align-items: center
+
+        .contact-info-phone
+          white-space: nowrap
+          a
+            margin-right: 2em
+          &>.loading
+            min-width: 8em
+        .contact-info-email
+          white-space: nowrap
+          &>.loading
+            min-width: 8em
+
+        a
+          margin-left: 0.5em
+          @include media-tablet
+            margin-left: 0.3em
+            margin-right: 0.3em
+
+      .top-menu
+        //flex: 1 0 0
+        font-size: 0.9em
+        display: flex
+        //align-items: end
+        //justify-content: baseline
+        flex-direction: row
+        align-items: baseline
+        flex-wrap: nowrap
+        white-space: nowrap
+
+        @include media-tablet
+          justify-content: center
+          align-items: center
+
+        //@include media-phone
+        //  display: none
+
+        ul
+          list-style-type: none
+          display: flex
+          flex-direction: row
+          flex-wrap: nowrap
+          align-items: end
+          margin-top: 0
+          margin-bottom: 0
+          padding-left: 0
+
+          @include media-tablet
+            flex-wrap: wrap
+            justify-content: center
+            align-items: center
+            margin-top: 1.5em
+            margin-bottom: 0.3em
+
+          li
+            margin-top: 0.7em
+            margin-bottom: 0.7em
+
+            @include media-phone
+              display: none
+          li.top-menu-login
+            @include media-phone
+              display: inline
+              margin-left: 0
+              margin-right: 2em
+
+
+        .button-login
+          background-color: #ffae00
+          padding-left: 1.6em
+          padding-right: 1.6em
+          padding-top: 0.5em
+          padding-bottom: 0.5em
+          border-radius: 0.6em
+          font-weight: bold
+
+        //@media (max-width: $menu-breakpoint)
+        //  display: none
+
+  &.page__section--main-menu
+    background-color: #ffffff
+    padding-top: 1em
+    padding-bottom: 1em
+
+    .page__section__content
+      padding-top: 0
+      padding-bottom: 0
+      font-family: Rubik, sans-serif
+      display: flex
+      flex-direction: row
+      flex: 1 0 0
+      justify-content: space-between
+      align-items: center
+
+      @include media-phone-tablet
+        flex-direction: column
+        justify-content: center
+
+      @include media-phone
+        padding-top: 4em
+
+      .main-menu
+        @include media-phone
+          display: none
+
+        ul
+          list-style-type: none
+          display: flex
+          flex-direction: row
+          flex-wrap: wrap
+          justify-content: end
+          flex: 1 0 0
+          margin-top: 0
+          margin-bottom: 0
+          padding-left: 0
+          @include media-tablet
+            margin-top: 1.5em
+            margin-bottom: 1.5em
+            justify-content: center
+
+          li
+            margin-top: 0.7em
+            margin-bottom: 0.7em
+
+          a
+            margin-top: 0
+            margin-bottom: 0
+            margin-left: 1.3em
+            margin-right: 0
+            text-decoration: none
+            color: #393d72
+            font-weight: bold
+            font-size: 1.2em
+            &:hover
+              text-decoration: underline
+
+            @media (max-width: $menu-tablet-breakpoint)
+              margin-left: 0.7em
+              margin-right: 0.7em
+      .logo img
+        min-width: 15em
+
+  &.page__section--footer
+    background-color: #393d72
+    background-image: url("/images/background/footer.jpg")
+
+
+.footer
+  max-width: #{$page-max-width}
+  display: flex
+  flex-direction: column
+  justify-content: center
+  flex-wrap: wrap
+  flex: 1 0 0
+
+.footer-arrow
+  background: url("/images/footer-arrow.png") no-repeat center top
+  height: 50px
+  margin-top: -#{$page-section-content-vertical-padding}
+
+.footer-logo
+  background: url("/images/footer-logo.svg") no-repeat center top
+  height: 133px
+  margin-top: 2em
+  margin-bottom: 2em
+
+.footer-content
+  color: #ffffff
+  display: flex
+  flex-direction: row
+  flex-wrap: wrap
+
+  .footer-content-column
+    flex: 1 0 0
+
+    .footer-content-column-heading
+      font-size: 1.8em
+      font-weight: bold
+
+    .footer-content-column-subscribe
+      margin-top: 1.8em
+
+      input[type=submit]
+        background-color: #ffae00
+        border-color: #ffae00
+
+    ul
+      list-style-type: none
+      margin: 0
+      margin-top: 1.8em
+      padding: 0
+
+      li>a
+        display: flex
+        flex-direction: row
+        align-items: center
+        color: #ffffff
+        text-decoration: none
+        margin-top: 2em
+        font-size: 1.1em
+        max-width: min-content
+        white-space: nowrap
+        &>img
+          margin-top: -0.2em
+          margin-right: 0.3em
+        &>span
+          flex-shrink: 1
+        &:hover>span
+          text-decoration: underline
+    .footer-content-column-links-condensed>ul>li>a
+      margin-top: 1em
+
+.footer-copyright
+  text-align: center
+  border-top: 1px solid #424678
+  margin-top: 3em
+  padding-top: 3em
+  color: #ffffff
+
+.top-menu-login
+  display: block
+  position: relative
+  margin-left: 2em
+
+  &>div
+    display: inline
+
+  #top-menu-login-notifications
+    margin: 0
+    margin-right: 0.2em
+    padding-left: 0.5em
+    padding-right: 0.5em
+    padding-top: 0.4em
+    padding-bottom: 0.4em
+    border-radius: 0.6em
+    background-color: #cf3f3f
+    font-weight: bold
+    border: 0.1em solid #cf3f3f
+    color: #ffffff
+    text-decoration: none
+    &:hover
+      text-decoration: underline
+
+  .top-menu-login-button
+    background-color: #ffae00
+    padding-left: 1.5em
+    padding-right: 1.5em
+    padding-top: 0.4em
+    padding-bottom: 0.4em
+    border-radius: 0.6em
+    border: 0.1em solid #ffae00
+    font-weight: bold
+    color: #ffffff
+    cursor: pointer
+    transition: all .2s
+  input[type=checkbox]#top-menu-login-button
+    position: absolute
+    opacity: 0
+    cursor: pointer
+    height: 0
+    width: 0
+    &:checked~.top-menu-login-button
+      color: #393d72
+      background-color: #ffffff
+      border-bottom-left-radius: 0
+      border-bottom-right-radius: 0
+      box-shadow: 0px 0px 16px rgba(0, 0, 0, .18)
+    &:checked~.top-menu-login-dropdown
+      visibility: visible
+      opacity: 1
+    &:checked~.top-menu-login-overlay
+      visibility: visible
+      opacity: 0.18
+
+  .top-menu-login-overlay
+    z-index: 998
+    visibility: hidden
+    position: fixed
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    opacity: 0
+    background-color: #000000
+    transition: opacity .2s, visibility .2s
+
+  .top-menu-login-dropdown
+    position: absolute
+    top: 1.45em
+    right: 0em
+    padding: 2.5em
+    z-index: 999
+    opacity: 0
+    transition: opacity .2s, visibility .2s
+    visibility: hidden
+    background-color: #ffffff
+    border: 0.1em solid #ffffff //#169ab6
+    box-shadow: 0px 0px 16px rgba(0, 0, 0, .18)
+    text-align: center
+    border-radius: 0.6em
+    border-top-right-radius: 0
+
+    .top-menu-login-avatar
+      margin-bottom: 2em
+      &>img
+        border-radius: 50%
+        width: 5em
+        height: 5em
+
+    .top-menu-login-username
+      font-size: 1.3em
+      color: #393d72
+
+
+    .top-menu-login-or
+      margin-top: 1em
+      margin-bottom: 1em
+
+    a.login-button,input.login-button
+      margin: 0
+      margin-bottom: 1em
+
+    .top-menu-login-button
+      padding-left: 1.5em
+      padding-right: 1.5em
+      padding-top: 0.4em
+      padding-bottom: 0.45em
+      color: #393d72
+      background-color: #ffffff
+      border-radius: 0.6em
+      border-bottom-left-radius: 0
+      border-bottom-right-radius: 0
+      border: 0.1em solid #ffffff // #169ab6
+      border-bottom: none
+      font-weight: bold
+      cursor: pointer
+      position: absolute
+      top: -2.1em
+      right: -0.1em
+
+    .top-menu-login-forgotten-password
+      margin-left: 0
+      margin-top: 0.5em
+      margin-bottom: 1em
+      &>a
+        color: #ffae00
+        text-decoration: none
+        &:hover
+          text-decoration: underline
+    .login-button-register,.login-button-password
+      padding-top: 0.43em
+      padding-bottom: 0.33em
+      font-weight: bold
+      border: 0.15em solid #ffae00
+
+.login-button
+  border-radius: 0.8em
+  color: #ffffff
+  text-decoration: none
+  display: flex
+  flex-direction: row
+  justify-content: center
+  align-items: center
+  padding-top: 0.4em
+  padding-bottom: 0.4em
+  padding-left: 2em
+  padding-right: 2em
+  margin-top: 0.5em
+  font-size: 1.1em
+  background-color: #ffae00
+  border: none
+  cursor: pointer
+  &:hover
+    text-decoration: underline
+  span
+    padding-top: 0.3em
+
+  &.login-button-facebook
+    background-color: #507bd2
+
+  &.login-button-google
+    background-color: #cf3f3f
+
+  &.login-button-primary
+    background-color: #ff4880
+
+  &.login-button-password
+    font-weight: bold
+    width: 100%
+    padding-top: 0.7em
+
+  &.login-button-logout
+    background-color: #cf3f3f
+
+  &.login-button-register
+    border: 0.15em solid #ffae00
+    padding-top: 0.25em
+    padding-bottom: 0.25em
+    padding-left: 1.85em
+    padding-right: 1.85em
+    background-color: #ffffff
+    color: #ffae00
+
+  &:disabled,&.disabled
+    background-color: #9d9c9d
+    cursor: auto
+    text-decoration: none
+
+  img
+    margin-left: 0.5em
+    margin-right: 0.5em
+
+.error404-image
+  background-color: #f5f5f5
+  margin-bottom: -4em
+
+.text-center
+  text-align: center
+
+.text-success
+  color: #7cbe47
+
+.contact-page-sidebar
+
+  &>div
+    font-size: 1.2em
+
+    h4
+      margin-bottom: 0.2em
+      margin-top: 1.2em
+
+    a
+      text-decoration: none
+      &:hover
+        text-decoration: underline

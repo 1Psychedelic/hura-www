@@ -1,0 +1,22 @@
+{define body}
+    <div class="container-fluid vcd-main-background">
+        <div class="container">
+            <div class="row vcd-content">
+                <div class="col-xs-12">
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            {include '../@blogCategories.latte', categories => $categories, currentCategory => $currentCategory, posts => $countPosts, post => $post}
+                        </div>
+                        <div class="col-md-8">
+                            {include '../@blogPost.latte', post => $post, content => $content, isDetail => true, pages => $pages, page => $page, browse => $currentCategory ? $currentCategory[slug] : NULL}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{/define}
+
+{define head}<link rel="canonical" href="{plink $linkCanonical, id => $post[slug], page => $page, browse => NULL}">{/define}

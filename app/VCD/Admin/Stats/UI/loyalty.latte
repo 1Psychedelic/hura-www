@@ -1,0 +1,92 @@
+{layout './@layout.latte'}
+
+{block body}
+    <div style="overflow: auto;width:100%;height:600px">
+        <canvas id="loyaltyChart" height="150"></canvas>
+    </div>
+
+    <div style="overflow: auto;width:100%;height:600px">
+        <canvas id="loyaltyPieChart" height="150"></canvas>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var ctx = document.getElementById("loyaltyChart");
+            var loyaltyChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: {=array_keys($loyalty)},
+                    datasets: [
+                        {
+                            label: "Vracející se",
+                            backgroundColor: "rgba(0,91,255,0.4)",
+                            data: {=array_values($loyaltyReturning)}
+                        },
+                        {
+                            label: "Noví",
+                            backgroundColor: "rgba(255,0,91,0.4)",
+                            data: {=array_values($loyaltyNew)}
+                        },
+                        {
+                            label: "Nevyužitá kapacita",
+                            backgroundColor: "rgba(127,127,127,0.1)",
+                            data: {=array_values($loyaltyUnused)}
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        xAxes: [{
+                            stacked: true
+                        }],
+                        yAxes: [{
+                            stacked: true,
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+
+            var loyaltyPieChart = new Chart(document.getElementById("loyaltyPieChart"), {
+                type: 'pie',
+                data: {
+                    labels: ["Vracející se", "Noví"/*, "Nevyužitá kapacita"*/],
+                    datasets: [
+                        {
+                            data: [
+                                {=array_sum($loyaltyReturning)},
+                                {=array_sum($loyaltyNew)}/*,*/
+                                {** =array_sum($loyaltyUnused) **}
+                            ],
+                            backgroundColor: [
+                                "rgba(0,91,255,0.4)",
+                                "rgba(255,0,91,0.4)"/*,
+                                "rgba(127,127,127,0.1)"*/
+                            ]
+                        }
+                    ]
+                },
+                options: {
+                    tooltips: {
+                        callbacks: {
+                            label: function(tooltipItem, data) {
+                                var allData = data.datasets[tooltipItem.datasetIndex].data;
+                                var tooltipLabel = data.labels[tooltipItem.index];
+                                var tooltipData = allData[tooltipItem.index];
+                                var total = 0;
+                                for (var i in allData) {
+                                    total += allData[i];
+                                }
+                                var tooltipPercentage = Math.round((tooltipData / total) * 100);
+                                return tooltipLabel + ': ' + tooltipData + ' (' + tooltipPercentage + '%)';
+                            }
+                        }
+                    }
+                }
+            });
+
+        });
+    </script>
+{/block}

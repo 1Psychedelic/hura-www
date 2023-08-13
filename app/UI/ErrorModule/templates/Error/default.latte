@@ -1,0 +1,30 @@
+{define body}
+
+    <div class="container">
+        <div class="row row-eq-height">
+            <div class="col-sm-7 col-sm-push-5">
+                <div class="vcd-box">
+                    {if $code === 403}
+                        <h3>403 - přístup odepřen</h3>
+                        <p>Pokoušíte se otevřít stránku, ke které nemáte potřebná oprávnění.</p>
+                        <p n:if="!$user->isLoggedIn()">Zkuste tuto stránku znovu otevřít po přihlášení.</p>
+                    {elseif $code === 404}
+                        <h3>404 - stránka nenalezena</h3>
+                        <p>Pokoušíte se otevřít stránku, která neexistuje.</p>
+                        <p>Možná byla přesunuta nebo odstraněna.</p>
+                    {elseif $code === 500}
+                        <h3>500 - chyba na serveru</h3>
+                        <p>Stala se chybička na serveru. Vy za nic nemůžete, to náš programátor.</p>
+                        <p>Zkuste to prosím znovu později, možná bude chyba opravena.</p>
+                    {/if}
+                </div>
+            </div>
+            <div class="col-sm-5 col-sm-pull-7" style="align-self:flex-end">
+                <img class="img-responsive" src="{$baseUri}/www/assets/img/404.png">
+            </div>
+        </div>
+    </div>
+
+{/define}
+
+{define head}{/define}

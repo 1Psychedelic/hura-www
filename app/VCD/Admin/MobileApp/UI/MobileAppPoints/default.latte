@@ -1,0 +1,31 @@
+<div class="row">
+    <div class="col-sm-12 text-center">
+        <p>
+            {if $lastDeploy !== NULL}Aktualizováno <strong>{if is_string($lastDeploy)}{$lastDeploy}{else}{$lastDeploy|date:'j. n. Y H:i'}{/if}</strong>{/if}
+        </p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12 text-center">
+        <a href="{$baseUri}/www/{$zipPath}" class="btn btn-lg btn-success text-center">
+
+            <span class="glyphicon glyphicon-download" style="font-size:200%"></span>
+            <br>
+            Stáhnout mobilní appku
+
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12 text-center">
+        <p>Heslo pro rozbalení archivu:<br><span class="lead">{$zipPassword}</span></p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12 text-center">
+        <p class="text-muted">Před instalací nezapomeň odinstalovat předchozí verzi, jinak appka nemusí fungovat správně.</p>
+    </div>
+</div>

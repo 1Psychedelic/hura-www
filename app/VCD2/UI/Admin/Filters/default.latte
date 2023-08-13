@@ -1,0 +1,48 @@
+<div>
+    <div class="btn-group btn-group-sm">
+        <a n:class="btn, btn-sm, $savedFilter === null && empty($httpData) ? btn-primary : btn-default" href="{plink this, filters => [], savedFilter => null}">
+            <span class="glyphicon glyphicon-star"></span>
+        </a>
+        {foreach $savedFilters as $filterId => $name}
+            {if $filterId === $savedFilter}
+                <div class="btn-group btn-group-sm">
+                    <a class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {$name} <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a n:href="deleteFilter!, id => $filterId" onclick="return confirm('Smazat filtr?');">Smazat filtr</a></li>
+                    </ul>
+                </div>
+            {else}
+                <a class="btn btn-sm btn-default" href="{plink this, filters => [], savedFilter => $filterId}">{$name}</a>
+            {/if}
+        {/foreach}
+        <a n:if="$savedFilter === null && !empty($httpData)" class="btn btn-sm btn-success" type="button" data-toggle="collapse" data-target="#saveFilters" aria-expanded="false" aria-controls="saveFilters">
+            Uložit filtr <span class="caret"></span>
+        </a>
+    </div>
+
+    <div class="btn-group btn-group-sm">
+        <div class="btn-group btn-group-sm" data-toggle="buttons">
+            <label n:class="btn, btn-sm, btn-vcd-payment, $pinnedFilters ? active" data-toggle="collapse" data-target="#filters" aria-controls="filters">
+                <input type="checkbox"{if $pinnedFilters} checked="checked"{/if}>
+                Filtrovat <span class="caret"></span>
+            </label>
+        </div>
+        <div class="btn-group btn-group-sm">
+            <a n:class="btn, btn-sm, $pinnedFilters ? btn-primary : btn-default" href="{plink this, pinnedFilters => !$pinnedFilters}">
+                <span class="glyphicon glyphicon-pushpin"></span>
+            </a>
+        </div>
+    </div>
+
+    <div n:if="$savedFilter === null && !empty($httpData)" class="collapse" id="saveFilters">
+        {control saveFilterForm}
+    </div>
+</div>
+
+<div n:class="collapse, $pinnedFilters ? in" id="filters">
+    <div>
+        {control form}
+    </div>
+</div>

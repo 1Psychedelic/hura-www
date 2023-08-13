@@ -1,0 +1,14 @@
+{layout '../@layout.latte'}
+{define body}
+
+    <h1 style="{$css[heading]|noescape}">Zapomenuté heslo</h1>
+
+    <p>Dobrý den,</p>
+    <p>byl zaznamenán požadavek na obnovu zapomenutého hesla k Vašemu účtu na webu Hurá tábory.cz. Pokud jste příkaz na změnu nezadal/a Vy, potom prosím tuto zprávu ignorujte.</p>
+    <p>Nové heslo si můžete nastavit po kliknutí na tento odkaz:</p>
+
+    <p align="center">
+        <a style="{$css[btnPrimary]|noescape}" href="{$baseUri|noescape}/nastavit-nove-heslo?hash={$hash}">Nastavit nové heslo</a>
+    </p>
+
+{/define}

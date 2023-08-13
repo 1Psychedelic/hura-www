@@ -1,0 +1,19 @@
+{
+  "methodCalls": [
+    {
+      "class": "\\Hafo\\DI\\Container",
+      "method": "create",
+      "position": 0
+    },
+    {
+      "class": "\\Hafo\\DI\\Container",
+      "method": "get",
+      "position": 0
+    },
+    {
+      "class": "\\VCD2\\Orm",
+      "method": "getRepository",
+      "position": 0
+    }
+  ]
+}

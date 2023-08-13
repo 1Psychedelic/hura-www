@@ -1,0 +1,41 @@
+$ph-direction:            ltr !default
+$ph-bg:                   rgba(255, 255, 255, 0) !default
+$ph-color:                #ced4da !default
+$ph-border:               1px solid darken($ph-bg, 10%) !default
+$ph-border-radius:        2px !default
+
+$ph-cols:                 12 !default
+$ph-cols-remove-odd:      true !default
+$ph-gutter:               0px !default
+$ph-spacer:               0px !default
+
+$ph-avatar-border-radius: 50% !default
+
+$ph-animation-duration:   0.8s !default
+
+$menu-tablet-breakpoint: 980px
+$menu-mobile-breakpoint: 700px
+
+@mixin media-phone
+  @media (max-width: $menu-mobile-breakpoint)
+    @content
+
+@mixin media-phone-tablet
+  @media (max-width: $menu-tablet-breakpoint)
+    @content
+
+@mixin media-tablet
+  @media (min-width: #{$menu-mobile-breakpoint + 1}) and (max-width: $menu-tablet-breakpoint)
+    @content
+
+@mixin media-tablet-desktop
+  @media (min-width: #{$menu-mobile-breakpoint + 1})
+    @content
+
+@mixin media-desktop
+  @media (min-width: #{$menu-tablet-breakpoint + 1})
+    @content
+
+@mixin media-desktop-wide
+  @media (min-width: 1600px)
+    @content

@@ -1,0 +1,16 @@
+name: CI
+on:
+  push:
+    branches:
+      - '**'
+      - '!master'
+  workflow_dispatch:
+jobs:
+  tests:
+    name: Tests
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v2
+    - run: composer install --ignore-platform-reqs
+    - run: php vendor/bin/phpstan --memory-limit=-1 analyse -c phpstan.neon
+    - run: php vendor/bin/phpunit -c phpunit.xml tests

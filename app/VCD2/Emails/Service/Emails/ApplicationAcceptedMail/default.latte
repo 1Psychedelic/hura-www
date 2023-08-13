@@ -1,0 +1,14 @@
+{layout '../@layout.latte'}
+{define body}
+
+    <h1 style="{$css[heading]|noescape}">Hurá, přihláška byla schválena!</h1>
+    <h2 style="{$css[subheading]|noescape}">{$event}</h2>
+
+    {if $application->event->acceptedEmail === NULL}
+        <p>Dobrý den,</p>
+        <p>Vaše přihláška na {\VCD2\Events\Event::TYPES_NAMES[$application->event->type]|lower} byla schválena.</p>
+    {else}
+        {$application->event->acceptedEmail->message|noescape}
+    {/if}
+    {include '../myApplication.latte', application => $application, css => $css, components => $components, colors => $colors, bankAccount => $bankAccount}
+{/define}

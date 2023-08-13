@@ -1,0 +1,28 @@
+<table class="table table-condensed table-bordered">
+    <tr>
+        <th class="text-center"><a href="{plink blogCategory, id => NULL}" n:if="!$presenter->print" class="btn btn-primary btn-sm">Přidat</a></th>
+        <th>Název</th>
+        <th></th>
+    </tr>
+    <tr n:foreach="$categories as $category">
+        <td class="text-center">
+            <a href="{plink blogCategory, id => $category[id]}" n:tag-if="!$presenter->print" class="btn btn-primary btn-sm"><strong>{$category[id]}</strong></a>
+        </td>
+        <td>
+            <strong>{$category[title]}</strong>
+            <span n:class="pull-right, glyphicon, $category[visible] ? glyphicon-globe : glyphicon-lock"></span>
+            <div class="clearfix"></div>
+            <small>
+                <a href="{plink $categoryLink, id => $category[slug]}" target="_blank">
+                    {plink $categoryLink, id => $category[slug]}
+                </a>
+            </small>
+        </td>
+        <td>
+            <span class="btn-group btn-group-sm">
+                <a class="btn btn-sm btn-default" n:href="categoryUp!, id => $category[id]">Posunout výš</a>
+                <a class="btn btn-sm btn-default" n:href="categoryDown!, id => $category[id]">Posunout níž</a>
+            </span>
+        </td>
+    </tr>
+</table>

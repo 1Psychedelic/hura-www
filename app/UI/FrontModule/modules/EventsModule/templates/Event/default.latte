@@ -1,0 +1,59 @@
+{define body}
+    <div class="container-fluid vcd-main-background">
+        <div class="container">
+            <div class="row vcd-content">
+                <div class="col-xs-12">
+
+                    <div class="row">
+                        <div class="col-sm-12">
+
+                            <a name="detail"></a>
+
+                            <img alt="{$event->name}" n:if="$event->bannerLarge" class="vcd-event-img img-responsive hidden-xs" src="{$baseUri}/www/{$event->bannerLarge}">
+
+                            <img alt="{$event->name}" n:if="$event->bannerSmall" class="vcd-event-img img-responsive hidden-sm hidden-md hidden-lg" src="{$baseUri}/www/{$event->bannerSmall}">
+
+                            {if !$event->bannerLarge}
+                                <h1>{$event->name}</h1>
+                            {/if}
+
+                            {control box}
+
+                            {snippet tabs}
+
+                                <a name="tabs"></a>
+                                <ul n:if="$event->tabs->countStored() > 1" class="nav nav-tabs vcd-event-tabs" n:inner-foreach="$event->tabs as $tab">
+                                    <li role="presentation" n:class="$tab === $currentTab ? active"><a class="ajax" href="{plink this, tab => $tab->slug, ref => tab}">{$tab->name}</a></li>
+                                </ul>
+
+                                {if $currentTab}
+                                    {$currentTab->content|noescape}
+                                {/if}
+                            {/snippet}
+
+                            <div class="text-center">
+                                <br>
+                                {$presenter->createAd("7186039982", NULL, NULL, ['hidden-xs', 'hidden-sm'])->render()|noescape}
+                            </div>
+
+                            {control box}
+
+                            {if $photos || $ebook}
+                                <p class="text-center">
+                                    <span class="btn-group btn-group-lg" style="margin-top:20px">
+                                        <a n:if="$photos" n:href="$photosLink, id => $event->slug" class="btn btn-lg btn-success">Zobrazit fotogalerii</a>
+                                        <a n:if="$ebook" href="{plink $ebooksLink}#ebook-{$ebook}" class="btn btn-lg btn-primary">Zobrazit e-book</a>
+                                    </span>
+                                </p>
+                            {/if}
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{/define}
+
+{define head}{/define}

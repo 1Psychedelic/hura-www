@@ -1,0 +1,42 @@
+{define #collection}
+    <table class="table table-condensed table-bordered">
+        <tr>
+            <th>
+                <a class="btn btn-sm btn-primary" href="{plink websiteMenuItem, id => NULL, menu => $menu}">Přidat</a>
+            </th>
+            <th>{$name}</th>
+        </tr>
+        {foreach $items as $item}
+            <tr>
+                <td class="col-sm-7">
+                    <span n:class="pull-right, glyphicon, $item['visible'] ? glyphicon-globe : glyphicon-lock"></span>
+                    <a href="{plink websiteMenuItem, id => $item['id'], menu => $menu}">{$item['text']}</a>
+                </td>
+                <td class="col-sm-5">
+                    <span class="btn-group btn-group-sm">
+                        <a class="btn btn-sm btn-default" n:href="up!, id => $item[id]">Posunout výš</a>
+                        <a class="btn btn-sm btn-default" n:href="down!, id => $item[id]">Posunout níž</a>
+                    </span>
+                </td>
+            </tr>
+        {/foreach}
+    </table>
+{/define}
+
+
+<div class="row">
+    <div class="col-sm-6">
+        {include #collection, items => $collection['top'], name => 'Horní menu', menu => 'top'}
+    </div>
+    <div class="col-sm-6">
+        {include #collection, items => $collection['main'], name => 'Hlavní menu', menu => 'main'}
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        {include #collection, items => $collection['mobile'], name => 'Mobilní menu', menu => 'mobile'}
+    </div>
+    <div class="col-sm-6">
+        {include #collection, items => $collection['footer'], name => 'Patička', menu => 'footer'}
+    </div>
+</div>

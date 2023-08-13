@@ -1,0 +1,57 @@
+{layout './@layout.latte'}
+
+{define body}
+
+    <div class="row vcd-content">
+        <div class="col-xs-12">
+
+            <p>
+                Prosím o otestování jednotlivých bodů a o report zde v tomto formuláři (tlačítko uložit je úúúplně dole).
+                Uvidíte u každého bodu i výsledky testování ostatních, zkuste tedy nějak rozložit síly. Seznam je
+                řazen náhodně, prioritu si odvoďte z popisu ;-)
+            </p>
+
+            <form n:name="form">
+                {var $resultId}
+                {foreach $groups as $group}
+                    <h3>{$group}</h3>
+                    <table class="table table-bordered table-condensed">
+                        <tr>
+                            <th>Co otestovat</th>
+                            <th>Jak to dopadlo</th>
+                            <th>Poznámky</th>
+                        </tr>
+                        {foreach $groupTests($group) as $test}
+                            {php $resultId = $test['id'] . '_result'}
+                        <tr>
+                            <td class="col-sm-6">
+                                {$test['description']}<br>
+                                {foreach $userResults($test['id']) as $usr => $result}
+                                    {continueIf $result === 0}
+                                    <span n:class="label, $result === 1 ? label-success : label-danger">
+                                        <span n:class="glyphicon, $result === 1 ? glyphicon-ok : glyphicon-remove"></span>
+                                        {$usr}
+                                    </span>
+                                {/foreach}
+                            </td>
+                            <td>
+                                {foreach $form[$test['id'] . '_result']->getItems() as $key => $label}
+                                    <div class="radio-inline">{label $resultId:$key}{input $resultId:$key} {$label}{/label}</div>
+                                {/foreach}
+                            </td>
+                            <td>
+                                {input $test['id'] . '_notes'}
+                            </td>
+                        </tr>
+                        {/foreach}
+                    </table>
+                {/foreach}
+                <input n:name="save" class="btn btn-primary">
+            </form>
+        </div>
+    </div>
+
+{/define}
+
+{define head}{/define}
+{define back}{/define}

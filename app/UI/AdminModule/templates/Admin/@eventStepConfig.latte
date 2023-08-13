@@ -1,0 +1,5 @@
+
+<ul class="nav nav-tabs vcd-event-tabs">
+    <li{ifCurrent eventStep} class="active"{/ifCurrent}><a n:href="eventStep, event => $event, id => $step">Základní</a></li>
+    <li{ifCurrent eventStepOptions} class="active"{/ifCurrent}{ifCurrent eventStepOption} class="active"{/ifCurrent}><a n:href="eventStepOptions, event => $event, step => $step">Možnosti</a></li>
+</ul>

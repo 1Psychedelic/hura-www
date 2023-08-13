@@ -1,0 +1,91 @@
+{layout '../@layout.latte'}
+
+{block title}{if is_array($event)}{$event['name']} · {/if}{/block}
+{block head}
+    {if is_array($event)}
+        <meta property="og:title" content="{$event['name']}">
+        <meta property="og:description" content="{$event['description']}">
+        <meta property="og:image" content="{$event['bannerLarge']}">
+    {/if}
+{/block}
+{block body}
+    {if is_array($event)}
+
+        <section class="page__section page__section--generic-heading">
+            <div class="page__section__content"><span class="page__section__subheading">Víkendový tábor</span>
+                <h1 class="page__section__heading">{$event['name']}</h1></div>
+        </section>
+        <section class="page__section page__section--event-detail">
+            <div class="page__section__content">
+                <div class="event-detail-wrapper">
+                    <div class="event-detail"><img class="event-detail-banner" src="{$event['bannerLarge']}" alt="{$event['name']}">
+                        {if !$event['isArchived']}
+                            <div class="event-detail-info-box">
+                                <div class="event-detail-info-box-row">
+                                    <div class="event-detail-info">
+                                        <div class="event-detail-info-label">Termín:</div>
+                                        <div class="event-detail-info-value">{$event['date']}</div>
+                                    </div>
+                                    <div class="event-detail-info">
+                                        <div class="event-detail-info-label">Cena:</div>
+                                        <div class="event-detail-info-value">
+                                            {if $event['price'] === $event['priceBeforeDiscount']}
+                                                {$event['priceText']}
+                                            {else}
+                                                <div class="event-detail-info-price-discounted">
+                                                    {$event['priceText']}
+                                                </div>
+                                                <div class="event-detail-info-price-before-discount">
+                                                    {$event['priceBeforeDiscountText']}
+                                                </div>
+                                            {/if}
+                                        </div>
+                                    </div>
+                                    <div class="event-detail-info">
+                                        <div class="event-detail-info-label">Věk dětí:</div>
+                                        <div class="event-detail-info-value">{$event['age']}</div>
+                                    </div>
+                                    <div class="event-detail-info">
+                                        <div class="event-detail-info-label">Volná místa:</div>
+                                        <div class="event-detail-info-value">{$event['capacity']}</div>
+                                    </div>
+                                    <div class="event-detail-info event-detail-reserve-button">
+                                        {if $event['hasOpenApplications']}
+                                            <a href="{$event['url']}/rezervace">Rezervovat</a>
+                                        {else}
+                                            <span class="disabled">Přihlášky<br>uzavřeny</span>
+                                        {/if}
+                                    </div>
+                                </div>
+                            </div>
+                        {/if}
+
+                        <div class="event-detail-content"><h2>{$event['name']}</h2>
+                            <nav class="event-detail-content-tabs">
+                                <ul>
+                                    {foreach $event['content'] as $tab}
+                                        <li n:class="$tab['slug'] === $activeTab ? active"><a href="{$event['url']}{if $tab['slug'] !== ''}/{$tab['slug']}{/if}">{$tab['tab']}</a></li>
+                                    {/foreach}
+                                </ul>
+                            </nav>
+                            <div class="event-detail-content-text">
+                                {foreach $event['content'] as $tab}
+                                    {if $tab['slug'] === $activeTab}
+                                        {$tab['content']|noescape}
+                                    {/if}
+                                {/foreach}
+                            </div>
+                            <div class="event-detail-content-images">
+                                {foreach $event['images'] as $image}
+                                    <a href="{$image['image']}" target="_blank"><img src="{$image['thumbnail']}" alt="{$image['name']}"></a>
+                                {/foreach}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="event-detail-sidebar"></div>
+                </div>
+            </div>
+        </section>
+    {/if}
+
+{/block}

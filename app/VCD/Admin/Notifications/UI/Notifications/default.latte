@@ -1,0 +1,51 @@
+<a n:href="notificationsRead!" class="btn btn-primary" onclick="if(!confirm('Opravdu?')){ return false; }">Označit vše jako přečtené</a>
+
+<table class="table">
+    <tr>
+        <th>#</th>
+        <th>Uživatel</th>
+        <th>Zpráva</th>
+        <th>Související</th>
+        <th>Datum a čas</th>
+        <th></th>
+    </tr>
+    <tr n:foreach="$notifications as $notification">
+        <td>{if isset($notification[id])}{$notification[id]}{/if}</td>
+        <td>
+            {if $notification[user] !== NULL}
+                <a href="{plink users, filters => [id => [$notification[user]]]}">
+                    {$users[$notification[user]]}
+                </a>
+            {/if}
+        </td>
+        <td>{$notification[message]}</td>
+        <td>
+
+            {** PŘIHLÁŠKY **}
+            {if $notification[type] === \VCD\Notifications\Notifications::TYPE_APPLICATION}
+
+                <a href="{plink applications, filters => [id => $notification[related_id], status => $statusAllExceptUnfinished]}" class="btn btn-primary btn-sm">
+                    Přihláška #{$notification[related_id]}
+                </a>
+
+            {** UŽIVATELÉ **}
+            {elseif $notification[type] === \VCD\Notifications\Notifications::TYPE_USER}
+
+                <a href="{plink users, filters => [id => [$notification[related_id]]]}" class="btn btn-primary btn-sm">
+                    {$users[$notification[related_id]]}
+                </a>
+
+            {** TÁBORY/VÝLETY **}
+            {elseif $notification[type] === \VCD\Notifications\Notifications::TYPE_EVENT}
+
+                <a href="{plink events, filters => [id => [$notification[related_id]]]}" class="btn btn-primary btn-sm">
+                     {$notification->ref('vcd_event', 'related_id')[name]}
+                </a>
+
+            {/if}
+
+        </td>
+        <td>{$notification[added_at]|date:'j. n. Y - H:i'}</td>
+        <td><a n:if="isset($notification[id])" n:href="notificationRead!, id => $notification[id]" class="btn btn-sm btn-primary">Přečteno</a></td>
+    </tr>
+</table>

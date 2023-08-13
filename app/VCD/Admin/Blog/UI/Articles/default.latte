@@ -1,0 +1,39 @@
+<table class="table table-condensed table-bordered">
+    <tr>
+        <th class="text-center"><a href="{plink blogArticle, id => NULL}" n:if="!$presenter->print" class="btn btn-primary btn-sm">Přidat</a></th>
+        <th>Nadpis <span class="pull-right">Zveřejněno</span></th>
+        <th>Kategorie</th>
+        <th>Autor</th>
+    </tr>
+    <tr n:foreach="$articles as $article">
+        <td class="text-center">
+            <a href="{plink blogArticle, id => $article[id]}" n:tag-if="!$presenter->print" class="btn btn-primary btn-sm"><strong>{$article[id]}</strong></a>
+        </td>
+        <td>
+            <strong>{$article[title]}</strong>
+            <span class="pull-right">
+            {if $article[published_at] === NULL}
+                <span class="glyphicon glyphicon-lock"></span>
+            {else}
+                {$article[published_at]|date:'j. n. Y H:i'}
+            {/if}
+            </span>
+            <div class="clearfix"></div>
+            <small>
+                <a href="{plink $articleLink, id => $article[slug]}" target="_blank">
+                    {plink $articleLink, id => $article[slug]}
+                </a>
+            </small>
+        </td>
+        <td>
+            {if $article[category] !== NULL}
+                {$article->ref('category')[title]}
+            {/if}
+        </td>
+        <td>
+            {if $article[author] !== NULL}
+                {$users[$article[author]]}
+            {/if}
+        </td>
+    </tr>
+</table>

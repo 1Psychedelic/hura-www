@@ -1,0 +1,56 @@
+{define body}
+    <div class="container-fluid vcd-main-background">
+        <div class="container">
+            <div class="row vcd-content">
+                <div class="col-xs-12">
+
+                    <div class="row">
+                        <div class="col-md-5 col-lg-4">
+                            {include '../@blogCategories.latte', categories => $categories, currentCategory => $currentCategory, posts => $countPosts}
+                        </div>
+                        <div class="col-md-7 col-lg-8">
+
+                            {if $currentCategory && $currentCategory[content]}
+                                {$currentCategory[content]|noescape}
+                                <hr style="border:1px solid #00a8ca;">
+                            {/if}
+
+                            {if $countPosts === 0}
+                                <p class="text-center"><em>Nejsou zde žádné články.</em></p>
+                            {/if}
+
+                            {foreach $posts as $post}
+                                {include '../@blogPost.latte', post => $post, isDetail => false, browse => $currentCategory ? $currentCategory[slug] : NULL}
+                                {sep}<hr style="border:1px solid #00a8ca;">{/sep}
+                            {/foreach}
+
+                            <hr style="border:1px solid #00a8ca;">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="text-center pull-left">
+                                        {if !$isFirst}
+                                            <a n:href="\VCD\UI\FrontModule\BlogModule\BlogPresenter::LINK_DEFAULT, id => $currentCategory ? $currentCategory[slug] : NULL, page => $page - 1" class="btn btn-primary">&laquo; Novější články</a>
+                                        {/if}
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="text-center pull-right">
+                                        {if !$isLast}
+                                            <a n:href="\VCD\UI\FrontModule\BlogModule\BlogPresenter::LINK_DEFAULT, id => $currentCategory ? $currentCategory[slug] : NULL, page => $page + 1" class="btn btn-primary">Starší články &raquo;</a>
+                                        {/if}
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+{/define}
+
+{define head}{/define}

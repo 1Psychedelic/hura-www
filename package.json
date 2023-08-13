@@ -1,0 +1,48 @@
+{
+  "name": "webdesign",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "dev": "webpack --mode=development",
+    "css": "sass --update sass/styles.sass public/css/styles.css",
+    "analyze": "source-map-explorer public/js/frontend.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@exceptionless/browser": "^2.0.0",
+    "compression-webpack-plugin": "^9.0.0",
+    "css-loader": "^6.2.0",
+    "dayjs": "^1.10.7",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "firebase": "^9.0.2",
+    "html-react-parser": "^1.4.2",
+    "js-cookie": "^3.0.1",
+    "moment": "^2.29.1",
+    "placeholder-loading": "^0.5.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-helmet": "^6.1.0",
+    "react-router-dom": "^5.2.0",
+    "react-router-hash-link": "^2.4.3",
+    "sass": "^1.41.0",
+    "sass-loader": "^12.1.0",
+    "source-map-explorer": "^2.5.2",
+    "style-loader": "^3.2.1",
+    "uuid": "^8.3.2",
+    "webpack": "^5.51.1",
+    "webpack-cli": "^4.8.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.0",
+    "@babel/preset-react": "^7.14.5",
+    "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "^4.0.0",
+    "javascript-obfuscator": "^2.19.0",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack-obfuscator": "^3.4.1"
+  }
+}

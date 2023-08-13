@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="{$description}">
+    <meta name="keywords" content="{$keywords}">
+    <meta name="robots" content="all">
+    <meta name="author" content="Volný čas dětí">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0080ff">
+
+    <title n:snippet="pageTitle">{if $admin && $newNotifications > 0}({$newNotifications}) {/if}{if isset($titlePrefix)}{$titlePrefix} - {/if}{$web[title]}{if isset($titleSuffix)} - {$titleSuffix}{/if}</title>
+
+    <link rel="shortcut icon" href="{$baseUri}/www/assets/img/favicon.ico" type="image/x-icon">
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="{plink //:Front:Web:Sitemap:default}">
+
+    <link rel="stylesheet" href="{$baseUri}/www/assets/css.min.css?v={$hash}">
+    <script type="text/javascript" src="{$baseUri}/www/assets/js.min.js?v={$hash}"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('img').each(function() {
+                var img = $(this);
+                img.on('error', function () {
+                    var retryCount = img.data('vcd-retry-count') || 0;
+
+                    if (retryCount < 5 && img.attr('src')){
+                        setTimeout(function () {
+                            var newsrc = img.attr('src') + '?' + +new Date;
+                            console.log(this);
+                            console.log(newsrc);
+                            img.attr('src', newsrc);
+                            img.data('vcd-retry-count', retryCount + 1);
+                        }, 1000);
+                    }
+                })
+            });
+        });
+    </script>
+
+    <script n:if="$admin && !$isErrorPage" type="text/javascript">
+        $.nette.ext('notifications', {
+            success: function(payload) {
+                if(payload.notifications) {
+                    if(document.title.match(/\((.+?)\)/g)) {
+                        document.title = document.title.replace(/\((.+?)\)/g, '(' + payload.notifications + ')');
+                    } else {
+                        document.title = '(' + payload.notifications + ') ' + document.title;
+                    }
+                } else if(payload.notifications === 0) {
+                    document.title = document.title.replace(/\((.+?)\)/g, '');
+                }
+            }
+        });
+        setInterval(function() {
+            $.nette.ajax({
+                url: {plink refreshNotifications!}
+            });
+        }, 60000);
+    </script>
+
+    {foreach $og as $name => $value}
+        {foreach is_array($value) ? $value : [$value] as $val}
+            <meta property="og:{$name}" content="{$val}">
+        {/foreach}
+    {/foreach}
+    {foreach $facebookImages as $facebookImage}
+        <meta property="og:image" content="{$baseUrl}/www/{$facebookImage->getImage()}">
+        <meta property="og:image:width" content="{$facebookImage->getWidth()}">
+        <meta property="og:image:height" content="{$facebookImage->getHeight()}">
+    {/foreach}
+    <meta property="fb:app_id" content="{$fbAppId}">
+
+    {include head}
+
+    {$userSDK}
+    {$facebookSDK}
+    {$googleSDK}
+
+    {if isset($recaptchaInitLibrary)}{$recaptchaInitLibrary}{/if}
+    {if isset($recaptchaInitForm)}{$recaptchaInitForm}{/if}
+
+    {if isset($googleAnalytics) && is_callable($googleAnalytics)}
+        {$googleAnalytics()}
+    {/if}
+
+    {foreach $codes as $code}
+        {continueIf $codesEbookBlog && $code[visible] === 4}
+        {$code[code]|noescape}
+    {/foreach}
+
+    {if isset($facebookPixel) && is_callable($facebookPixel)}
+        {$facebookPixel()}
+    {/if}
+
+    {if isset($googleConversion) && is_callable($googleConversion)}
+        {$googleConversion()}
+    {/if}
+
+</head>
+<body>
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PGHZWCW"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<a name="top"></a>
+
+<input type="checkbox" id="vcd-menu-trigger" class="vcd-menu-trigger">
+<label for="vcd-menu-trigger" class="visible-xs visible-sm"></label>
+<div class="vcd-menu">
+
+    <ul class="nav nav-pills nav-stacked">
+        {control userMobile|indent:3:'    '}
+        <li><a n:href=":Front:Homepage:Homepage:default" class="vcd-color-home vcd-color-button">Domů</a></li>
+        <li><a n:href=":Front:Events:Events:camps" class="vcd-color-camps vcd-color-button">Tábory</a></li>
+        <li><a n:href=":Front:Events:Events:default, type => 2" class="vcd-color-trips vcd-color-button">Výlety</a></li>
+        <li><a n:href=":Front:Gallery:Photos:default" class="vcd-color-photo vcd-color-button">Fotky</a></li>
+        <li><a n:href=":Front:Web:Page:default, id => informace">Proč k nám</a></li>
+        <li><a n:href=":Front:Events:Archive:default">Archiv</a></li>
+        <li n:if="$admin" n:snippet="notifications"><a n:href=":Admin:Admin:notifications"><span class="glyphicon glyphicon-bell"></span> <span n:if="$newNotifications > 0" class="label label-danger">{$newNotifications}</span></a></li>
+        <li n:if="$admin && $currentEvent !== NULL"><a n:href=":Admin:Admin:letters, id => $currentEvent->id"><span class="glyphicon glyphicon-envelope"></span> Dopisy</a></li>
+        <li><a n:href=":Front:Web:Ebooks:default">E-booky</a></li>
+        <li><a n:href=":Front:Blog:Blog:default">Blog</a></li>
+        <li><a n:href=":Front:Web:Leaders:default">Vedoucí a lektoři</a></li>
+        <li><a n:href=":Front:Web:Reviews:default">Recenze</a></li>
+        <li><a n:href=":Front:Web:Page:default, id => sponzori">Sponzoři</a></li>
+        <li><a n:href=":Front:Web:Contact:default">Kontakty</a></li>
+        <li><a href="https://www.facebook.com/volnycasdeti" target="_blank">Facebook <span class="socicon socicon-facebook pull-right"></span></a></li>
+    </ul>
+
+</div>
+
+<div class="vcd-wrapper">
+
+    <nav class="navbar navbar-vcd-top">
+        <div class="container no-gutter">
+            <div class="navbar-header">
+                <div class="navbar-text">
+                    <strong>
+                        <span class="visible-xs visible-sm"><a href="tel:{$phone}">{$phone|replace:'-':' '}</a><span class="hidden-xs hidden-sm"> | </span><br class="visible-xs visible-sm"></span>
+                        <a href="mailto:{$email}">{$email}</a>
+                    </strong>
+                </div>
+            </div>
+            <div class="navbar-collapse collapse" id="vcd-navbar-top">
+
+                <ul class="nav navbar-nav navbar-right hidden-sm hidden-xs">
+                    <li n:if="$admin && $currentEvent !== NULL"><a n:href=":Admin:Admin:letters, id => $currentEvent->id"><span class="glyphicon glyphicon-envelope"></span></a></li>
+                    <li n:if="$admin"><a n:href=":Admin:Admin:default"><span class="glyphicon glyphicon-cog"></span></a></li>
+                    <li n:if="$admin" n:snippet="notificationsTop"><a n:href=":Admin:Admin:notifications"><span class="glyphicon glyphicon-bell"></span> <span n:if="$newNotifications > 0" class="label label-danger">{$newNotifications}</span></a></li>
+                    <li><a href="https://www.facebook.com/volnycasdeti" target="_blank"><span class="socicon socicon-facebook"></span><span class="hidden-sm hidden-md hidden-lg"> Facebook</span></a></li>
+                    <li><a n:href=":Front:Web:Ebooks:default">E-booky</a></li>
+                    <li><a n:href=":Front:Blog:Blog:default">Blog</a></li>
+                    <li><a n:href=":Front:Web:Leaders:default">Vedoucí a lektoři</a></li>
+                    <li><a n:href=":Front:Web:Reviews:default">Recenze</a></li>
+                    <li><a n:href=":Front:Web:Page:default, id => sponzori">Sponzoři</a></li>
+                    <li><a n:href=":Front:Web:Contact:default">Kontakty</a></li>
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+
+
+
+    <div class="vcd">
+
+        {** todo Oznámení **}
+        <div n:if="FALSE" style="width:100%;height:50%;margin:0;padding:5px;border-radius:0px" class="alert alert-warning text-center">
+            <div class="container">
+                <span class="glyphicon glyphicon-exclamation-sign" style="font-size:0.9em"></span>
+                <strong>Omluvte prosím dočasně zhoršenou funkčnost webu z důvodu upgradu našeho systému. Situaci aktivně monitorujeme a řešíme.</strong>
+            </div>
+        </div>
+
+        <div class="vcd-header-background">
+            <div class="container vcd-header">
+                <div class="row">
+                    <div class="col-sm-6 vcd-header-logo">
+
+                        <a n:href=":Front:Homepage:Homepage:default"><img class="img-responsive vcd-logo" src="{$baseUri}/www/assets/img/logo-web.png" alt="Volný čas dětí, z.s."></a>
+
+                        <div class="vcd-title">
+                            <h1>{$web[name]}</h1>
+                            <h2>{$web[slogan]}</h2>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-6">
+                        {$presenter->createOurAd('banner')->render()|noescape}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <nav class="navbar navbar-vcd hidden-sm hidden-xs">
+            <div class="container">
+                <div class="navbar-header">
+
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#vcd-navbar" aria-expanded="false">
+                        <span class="glyphicon glyphicon-menu-hamburger"></span>
+                    </button>
+
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#vcd-navbar" aria-expanded="false" onclick="$('#vcd-navbar').data('source', 'login');$('#vcd-navbar').collapse('show');">
+                        {if $user->isLoggedIn()}{$user->identity->data[name]}{else}(Nepřihlášen){/if} <span class="glyphicon glyphicon-user"></span>
+                    </button>
+
+                </div>
+                <div class="navbar-collapse collapse" id="vcd-navbar">
+
+                    <ul class="nav navbar-nav navbar-left">
+                        <li><a n:href=":Front:Homepage:Homepage:default" class="vcd-color-home vcd-color-button">Domů</a></li>
+                        <li><a n:href=":Front:Events:Events:camps" class="vcd-color-camps vcd-color-button">Tábory</a></li>
+                        <li><a n:href=":Front:Events:Events:default, type => 2" class="vcd-color-trips vcd-color-button">Výlety</a></li>
+                        <li><a n:href=":Front:Gallery:Photos:default" class="vcd-color-photo vcd-color-button">Fotky</a></li>
+                        <li><a n:href=":Front:Web:Page:default, id => informace">Proč k nám</a></li>
+                        <li><a n:href=":Front:Events:Archive:default">Archiv</a></li>
+                    </ul>
+
+                    {control user|indent:4:'    '}
+
+                </div>
+            </div>
+        </nav>
+
+        <div class="vcd-main">
+            <div class="container">
+
+                <a name="vcd-main"></a>
+
+                {if $flashMessagesEnabled}{control flashes}{/if}
+
+                {if $countUnreadLetters > 0}
+                    <div class="alert alert-info text-center">
+                        <h3>Přišel Vám elektronický dopis z akce!</h3>
+                        <p>
+                            Dětem a rodičům umožňujeme zůstat v kontaktu prostřednictvím elektronických dopisů,
+                            které je možné zasílat na našem webu.
+                        </p>
+                        <p>
+                            Dopisy můžete posílat kdykoliv v průběhu akce, dětem je čteme obvykle večer před spaním.
+                        </p>
+                        <p>
+                            <a n:href="$postOfficeLink" class="btn btn-lg btn-success">Zobrazit poštu a zareagovat</a>
+                        </p>
+                    </div>
+                {/if}
+
+            </div>
+
+            {include body}
+
+            <div class="clearfix"></div>
+
+        </div>
+
+        <div class="vcd-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <p>
+                            <a href="tel:{$phone}">{$phone|replace:'-':' '}</a><br>
+                            <a href="mailto:{$email}">{$email}</a><br>
+                            &copy; 2014–{=date('Y')} {$web[name]}
+                        </p>
+                    </div>
+                    <div class="col-sm-4">
+                        <p>
+                            {if $showNewsletterLink}<a n:href=":Front:Web:Newsletter:default">Novinky na e-mail</a><br>{/if}
+                            {if $user->isLoggedIn()}<a n:href=":Front:Gallery:LostFound:default">Ztráty a nálezy</a><br>{/if}
+                            <a n:href=":Front:Web:Page:default, id => cookies">Cookie</a><br>
+                            <a href="{$consentDocumentUrl}" target="_blank">Ochrana osobních údajů</a>
+                        </p>
+                    </div>
+                    <div class="col-sm-4">
+                        <p>
+                            <a n:href=":Front:Web:Recruitments:default">Přidej se k nám</a><br>
+                            <a href="https://volnycasdeti.cz/www/page/smluvni-podminky/VOP.pdf" target="_blank">Všeobecné obchodní podmínky</a><br>
+                            <a href="https://volnycasdeti.cz/www/page/smluvni-podminky/Jak-to-u-nas-chodi.pdf" target="_blank">Jak to u nás chodí</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="vcd-hidden" n:if="FALSE">
+    <a href="http://www.taboreni.cz/?zdroj=3486" title="Dětský tábor">
+        <img src="http://icon.taboreni.cz/1/3486/468x80-d-t.png" alt="Dětský tábor"></a>
+</div>
+
+</body>
+</html>
+<!-- <3 -->

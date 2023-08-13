@@ -1,0 +1,18 @@
+<table class="table table-condensed table-bordered">
+    <tr>
+        <th class="text-center"><a href="{plink nameDay, id => NULL}" n:if="!$presenter->print" class="btn btn-primary btn-sm">Přidat</a></th>
+        <th></th>
+        <th></th>
+    </tr>
+    <tr n:foreach="$nameDays as $nameDay">
+        <td class="text-center">
+            <a href="{plink nameDay, id => $nameDay[id]}" n:tag-if="!$presenter->print" class="btn btn-primary btn-sm"><strong>{$nameDay[id]}</strong></a>
+        </td>
+        <td>
+            {$nameDay[name]}
+        </td>
+        <td>
+            {$nameDay[day]}. {$nameDay[month]}.
+        </td>
+    </tr>
+</table>

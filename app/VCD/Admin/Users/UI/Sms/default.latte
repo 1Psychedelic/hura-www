@@ -1,0 +1,9 @@
+{if isset($phoneNumbers)}
+    <div class="text-center">
+        <a href="sms:{foreach $phoneNumbers as $phoneNumber}{$phoneNumber}{sep},{/sep}{/foreach}?body={$message|escapeurl}" class="btn btn-success btn-lg">
+            SMS odkaz
+        </a>
+    </div>
+{/if}
+
+{control form}

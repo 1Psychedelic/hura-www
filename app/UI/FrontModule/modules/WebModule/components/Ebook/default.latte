@@ -1,0 +1,72 @@
+<div class="panel panel-primary" n:snippet>
+    <div class="panel-body bg-primary">
+        <a name="ebook-{$ebook->id}" id="ebook-{$ebook->id}"></a>
+        <div class="row">
+            <div class="col-sm-4">
+                <img src="{$baseUri}/www/{$ebook->image}" class="img-responsive" style="margin-bottom:30px; margin-top:30px">
+
+                <div>
+
+                    <div id="ebook-{$id}-download">
+                        <div  class="text-center">
+                            <a onclick="setTimeout(function() { $({='#frm-' . $id . '-form-email'}).focus(); }, 550);" type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#ebook-{$id}-modal" id="ebook-{$id}-download-button">
+                                <span class="glyphicon glyphicon-download"></span> Stáhnout e-book
+                            </a>
+                        </div>
+
+                        <div class="modal fade" id="ebook-{$id}-modal" tabindex="-1" role="dialog" aria-labelledby="ebook-{$id}-modal-label" style="color:#000;">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Zavřít"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="ebook-{$id}-modal-label">E-book zdarma do e-mailu</h4>
+                                    </div>
+                                    <form n:name="form" class="form-horizontal">
+                                        <div class="modal-body">
+                                            <p>Zadejte svou e-mailovou adresu a my Vám pošleme jednorázový e-mail s&nbsp;odkazem ke stažení e-booku.</p>
+
+
+                                            <div class="row form-group">
+                                                <div class="col-sm-12" style="padding-left:25px;padding-right:25px">
+                                                    {label email /}<br>
+                                                    <input n:name="email" class="form-control">
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <p>
+                                                        Přečtěte si prosím <a href="{$consentDocumentUrl}" target="_blank">Zásady ochrany osobních údajů</a>.
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-sm-12" style="padding-left:40px;padding-right:40px">
+                                                    <div class="checkbox form-group">
+                                                        {input agreeEmail}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <input n:name="getLink" class="btn btn-success btn-lg">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="text-center">Staženo {$ebook->countDownloads}&times;</p>
+
+                </div>
+
+            </div>
+            <div class="col-sm-8">
+                <h2>{$ebook->name}</h2>
+                {$ebook->description|noescape}
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+<div class="row" id="hafo-gallery-container">
+    <div class="col-sm-24">
+        <center>
+            <div class="hafo-box-item">
+                <a id="hafo-gallery-previous" class="left carousel-control" href="{if $gallery->getPreviousPhoto()}{plink this, photo => $gallery->getPreviousPhoto()->getName()}{else}#{/if}" style="background:none;{if !$gallery->getPreviousPhoto()}display:none;{/if}">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                </a>
+                <a {*n:tag-if="$next"*} id="hafo-gallery-middle" href="{plink this, photo => $gallery->getNextPhoto() ? $gallery->getNextPhoto()->getName() : $gallery->getCurrentPhoto()->getName()}">
+                    <img src="{$gallery->getCurrentPhoto()->getPhotoUrl()}" class="img-responsive hafo-gallery-image" alt="">
+                </a>
+                <a id="hafo-gallery-next" class="right carousel-control" href="{if $gallery->getNextPhoto()}{plink this, photo => $gallery->getNextPhoto()->getName()}{else}#{/if}" style="background:none;{if !$gallery->getNextPhoto()}display:none;{/if}">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                </a>
+            </div>
+        </center>
+    </div>
+    <div class="col-sm-24">
+        <div class="hafo-thumbnails" style="height:120px;overflow-x:auto;overflow-y:hidden;white-space:nowrap;padding-top:15px;">
+            {foreach $gallery->getPhotos() as $photo}<a class="hafo-thumbnail-link" href="{plink this, photo => $photo->getName()}"><img src="{$photo->getThumbnailUrl()}" n:class="img-responsive, hafo-thumbnail, $photo === $gallery->getCurrentPhoto() ? hafo-thumbnail-active" style="{$thumbnail($photo->getThumbnailWidth(), $photo->getThumbnailHeight(), 80)|noescape}" alt=""></a>{/foreach}
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    {var $photos = []}
+    {var $thumbnails = []}
+    {var $photoUrl}
+    {var $thumbUrl}
+    {foreach $gallery->getPhotos() as $photo}
+    {php $photoUrl = $presenter->link('this', ['photo' => $photo->getName()])}
+    {php $photos[$photoUrl] = $photo->getPhotoUrl()}
+    {php $thumbnails[$photoUrl] = $photo->getThumbnailUrl()}
+    {/foreach}
+    $(document).ready(function() {
+        $('#hafo-gallery-container').hafoGallery({
+            images: {$photos},
+            thumbnails: {$thumbnails},
+            current: {$presenter->link('this', ['photo' => $gallery->getCurrentPhoto()->getName()])},
+            next: {if $gallery->getNextPhoto()}{$presenter->link('this', ['photo' => $gallery->getNextPhoto()->getName()])}{else}null{/if},
+            previous: {if $gallery->getPreviousPhoto()}{$presenter->link('this', ['photo' => $gallery->getPreviousPhoto()->getName()])}{else}null{/if}
+        });
+    });
+</script>

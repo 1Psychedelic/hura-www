@@ -1,0 +1,22 @@
+{block |strip}
+
+    {var $letters}
+
+    {foreach $users as $userEntity}
+        {php $letters = $getLetters($userEntity)}
+
+        {continueIf $letters->count() === 0}
+
+        <h4>{$userEntity->name} <small style="font-weight:normal">({$children($userOptions[$userEntity->id])})</small></h4>
+
+        <div style="margin-top:5px;margin-bottom:5px">
+            {foreach $letters as $letter}
+                <div style="margin-top:5px;margin-bottom:5px">
+                    {$letter->message|breaklines}
+                </div>
+            {/foreach}
+        </div>
+
+    {/foreach}
+
+{/block}

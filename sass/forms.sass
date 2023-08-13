@@ -1,0 +1,339 @@
+@import "_variables"
+
+.form-input-group
+  position: relative
+  font-size: 1.2em
+  padding-bottom: 1em
+
+  input[type=text],input[type=date]
+    line-height: 0.8em
+    height: 2.6em
+
+  input:-webkit-autofill,select:-webkit-autofill,textarea:-webkit-autofill, input:-webkit-autofill:hover,select:-webkit-autofill:hover,textarea:-webkit-autofill:hover, input:-webkit-autofill:focus,select:-webkit-autofill:focus,textarea:-webkit-autofill:focus
+    -webkit-text-fill-color: #393d72 !important
+  input:-webkit-autofill,select:-webkit-autofill,textarea:-webkit-autofill
+    background-color: #f4f4f7 !important
+    -webkit-box-shadow: 0 0 0 30px #f4f4f7 inset !important
+  input:-webkit-autofill:focus,select:-webkit-autofill:focus,textarea:-webkit-autofill:focus
+    background-color: #f0f0f3 !important
+    -webkit-box-shadow: 0 0 0 30px #f0f0f3 inset !important
+
+  input,select,textarea
+    font-family: BalloTamma2Adjusted, sans-serif
+    outline: 0
+    padding-top: 1em
+    padding-bottom: 0em
+    padding-left: 1em
+    padding-right: 1em
+    border: 2px solid #f4f4f7
+    width: 100%
+    background-color: #f4f4f7
+    border-radius: 0.8em
+    color: #393d72
+    height: 2.6em
+    font-weight: bold
+    display: block
+    transition: border-color,background-color .1s ease-in-out
+    &::placeholder
+      color: #393d72
+      font-style: italic
+    &:hover,&:focus
+      background-color: #f0f0f3
+      border-color: #f0f0f3
+  &.form-error
+    input[type=text],input[type=tel],input[type=email],input[type=password],input[type=date],select,textarea
+      border-color: #cf3f3f
+    &:after
+      content: "" //⚠
+      position: absolute
+      right: 0.4em
+      top: 0.5em
+      font-size: 1.4em
+      font-weight: bold
+      color: #cf3f3f
+      pointer-events: none
+      //border-style: solid
+      //border-color: transparent
+      /* top | right | bottom | left */
+      //border-width: 0 0.4em 0.6em 0.4em
+      //border-bottom-color: #cf3f3f
+
+  .form-error-message
+    min-height: 1.1em
+    font-size: 0.8em
+    color: #cf3f3f
+    padding-left: 1em
+    padding-right: 1em
+
+  label
+    font-family: BalloTamma2Adjusted, sans-serif
+    display: flex
+    align-items: center
+    position: absolute
+    bottom: 0
+    left: 0
+    padding-right: 2.2em
+    line-height: 0.9em
+    width: 100%
+    height: 2.8em
+    font-size: 0.9em
+    font-weight: bold
+    color: #9d9c9d
+    //transform-origin: top left
+    //-webkit-transform-origin: top left
+    padding-left: 1.3em
+    //transform: translate(0, 1em) scale(1)
+    //-webkit-transform: translate(0, 1em) scale(1)
+    transition: all .1s ease-in-out, height 0s
+    //transition: padding .1s linear, height .1s linear, bottom .1s linear, font-size .1s linear, line-height .1s linear
+    white-space: pre-wrap
+    text-overflow: ellipsis
+    cursor: text
+
+  &.active
+    label
+      transform: translate(0, -1.3em) scale(1)
+      //line-height: 1.55em
+      font-size: 0.675em
+      padding-left: 1.8em
+      //-webkit-transform: translate(0, -0.1em) scale(1)
+      font-weight: bold
+      //align-items: end
+      //padding-bottom: 1.8em
+      //height: 2.2em
+      pointer-events: none
+      //flex-wrap: wrap-reverse
+
+.form-input-group-textarea
+  label
+    transform: translate(1.8em, -0.4em) scale(1)
+    line-height: 1.2em
+    font-size: 0.675em
+    -webkit-transform: translate(1.8em, -0.4em) scale(1)
+    font-weight: bold
+    top: 0.7em
+    pointer-events: none
+
+  textarea
+    padding-top: 1.5em
+    resize: vertical
+
+.form-input-group-inner
+  position: relative
+
+
+.form-input-group-select
+  select
+    //padding-top: 0.9em
+    //padding-bottom: 0.1em
+    //padding-left: 0.7em
+    //padding-right: 1em
+    appearance: none
+
+    option[value=""]
+      display: none
+
+  span.chevron
+    content: ""
+    position: absolute
+    display: block
+
+    right: 2em
+    top: 0.8em
+    width: 0.6em
+    height: 0.6em
+    border: solid #393d72
+    border-width: 0 3px 3px 0
+    -webkit-transform: rotate(45deg)
+    -ms-transform: rotate(45deg)
+    transform: rotate(45deg)
+    pointer-events: none
+  label
+    pointer-events: none
+  //  transform: translate(1.8em, -0.4em) scale(1)
+  //  line-height: 1.2em
+  //  font-size: 0.675em
+  //  -webkit-transform: translate(1.8em, -0.4em) scale(1)
+  //  font-weight: bold
+
+//.form-input-group-text
+
+//  input[type=text],input[type=tel],input[type=email],input[type=password]
+
+.form-checkbox-wrapper
+  padding-bottom: 0.2em
+  padding-top: 0.2em
+  .form-error-message
+    min-height: 1.4em
+    font-size: 1em
+    color: #cf3f3f
+    padding-left: 2em
+    padding-right: 1em
+    padding-top: 0.2em
+  &.form-error
+    .form-checkbox
+      .form-checkbox-checkmark
+        border-color: #cf3f3f
+
+  .form-checkbox
+    display: block
+    position: relative
+    padding-left: 2em
+    padding-top: 0.3em
+    cursor: pointer
+    font-size: 1em
+    font-weight: bold
+    -webkit-user-select: none
+    -moz-user-select: none
+    -ms-user-select: none
+    user-select: none
+    border: 3px solid transparent
+
+    a
+      text-decoration: none
+      color: #249eb9
+      &:hover
+        text-decoration: underline
+
+    .form-checkbox-checkmark
+      position: absolute
+      top: 0
+      left: 0
+      height: 1.5rem
+      width: 1.5rem
+      background-color: #f4f4f7
+      border-radius: 0.3rem
+      border: 0.07rem solid #979798
+      display: flex
+      align-items: center
+      justify-content: center
+
+      &:after
+        content: ""
+        //position: absolute
+        display: none
+
+        //left: 0.5em
+        margin-top: -0.2rem
+        width: 0.3rem
+        height: 0.6rem
+        border: solid white
+        border-width: 0 0.21rem 0.21rem 0
+        -webkit-transform: rotate(45deg)
+        -ms-transform: rotate(45deg)
+        transform: rotate(45deg)
+
+    input[type=checkbox]
+      position: absolute
+      opacity: 0
+      cursor: pointer
+      height: 0
+      width: 0
+
+      &:checked ~ .form-checkbox-checkmark
+        background-color: #393d72
+        border-color: #393d72
+
+      &:checked ~ .form-checkbox-checkmark:after
+        display: block
+
+      &:focus ~ .form-checkbox-checkmark
+        background-color: #f0f0f3
+        border-color: #000000
+
+      &:focus:checked  ~ .form-checkbox-checkmark
+        background-color: #393d72
+        border-color: #000000
+
+      &:hover ~ .form-checkbox-checkmark
+        background-color: #f0f0f3
+        border-color: #000000
+
+      &:hover:checked  ~ .form-checkbox-checkmark
+        background-color: #393d72
+        border-color: #000000
+
+.form-half-width-container
+  display: flex
+  flex-direction: row
+  flex-wrap: wrap
+  @include media-phone-tablet
+    flex-direction: column
+
+  .form-half-width
+    flex: 1 0 0
+
+  .form-half-width:first-child
+    .form-input-group
+      @include media-desktop
+        padding-right: 0.4em
+      &.form-error:after
+        @include media-desktop
+          right: 0.7em
+  .form-half-width:last-child
+    .form-input-group
+      @include media-desktop
+        padding-left: 0.4em
+      &.form-error:after
+        @include media-desktop
+          right: 0.4em
+
+.form-button
+  border: 3px solid #f32765
+  border-radius: 0.8em
+  color: #ffffff
+  text-decoration: none
+  display: flex
+  flex-direction: row
+  justify-content: center
+  align-items: center
+  padding-top: 0.5em
+  padding-bottom: 0.3em
+  padding-left: 0.7em
+  padding-right: 0.7em
+  margin-top: 0.5em
+  font-size: 1.1em
+  background-color: #f32765
+  font-weight: bold
+  cursor: pointer
+  margin-left: 0.2em
+  margin-right: 0.2em
+
+  &.form-button-large
+    border-radius: 1.2em
+    padding-top: 0.8em
+    padding-bottom: 0.6em
+    padding-left: 1.2em
+    padding-right: 1.2em
+    font-size: 1.4em
+
+    &.form-button-outline
+      color: #f32765
+      background-color: #ffffff
+
+    &.form-button-outline-alt
+      color: #393d72
+      background-color: #ffffff
+      border-color: #393d72
+
+  &:disabled
+    background-color: #9d9c9d
+    border-color: #9d9c9d
+    cursor: auto
+
+  &.disabled
+    background-color: #9d9c9d
+    border-color: #9d9c9d
+    cursor: auto
+
+  &.form-button-inline
+    display: inline-block
+
+::-webkit-calendar-picker-indicator
+  position: absolute
+  display: block
+  right: 1.7em
+  top: 0.8em
+  width: 1em
+  height: 1em
+  filter: invert(22%) sepia(12%) saturate(2789%) hue-rotate(198deg) brightness(98%) contrast(90%)

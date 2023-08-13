@@ -1,0 +1,38 @@
+<ul class="nav nav-pills nav-stacked">
+    <li n:class="!$currentCategory ? active"><a n:href="\VCD\UI\FrontModule\BlogModule\BlogPresenter::LINK_DEFAULT, id => NULL">Všechny články <span n:if="$posts > 0" class="badge pull-right">{$posts}</span></a></li>
+    {var $articles = 0}
+    {foreach $categories as $category}
+        {php $countArticles = count($category->related('vcd_blog_article', 'category')->where('published_at IS NOT NULL AND published_at < NOW()'))}
+        <li n:class="$currentCategory['id'] === $category['id'] ? active">
+            <a n:href="\VCD\UI\FrontModule\BlogModule\BlogPresenter::LINK_DEFAULT, id => $category[slug]">{$category[title]} <span n:if="$countArticles > 0" class="badge pull-right">{$countArticles}</span></a>
+            {if $currentCategory['id'] === $category['id'] && $countArticles > 0}
+                <ul style="margin-bottom:10px;margin-top:10px;margin-left:-5px;list-style-type:disc;background-color:#fff;">
+                {foreach $category->related('vcd_blog_article', 'category')->order('published_at DESC, id DESC')->where('published_at IS NOT NULL AND published_at < NOW()')->limit(10) as $article}
+                    <li style="margin-top:10px;{if isset($post) && $post[id] === $article[id]}list-style-type: square;{/if}"><a n:href="\VCD\UI\FrontModule\BlogModule\PostPresenter::LINK_DEFAULT, id => $article[slug], browse => $category[slug]">{$article[title]}</a></li>
+                {/foreach}
+                </ul>
+            {/if}
+        </li>
+    {/foreach}
+</ul>
+<br><br>
+<div class="text-center">
+
+    <div class="fb-page hidden-xs" data-href="https://www.facebook.com/volnycasdeti" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/volnycasdeti" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/volnycasdeti">Volný čas dětí, z.s.</a></blockquote></div>
+
+</div>
+
+
+
+<div class="text-center"><br><br>
+    {$presenter->createOurAd('blog')->render()|noescape}
+</div>
+
+{**
+<div class="text-center">
+<br><br>
+    {$presenter->createAd("5569705989", 300, 250, [])->render()|noescape}
+<br><br>
+    {$presenter->createAd("7046439183", 300, 600, ['hidden-xs', 'hidden-sm'])->render()|noescape}
+</div>
+**}

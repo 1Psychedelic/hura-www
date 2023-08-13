@@ -1,0 +1,7 @@
+<ul class="nav nav-tabs vcd-event-tabs">
+    <li{ifCurrent users} class="active"{/ifCurrent}{ifCurrent user} class="active"{/ifCurrent}><a n:href="users">Zaregistrovaní uživatelé</a></li>
+    <li{ifCurrent usersWithoutAccount} class="active"{/ifCurrent}><a n:href="usersWithoutAccount">Neregistrovaní uživatelé</a></li>
+    <li{ifCurrent credits} class="active"{/ifCurrent}{ifCurrent creditsGive} class="active"{/ifCurrent}><a n:href="credits">Kredity</a></li>
+    <li{ifCurrent consents} class="active"{/ifCurrent}><a n:href="consents">Souhlasy</a></li>
+    <li{ifCurrent sms} class="active"{/ifCurrent}><a n:href="sms">Hromadné SMS</a></li>
+</ul>

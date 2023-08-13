@@ -1,0 +1,25 @@
+<table class="table table-condensed table-bordered">
+    <tr>
+        <th>Jméno a příjmení</th>
+        <th>Zákonný zástupce</th>
+        <th>Datum narození</th>
+        <th>Věk</th>
+        <th>Zdravotní stav</th>
+        <th>Plavec</th>
+        <th>Poznámka</th>
+    </tr>
+    <tr n:foreach="$children as $child">
+        <td><strong>{$child->name}</strong></td>
+        <td><strong>{$child->application->name}</strong><br>
+            {$child->application->phone}<br>
+            <a href="mailto:{$child->application->email}">{$child->application->email}</a>
+        </td>
+        <td>{$child->dateBorn|date:'d. m. Y'}</td>
+        <td>{$age($child->dateBorn)}</td>
+        <td>{$child->health}</td>
+        <td>
+            <span class="glyphicon glyphicon-{if $child->swimmer}ok{else}remove{/if}"></span>{if $child->swimmer}P{else}Nep{/if}lavec
+        </td>
+        <td>{$child->swimmer}</td>
+    </tr>
+</table>

@@ -1,0 +1,27 @@
+{define body}
+    <div class="container-fluid vcd-main-background">
+        <div class="container">
+            <div class="row vcd-content">
+                <div class="col-xs-12">
+
+                    {if $id === NULL}
+                        <p><a href="{plink $profileLink}">Zpět do mého profilu</a></p>
+                    {else}
+                        <p><a href="{plink $childProfileLink, id => $id}">Zpět do profilu dítěte</a></p>
+                    {/if}
+
+                    <div class="row">
+                        <div class="col-sm-12">
+
+                            {control profile}
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{/define}
+
+{define head}{/define}

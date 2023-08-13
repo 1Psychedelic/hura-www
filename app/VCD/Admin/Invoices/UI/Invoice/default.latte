@@ -1,0 +1,236 @@
+
+<form class="form-horizontal" n:name="form">
+
+    <div n:if="$form->hasErrors()">
+        {foreach $form->getErrors() as $error}
+            <div class="alert alert-danger">
+                {$error}
+            </div>
+        {/foreach}
+    </div>
+
+    <div class="form-group" n:if="$id !== NULL">
+        <div class="col-sm-3 control-label">
+            <label>ID faktury</label>
+        </div>
+        <div class="col-sm-9">
+            <input type="text" value="{$id}" class="form-control disabled" readonly onclick="$(this).select();">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-3 control-label">
+            {label application /}
+        </div>
+        <div class="col-sm-9">
+            <input n:name="application" class="form-control">
+        </div>
+    </div>
+
+    <div class="form-group" id="toggleVariableSymbol">
+        <div class="col-sm-3 control-label">
+            {label variableSymbol /}
+        </div>
+        <div class="col-sm-9">
+            <input n:name="variableSymbol" class="form-control">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-3 control-label">
+            {label name /}
+        </div>
+        <div class="col-sm-9">
+            <input n:name="name" class="form-control">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-3 control-label">
+            {label city /}
+        </div>
+        <div class="col-sm-9">
+            <input n:name="city" class="form-control">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-3 control-label">
+            {label street /}
+        </div>
+        <div class="col-sm-9">
+            <input n:name="street" class="form-control">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-3 control-label">
+            {label zip /}
+        </div>
+        <div class="col-sm-9">
+            <input n:name="zip" class="form-control">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-3 control-label">
+            {label ico /}
+        </div>
+        <div class="col-sm-9">
+            <input n:name="ico" class="form-control">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-3 control-label">
+            {label dic /}
+        </div>
+        <div class="col-sm-9">
+            <input n:name="dic" class="form-control">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-3 control-label">
+            {label paymentMethod /}
+        </div>
+        <div class="col-sm-9">
+            <select n:name="paymentMethod" class="form-control"></select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-3 control-label">
+            {label createdAt /}
+        </div>
+        <div class="col-sm-9">
+            <input n:name="createdAt" class="form-control datetime-picker" placeholder="Dnes">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-3 control-label">
+            {label payTill /}
+        </div>
+        <div class="col-sm-9">
+            <input n:name="payTill" class="form-control datetime-picker" placeholder="Datum vystavení {$payTillDefault}">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-9">
+            <div class="checkbox">
+                {input isPaid}
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-3 control-label">
+            {label notes /}
+        </div>
+        <div class="col-sm-9">
+            <textarea n:name="notes" class="form-control"></textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-3 control-label">
+            {label customFile /}
+        </div>
+        <div class="col-sm-9">
+            <input n:name="customFile">
+        </div>
+    </div>
+
+    {if isset($form['deleteCustomFile'])}
+        <div class="form-group">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-9">
+                <div class="checkbox">
+                    {input deleteCustomFile}
+                </div>
+            </div>
+        </div>
+    {/if}
+
+    <div class="list-group">
+        <div class="list-group-item">
+            <div class="row">
+                <div class="col-sm-5">
+                    <label>Položka</label>
+                </div>
+                <div class="col-sm-2">
+                    <label>Základní cena</label>
+                </div>
+                <div class="col-sm-2">
+                    <label>Množství</label>
+                </div>
+                <div class="col-sm-2">
+                    <label>Cena celkem</label>
+                </div>
+            </div>
+
+        </div>
+        {foreach $form[invoiceItems]->getComponents() as $container}
+            <div class="list-group-item invoice-item"{if $container->getName() === 'empty'} id="item-template" style="display:none"{/if}>
+                <input n:name="'invoiceItems-' . $container->getName() . '-id'">
+                <div class="row">
+                    <div class="col-sm-5">
+                        <textarea n:name="'invoiceItems-' . $container->getName() . '-name'" class="form-control" placeholder="Položka"></textarea>
+                    </div>
+                    <div class="col-sm-2">
+                        <input n:name="'invoiceItems-' . $container->getName() . '-basePrice'" class="form-control" placeholder="Cena">
+                    </div>
+                    <div class="col-sm-2">
+                        <input n:name="'invoiceItems-' . $container->getName() . '-amount'" class="form-control" placeholder="Množství">
+                    </div>
+                    <div class="col-sm-2">
+                        <input n:name="'invoiceItems-' . $container->getName() . '-totalPrice'" class="form-control" placeholder="Celkem">
+                    </div>
+                    <div class="col-sm-1">
+                        <button class="btn btn-danger" onclick="$(this).closest('.list-group-item').remove()">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        {/foreach}
+        <script type="text/javascript">
+            var itemsCounter = $('body').find('.invoice-item:not(#item-template)').size();
+
+            function cloneTemplate($button) {
+                var clone = $('#item-template').clone();
+                clone.find('input,textarea').each(function() {
+                    var $el = $(this);
+                    if($el.attr('id') != undefined) {
+                        $el.attr('id', $el.attr('id').replace('-empty-', '-new' + itemsCounter + '-'));
+                    }
+                    if($el.attr('name') != undefined) {
+                        $el.attr('name', $el.attr('name').replace('[empty]', '[new' + itemsCounter + ']'));
+                    }
+                    if($el.attr('data-nette-rules') != undefined) {
+                        $el.attr('data-nette-rules', $el.attr('data-nette-rules').replace('[empty]', '[new' + itemsCounter + ']'));
+                    }
+                });
+                clone.insertBefore($button).css({ display: 'block'});
+                itemsCounter++;
+            }
+        </script>
+        <a class="list-group-item text-center" href="#" onclick="cloneTemplate($(this));">
+            <span class="glyphicon glyphicon-plus"></span>
+            Přidat položku
+        </a>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-3 control-label">
+        </div>
+        <div class="col-sm-9">
+            <input n:name="save" class="btn btn-primary">
+        </div>
+    </div>
+
+
+</form>

@@ -1,0 +1,126 @@
+{if !$presenter->print}
+    Zobrazit:
+    <span class="btn-group btn-group-sm">
+        <a n:class="btn, btn-sm, isset($extra[diploma]) && $extra[diploma] == 1 ? btn-primary : btn-default" href="{plink this, extra => array_merge($extra, [diploma => (isset($extra[diploma]) && $extra[diploma] == 1 ? NULL : 1)])}">Diplomy</a>
+        <a n:class="btn, btn-sm, isset($filters[isVip]) && $filters[isVip] == 1 ? btn-primary : btn-default" href="{plink this, filters => isset($filters[isVip]) && $filters[isVip] == 1 ? [] : [isVip => 1]}">Pouze věrné členy</a>
+    </span>
+
+
+    <div class="pull-right">
+        {control search}
+    </div>
+    <div class="clearfix"></div>
+
+
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li>
+                <a n:tag-if="!$paginator->isFirst()" href="{plink this, page => $paginator->getPage() - 1}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {for $i = 1; $i <= $paginator->getPageCount(); $i++}
+            <li n:class="$paginator->getPage() === $i ? active">
+                <a href="{plink this, page => $i}">{$i}</a>
+            </li>
+            {/for}
+            <li>
+                <a n:tag-if="!$paginator->isLast()" href="{plink this, page => $paginator->getPage() + 1}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div class="pull-right">Nalezeno <strong>{$paginator->getItemCount()}</strong>&nbsp;záznamů</div>
+    <div class="clearfix"></div>
+{/if}
+
+
+<table class="table table-bordered table-condensed table-responsive">
+    <tr>
+        <th class="text-center"><a href="{plink user, id => NULL}" n:if="!$presenter->print" class="btn btn-primary btn-sm">Přidat</a></th>
+        <th>Jméno</th>
+        <th>Aktivita</th>
+        <th>Děti</th>
+        <th n:if="isset($extra[diploma]) && $extra[diploma] == 1">Diplomy</th>
+    </tr>
+    {var $isBoy}
+    {var $childAge}
+    {var $userChildren}
+    {var $countChildren}
+    {var $userApplications}
+    {var $countApplications}
+    {foreach $users as $u}
+        {php $countChildren = $u->children->count()}
+        {php $countApplications = $u->applications->count()}
+        <tr>
+        <td class="text-center" {if $countChildren > 1} rowspan="{$countChildren}"{/if}>
+            <a href="{plink user, id => $u->id}" n:if="!$presenter->print" class="btn btn-primary btn-sm">{$u->id}</a><br>
+            {foreach $u->roles as $role}
+                {$role->role}{sep}<br>{/sep}
+            {/foreach}
+            {if $u->isVip}
+                <br><span class="label label-success">Věrný člen</span>
+            {/if}
+            {if !$fakeLogged && $user->id !== $u->id}
+                <br>
+                <a href="{plink fakeLogin, id => $u->id}" class="btn btn-success btn-sm">Přihlásit</a>
+            {/if}
+            {if $u->creditBalance > 0}
+                <br>
+                Kredit <strong>{$u->creditBalance}&nbsp;Kč</strong>
+            {/if}
+        </td>
+
+        <td {if $countChildren > 1} rowspan="{$countChildren}"{/if}>
+                            <span class="pull-right">
+                                {if $u->googleId}
+                                    <a href="https://plus.google.com/{$u->googleId}" target="_blank"><span class="socicon socicon-googleplus"></span></a>
+                                {/if}
+                                {if $u->facebookId}
+                                    <a href="{$u->facebookLink}" target="_blank"><span class="socicon socicon-facebook"></span></a>
+                                {/if}
+                            </span>
+            <a n:if="$u->avatarSmall" href="{$baseUri}{$u->avatarLarge}" target="_blank" class="pull-left"><img style="width:38px;height:38px;" class="img-circle" src="{$baseUri}{$u->avatarSmall}"></a>
+            <strong>{$u->name}</strong><br>
+            <small>
+                <a href="mailto:{$u->email}">{$u->email}</a>{if !$u->emailVerified}<span data-toggle="tooltip" title="E-mail není ověřen" class="glyphicon glyphicon-remove"></span>{/if}<br>
+                {$u->phone}{if !$u->phoneVerified}<span data-toggle="tooltip" title="Telefon není ověřen" class="glyphicon glyphicon-remove"></span>{/if}<br>
+                {$u->street}<br>
+                {$u->city} {$u->zip}
+            </small>
+            <div class="clearfix"></div>
+        </td>
+        <td{if $countChildren > 1} rowspan="{$countChildren}"{/if}>
+            <span data-toggle="tooltip" title="{$u->host}">{$u->ip}</span><br>
+            {if $u->registeredAt}Zaregistrován <span class="pull-right">{$u->registeredAt|date:'j. n. Y H:i'}</span><div class="clearfix"></div>{/if}
+            {if $u->lastLogin}Poslední přihlášení <span class="pull-right">{$u->lastLogin|date:'j. n. Y H:i'}</span><div class="clearfix"></div>{/if}
+            {if $u->lastActive}Poslední aktivita <span class="pull-right">{$u->lastActive|date:'j. n. Y H:i'}</span><div class="clearfix"></div>{/if}
+            {if $countApplications > 0}Přihlášky <span class="pull-right"><a href="{plink applications, filters => [user => $u->id, status => $statusAllExceptUnfinished]}"><strong>{$countApplications}</strong></a></span><div class="clearfix"></div>{/if}
+            {** if $userPaid > 0}Zaplaceno <span class="pull-right"><strong>{$userPaid}&nbsp;Kč</strong></span>{/if **}
+        </td>
+        {foreach $u->children as $child}
+            {if !$iterator->first}</tr><tr>{/if}
+            <td>
+                {php $isBoy = $child->gender === 'm'}
+                {php $childAge = $age($child->dateBorn)}
+                <div style="margin:2px;padding:2px 5px 2px 5px;border:1px solid rgb(127,127,127);{if $isBoy}background-color:rgba(0,91,255, 0.2){elseif $isBoy === FALSE}background-color:rgba(255,0,91,0.2){/if}">
+                    <strong>{$child->name}</strong><span class="pull-right label label-primary">#{$child->id}</span><br>
+                    <small>
+                        {$child->dateBorn|date:'d. m. Y'} ({if $childAge === NULL}?{else}{$childAge}{/if}&nbsp;let)<br>
+                        {if !empty($child->notes)}<br>{$child->notes}{/if}
+                    </small>
+                </div>
+            </td>
+            <td  n:if="isset($extra[diploma]) && $extra[diploma] == 1">
+                {foreach $child->potentialDiplomas as $diploma}
+                    <a href="{plink diploma, id => $diploma->id}" n:class="btn, btn-sm, !$diploma->hasDiploma ? btn-danger : btn-success">{$diploma->application->event->name}</a><br>
+                {/foreach}
+            </td>
+            {if $iterator->last}</tr>{/if}
+        {/foreach}
+
+        </tr>
+
+    {/foreach}
+</table>

@@ -1,0 +1,165 @@
+
+<div class="row">
+
+    <div n:class="$showPaymentForm ? col-md-5 : col-md-7">
+
+        <p class="text-center">Rekapitulace</p>
+
+        <div class="list-group">
+
+            <!-- Akce -->
+            <div class="list-group-item">
+                <strong>{$draft->event->name}</strong><br>
+                <small>Počet účastníků: {$countChildren}</small>
+                <span class="pull-right">
+                    <strong>{if !$draft->isBasePriceOverwritten}{$draft->baseEventPrice  * $countChildren}&nbsp;Kč{/if}</strong>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+
+            <!-- Mezikroky -->
+            {foreach $draft->stepChoices as $choice}
+                <div class="list-group-item">
+                    {$choice->step->prompt}<br>
+                    <strong>{$choice->option->option}</strong>
+                    <span class="pull-right">
+                        <strong>{$choice->option->price * ($choice->option->multiplyByChildren ? $countChildren : 1)}&nbsp;Kč</strong>
+                    </span>
+                    <div class="clearfix"></div>
+                </div>
+            {/foreach}
+
+            <!-- Sourozenecká sleva -->
+            <div class="list-group-item" n:if="$draft->canUseSiblingDiscount && $draft->event->siblingDiscountValueFor($countChildren) > 0">
+                Sourozenecká sleva
+                <div class="pull-right">
+                    <strong>-{$draft->event->siblingDiscountValueFor($countChildren)}&nbsp;Kč</strong>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+            <!-- Zaplatit kreditem -->
+            {if $draft->canPayByCredit}
+                <div class="list-group-item" n:if="$userEntity !== NULL && $userEntity->creditBalance > 0 && !$draft->isPayingByCredit">
+                    <span style="display:inline-block;margin-top:5px;margin-bottom:5px">Máte kredit <strong>{$userEntity->creditBalance}&nbsp;Kč</strong>.</span>
+                    <a href="{link useCredit!, credit => TRUE}" class="btn btn-sm btn-primary pull-right">
+                        Zaplatit z kreditu
+                    </a>
+                    <span class="clearfix"></span>
+                </div>
+
+                <!-- Zrušit platbu kreditem -->
+                <a class="list-group-item" n:if="$userEntity !== NULL && $userEntity->creditBalance > 0 && $draft->isPayingByCredit" href="{link useCredit!, credit => FALSE}">
+                    Platba z kreditu
+                    <span class="pull-right">
+                        <strong>
+                            {if $draft->priceWithoutCredit < $userEntity->creditBalance}
+                                -{$draft->priceWithoutCredit}&nbsp;Kč
+                            {else}
+                                -{$userEntity->creditBalance}&nbsp;Kč
+                            {/if}
+                        </strong>
+                    </span>
+                    <span class="clearfix"></span>
+                    <div class="text-center">
+                        <span class="btn btn-sm btn-link">
+                            Zrušit platbu kreditem
+                        </span>
+                    </div>
+                </a>
+            {/if}
+
+            <!-- Zadejte slevový kód -->
+            <div class="list-group-item" n:if="$draft->canUseDiscountCode && $draft->discountCode === NULL">
+                Máte slevový kód? Zadejte ho sem:<br>
+                <form n:name="discount" class="form-horizontal vcd-application-form" style="margin-top:5px">
+                    <div class="input-group">
+                        <input n:name="discount" class="form-control input-sm" placeholder="Slevový kód">
+                        <span class="input-group-btn">
+                            <input n:name="save" class="btn btn-sm btn-primary">
+                        </span>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Použít jiný slevový kód -->
+            <a class="list-group-item" n:if="$draft->canUseDiscountCode && $draft->discountCode !== NULL" href="{link resetDiscountCode!}">
+                Slevový kód '{$draft->discountCode->code}'
+                <span class="pull-right">
+                    <strong>-{$draft->discountCode->discountValueFor($countChildren)}&nbsp;Kč</strong>
+                </span>
+                <span class="clearfix"></span>
+                <div class="text-center">
+                    <span class="btn btn-sm btn-link">
+                        Použít jiný slevový kód
+                    </span>
+                </div>
+            </a>
+
+        </div>
+
+    </div>
+
+    <form n:name="finish" class="">
+
+        <div class="col-md-3 vcd-payments" n:if="$showPaymentForm">
+
+            <p class="text-center">Způsob platby</p>
+
+            <div class="vcd-radio-group">
+                <div class="btn-group btn-group-vertical" data-toggle="buttons" style="width: 100%">
+                    {foreach $form[paymentMethod]->items as $key => $label}
+                        <label n:class="btn, btn-vcd-payment, btn-wrap, $form[paymentMethod]->getValue() === $key ? active" n:name="paymentMethod:$key">
+                            <input n:name="paymentMethod:$key">
+                            {$label}
+                        </label>
+                    {/foreach}
+                </div>
+            </div>
+
+            <div class="vcd-radio-group">
+                <div class="btn-group btn-group-vertical" data-toggle="buttons" style="width: 100%;margin-top: 25px">
+                    {foreach $form[payDeposit]->items as $key => $label}
+                        <label n:class="btn, btn-vcd-payment, btn-wrap, $form[payDeposit]->getValue() === $key ? active" n:name="payDeposit:$key">
+                            <input n:name="payDeposit:$key">
+                            <strong>{$label}</strong>
+                        </label>
+                    {/foreach}
+                </div>
+            </div>
+
+        </div>
+
+        <div n:class="$showPaymentForm ? col-md-4 : col-md-5, text-center">
+
+            <p class="text-center">Dokončení</p>
+
+            <div class="alert alert-success" style="padding-bottom:40px;">
+                <p class="text-center h3">
+                    Celkem k úhradě{if $showPaymentForm}:<br>{/if}
+                    <strong>
+                        {$draft->price}&nbsp;Kč
+                    </strong>
+                </p>
+                <p class="text-center h4" n:if="$draft->deposit > 0">
+                    Z toho záloha {$draft->deposit}&nbsp;Kč
+                </p>
+            </div>
+
+            <div>
+                {input finish, class => 'btn btn-lg btn-success'}
+            </div>
+
+            <div style="margin-top:5px" n:if="$draft->price > 0">
+                <small class="text-muted">
+                    Po stisknutí tohoto tlačítka se vám zobrazí instrukce k platbě.
+                    {if $draft->isPayingOnInvoice}
+                        Fakturu pro zaměstnavatele budete mít k dispozici po schválení přihlášky.
+                    {/if}
+                </small>
+            </div>
+
+        </div>
+
+    </form>
+</div>

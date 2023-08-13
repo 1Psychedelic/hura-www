@@ -1,0 +1,11 @@
+
+    <ul class="nav nav-tabs vcd-event-tabs">
+        <li{ifCurrent website} class="active"{/ifCurrent}><a n:href="website">Základní</a></li>
+        <li{ifCurrent websiteMenu} class="active"{/ifCurrent}{ifCurrent websiteMenuItem} class="active"{/ifCurrent}><a n:href="websiteMenu">Menu</a></li>
+        {** <li{ifCurrent ad} class="active"{/ifCurrent}><a n:href="ad, id => banner">Reklamní bannery</a></li> **}
+        <li{ifCurrent emailConfig} class="active"{/ifCurrent}><a n:href="emailConfig">E-maily</a></li>
+        <li{ifCurrent fioConfig} class="active"{/ifCurrent}><a n:href="fioConfig">Fio</a></li>
+        <li{ifCurrent facebookConfig} class="active"{/ifCurrent}><a n:href="facebookConfig">Facebook</a></li>
+        <li{ifCurrent googleConfig} class="active"{/ifCurrent}><a n:href="googleConfig">Google</a></li>
+        <li{ifCurrent codes} class="active"{/ifCurrent}{ifCurrent code} class="active"{/ifCurrent}><a n:href="codes">Kód</a></li>
+    </ul>

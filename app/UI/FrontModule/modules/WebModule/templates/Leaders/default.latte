@@ -1,0 +1,28 @@
+{define body}
+    <div class="container-fluid vcd-main-background">
+        <div class="container">
+            <div class="row vcd-content">
+                <div class="col-xs-12">
+
+                    <h1 n:if="FALSE">Vedoucí a lektoři</h1>
+
+                    <div class="row vcd-leader" n:foreach="$leaders as $leader">
+                        <div class="col-sm-3 text-center">
+                            <img n:if="$leader[photo]" src="{$baseUri}/www/{$leader[photo]}" class="vcd-leader-photo img-responsive img-circle">
+                            <h3>{$leader[name]}</h3>
+                            {$leader[info]|noescape}
+                        </div>
+                        <div class="col-sm-9">
+                            <div class="bubble">
+                                {$leader[about]|noescape}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{/define}
+
+{define head}{/define}

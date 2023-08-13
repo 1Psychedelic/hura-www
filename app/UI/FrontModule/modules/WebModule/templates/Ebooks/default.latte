@@ -1,0 +1,50 @@
+{define body}
+    {php $baseUri = 'https://volnycasdeti.cz'}
+    <div class="container-fluid vcd-main-background">
+        <div class="container">
+            <div class="row vcd-content">
+                <div class="col-xs-12">
+                    {$content|noescape}
+
+                    <div  style="padding-top:20px;padding-bottom:20px;">
+                        <div id="ebook-donate" role="tablist" aria-multiselectable="false">
+                            <div id="ebook-donate-button" class="collapse in text-center" role="tabpanel">
+                                <a onclick="$('#ebook-donate-button').collapse('hide')" class="btn btn-lg btn-success" data-toggle="collapse" data-parent="#ebook-donate" aria-expanded="true" aria-controls="ebook-donate-info" href="#ebook-donate-info">
+                                    Poslat příspěvek
+                                </a>
+                            </div>
+                            <div id="ebook-donate-info" class="collapse" role="tabpanel">
+                                <div class="panel panel-default">
+
+                                    <div class="panel-body bg-info">
+                                        <p>Milí čtenáři,</p>
+                                        <p>líbily se vám pohádky, které píšeme pro děti účastnící se našich akcí? Každá z pohádek vychází z tematiky konkrétního výletu nebo tábora. Čtení pohádek je součástí každé akce a jejich rozšiřující se repertoár nám slouží zejména k tomu, abychom děti uspali po dobrodružných zážitcích každého dne. Jsme rádi, že se o ně můžeme formou e-booků podělit s rodiči, dětmi a dalšími čtenáři, kteří je vyhledávají na našem webu. Pokud vás zaujaly, moc rádi si přečteme vaše reakce na našich <a href="https://www.facebook.com/volnycasdeti" target="_blank">facebookových stránkách</a>.</p>
+                                        <p>Naše texty jsou k dispozici zcela zdarma a těší nás, že si při nich děti mohou zavzpomínat na zážitky z našich akcí, a věříme, že udělají radost i dalším dětem. Jsme vám velmi vděční, že jste se rozhodli poskytnout dobrovolný příspěvek za stažení našeho e-booku. Takto získané prostředky využijeme výhradně pro rozšíření inventáře našich stolních her, kostýmů a vybavení, které nám umožní, abychom naše příběhové tematiky zpracovali ještě lépe, aby děti vtáhly do světa nekonečné fantazie.</p>
+                                        <p>Svůj dobrovolný příspěvek můžete zaslat na číslo účtu: {$bankAccount}</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {foreach $ebooks as $ebook}
+                        {control $ebook->id}
+                    {/foreach}
+
+                    <div class="text-center">
+
+                        {** Mobilní banner **}
+                        <br><br>
+                        {$presenter->createAd("9716397182", 320, 100, ['hidden-sm', 'hidden-md', 'hidden-lg'])->render()|noescape}
+
+                        {$presenter->createAd("7186039982", NULL, NULL, ['hidden-xs'])->render()|noescape}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{/define}
+
+{define head}{/define}

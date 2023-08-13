@@ -1,0 +1,61 @@
+{define body}
+
+    <div class="container-fluid vcd-main-background">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+
+                    <div class="row row-eq-height vcd-event-list">
+                        <div class="col-sm-6">
+                            <div class="vcd-event-list-item">
+
+                                <a href="{plink $eventsLink, type => $typeCampSpring}">
+                                    <img alt="Jarní tábory" class="vcd-event-img img-responsive" src="{$baseUri}/www/assets/img/spring.png">
+                                </a>
+
+                                <h2><a href="{plink $eventsLink, type => $typeCampSpring}">Jarní tábory</a></h2>
+
+                                <p></p>
+
+                                <div class="row">
+                                    <div class="col-sm-12 text-center">
+                                        <a class="btn btn-success btn-wrap" href="{plink $eventsLink, type => $typeCampSpring}">Zobrazit jarní tábory</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="vcd-event-list-item">
+
+                                <a href="{plink $eventsLink, type => $typeCamp}">
+                                    <img alt="Letní tábory" class="vcd-event-img img-responsive" src="{$baseUri}/www/assets/img/summer.png">
+                                </a>
+
+                                <h2><a href="{plink $eventsLink, type => $typeCamp}">Letní tábory</a></h2>
+
+                                <p></p>
+
+                                <div class="row">
+                                    <div class="col-sm-12 text-center">
+                                        <a class="btn btn-success btn-wrap" href="{plink $eventsLink, type => $typeCamp}">Zobrazit letní tábory</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{/define}
+
+{define head}{/define}

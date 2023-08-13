@@ -1,0 +1,42 @@
+<div class="row">
+    <div class="col-sm-6">
+        <h3>Dopisy</h3>
+        {if $showForm}
+            {control form}
+            <hr>
+        {/if}
+        {control dropzone}
+        <div>
+            <br><br>
+            <a onclick="if(!confirm('Opravdu smazat?')) { return false;}" n:href="clearTemp!" class="btn btn-danger btn-sm">Smazat nepřiřazené dopisy</a>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <h3>Uživatelé</h3>
+        {foreach $users as $userEntity}
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="well">
+                    <strong>{$userEntity->name}</strong>
+                    {$children($userOptions[$userEntity->id])}<br>
+                    {foreach $userEntity->findPendingReceivedLettersAtEvent($event) as $letter}
+                        <div style="display:inline-block;max-width:150px">
+                            <a href="{$baseUri}{$letter->imageUrl}" target="_blank">
+                                <img src="{$baseUri}{$letter->imageUrl}" class="img-responsive">
+                            </a>
+                            <a onclick="if(!confirm('Opravdu odebrat?')) { return false;}" n:href="remove!, $letter->id" class="btn btn-warning btn-xs" style="margin-top:-45px">Odebrat</a>
+                            <a onclick="if(!confirm('Opravdu smazat?')) { return false;}" n:href="delete!, $letter->id" class="btn btn-danger btn-xs" style="margin-top:-45px">Odstranit</a>
+                        </div>
+                    {/foreach}
+                </div>
+            </div>
+        </div>
+        {/foreach}
+    </div>
+</div>
+
+<div class="text-center">
+    <a n:href="publish!" onclick="if(!confirm('Opravdu hotovo?')) { return false;}" class="btn btn-success btn-lg">
+        Hotovo, zveřejnit dopisy a rozeslat e-maily
+    </a>
+</div>

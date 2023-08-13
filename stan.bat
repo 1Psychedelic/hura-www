@@ -1,0 +1,1 @@
+vendor\bin\phpstan.bat analyse -l 4 -c app/config/phpstan.neon app

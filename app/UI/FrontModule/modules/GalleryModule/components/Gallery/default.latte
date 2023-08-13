@@ -1,0 +1,113 @@
+{if !$event && count($events) === 0}
+    <div class="container">
+        <div class="row row-eq-height">
+            <div class="col-sm-7 col-sm-push-5">
+                <div class="vcd-box">
+                    <h3>Nejsou zde žádné fotky</h3>
+                </div>
+            </div>
+            <div class="col-sm-5 col-sm-pull-7" style="align-self:flex-end">
+                <img class="img-responsive" src="{$baseUri}/www/assets/img/404.png" alt="404">
+            </div>
+        </div>
+    </div>
+{else}
+
+    <div class="container-fluid vcd-main-background vcd-gallery">
+        <div class="container">
+            <div n:class="row, $event ? vcd-content">
+                <div class="col-xs-12">
+
+                    {if $event}
+                        {if $currentPhoto}
+                            <p>
+                                <a id="vcd-gallery-back" href="{plink this, photo => NULL}">Zpět do galerie</a>
+                            </p>
+                            <div class="row" id="vcd-gallery-container">
+                                <div class="col-sm-12">
+                                    <center>
+                                        <div class="vcd-box-item">
+                                            <a id="vcd-gallery-previous" class="left carousel-control" href="{if $previous}{plink this#vcd-main, photo => $previous[name]}{else}#vcd-main{/if}" style="background:none;{if !$previous}display:none;{/if}">
+                                                <span class="glyphicon glyphicon-chevron-left"></span>
+                                            </a>
+                                            <a {*n:tag-if="$next"*} id="vcd-gallery-middle" href="{plink this#vcd-main, photo => $next[name]}"><img src="{$baseUri}/www/photos/{$event[id]}/{$currentPhoto[name]}" class="img-responsive vcd-gallery-image" alt=""></a>
+                                            <a id="vcd-gallery-next" class="right carousel-control" href="{if $next}{plink this#vcd-main, photo => $next[name]}{else}#vcd-main{/if}" style="background:none;{if !$next}display:none;{/if}">
+                                                <span class="glyphicon glyphicon-chevron-right"></span>
+                                            </a>
+                                        </div>
+                                    </center>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="vcd-thumbnails" style="height:120px;overflow-x:auto;overflow-y:hidden;white-space:nowrap;padding-top:15px;">
+                                        {foreach $gallery as $photo}<a class="vcd-thumbnail-link" href="{plink this#vcd-main, photo => $photo[name]}"><img src="{$baseUri}/www/photos/{(int)$photo[event]}/thumb_{$photo[name]}" n:class="img-responsive, vcd-thumbnail, $photo[id] === $currentPhoto[id] ? vcd-thumbnail-active" style="{$thumbnail($photo[thumb_w], $photo[thumb_h], 80)|noescape}" alt=""></a>{/foreach}
+                                    </div>
+                                </div>
+                            </div>
+                            <p><small class="text-muted">Tip: K procházení fotografií můžete použít šipky na klávesnici, případně gesta na dotykovém zařízení.</small></p>
+
+                            <script type="text/javascript">
+                                {var $photos = []}
+                                {var $thumbnails = []}
+                                {var $photoUrl}
+                                {var $thumbUrl}
+                                {foreach $gallery as $photo}
+                                    {php $photoUrl = $presenter->link('this', ['id' => $event[slug], 'photo' => $photo[name]])}
+                                    {php $photos[$photoUrl] = $baseUri . '/www/photos/' . $event[id] . '/' . $photo[name]}
+                                    {php $thumbnails[$photoUrl] = $baseUri . '/www/photos/' . $event[id] . '/thumb_' . $photo[name]}
+                                {/foreach}
+                                $(document).ready(function() {
+                                    $('#vcd-gallery-container').vcdGallery({
+                                        images: {$photos},
+                                        thumbnails: {$thumbnails},
+                                        current: {$presenter->link('this', ['id' => $event[slug], 'photo' => $currentPhoto[name]])},
+                                        next: {if $next}{$presenter->link('this', ['id' => $event[slug], 'photo' => $next[name]])}{else}null{/if},
+                                        previous: {if $previous}{$presenter->link('this', ['id' => $event[slug], 'photo' => $previous[name]])}{else}null{/if}
+                                    });
+                                });
+                            </script>
+                        {else}
+                            <p>
+                                <div class="fb-share-button pull-right"
+                                     data-href="{plink //this, photo => NULL}"
+                                     data-layout="button_count"
+                                     data-size="small"
+                                     data-mobile-iframe="true">
+                                    <a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={$presenter->link('//this', [photo => NULL])|url}">Sdílet</a>
+                                </div>
+                                <a href="{plink this, photo => NULL, id => NULL}">Zpět na seznam galerií</a>
+                            </p>
+                            <div class="clearfix"></div>
+                            <center>
+                                {foreach $gallery as $photo}
+                                    <div class="vcd-box-item">
+                                        <a href="{plink this#vcd-main, photo => $photo[name]}"><img data-src="{$baseUri}/www/photos/{$event[id]}/thumb_{$photo[name]}" style="{$thumbnail($photo[thumb_w], $photo[thumb_h])|noescape};max-height:180px" alt=""></a>
+                                    </div>
+                                {/foreach}
+                            </center>
+                        {/if}
+                    {else}
+                        {foreach $events as $ev}
+                            {first 2}<div class="row row-eq-height vcd-event-list">{/first}
+                            <div class="col-sm-6">
+                                <div class="vcd-event-list-item">
+
+                                    <a n:if="$ev[gallery_photo]" href="{plink this, id => $ev[slug]}">
+                                        <img class="vcd-event-img img-responsive" src="{$baseUri}/www/photos/{$ev[id]}/{$ev[gallery_photo]}" alt="">
+                                    </a>
+
+                                    <h2><a href="{plink this, id => $ev[slug]}">{$ev[name]}</a></h2>
+                                    <p><strong>{control 't' . $ev[id]}</strong></p>
+                                    <p><a href="{plink this, id => $ev[slug]}">{$ev[photos]} fotek</a></p>
+
+                                </div>
+                            </div>
+                            {last 2}</div> <div class="clearfix"></div> {/last}
+                        {/foreach}
+
+                    {/if}
+
+                </div>
+            </div>
+        </div>
+    </div>
+{/if}

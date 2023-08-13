@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+  php:
+    build: docker/php7.3
+    volumes:
+      - .:/var/www
+      - ./public:/var/www/html
+#      - .:/var/www
+      - ~/.ssh:/root/.ssh
+      - ./docker/php8.0/php.ini:/usr/local/etc/php/php.ini
+    environment:
+      XDEBUG_CONFIG: 'remote_enable=0'
+      VIRTUAL_HOST: hura-tabory.lukasklika.cz
+      LETSENCRYPT_HOST: hura-tabory.lukasklika.cz
+      LETSENCRYPT_EMAIL: info@lukasklika.cz
+      NETWORK: nginx-proxy
+    expose:
+      - 443
+    restart: unless-stopped
+
+  mysql:
+    image: mariadb:10.2
+    volumes:
+      - ./docker/mysql:/etc/mysql
+      - ./docker/mysql/data:/var/lib/mysql
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d/
+#      - ./docker/mysql/dumps:/dumps
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+#    networks:
+#      - nginx-proxy
+    restart: unless-stopped
+
+networks:
+  default:
+    external:
+      name: nginx-proxy

@@ -1,0 +1,11 @@
+
+<p>
+    <a href="{plink this, divider => "\n"}" class="btn btn-primary btn-sm">Použít nový řádek místo středníku</a>
+</p>
+
+{foreach $data as $event => $emails}
+
+    <small>{$event}</small><br>
+    <textarea style="width:100%;" readonly>{foreach $emails as $email => $foo}{$email}{sep}{$divider|noescape}{/sep}{/foreach}</textarea>
+
+{/foreach}

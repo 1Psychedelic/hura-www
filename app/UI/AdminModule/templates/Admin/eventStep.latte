@@ -1,0 +1,20 @@
+{layout './@layout.latte'}
+
+{define body}
+
+    <div class="row vcd-content">
+        <div class="col-xs-12">
+            {if $event !== NULL}
+                {include './@eventConfig.latte', id => $event}
+            {/if}
+            {if $id !== NULL}
+                {include './@eventStepConfig.latte', event => $event, step => $id}
+            {/if}
+            {control eventStep}
+        </div>
+    </div>
+
+{/define}
+
+{define head}{/define}
+{define back}<li><a n:href="eventSteps, event => $event">Zpět na seznam</a></li>{/define}

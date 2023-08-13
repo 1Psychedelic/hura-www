@@ -1,0 +1,47 @@
+{contentType application/xml}<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>{plink //:Front:Homepage:Homepage:default}</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>{plink //:Front:Events:Events:default, type => $typeCamp}</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>{plink //:Front:Events:Events:default, type => $typeTrip}</loc>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>{plink //:Front:Gallery:Photos:default}</loc>
+        <changefreq>weekly</changefreq>
+    </url>
+    <url>
+        <loc>{plink //:Front:Gallery:LostFound:default}</loc>
+        <changefreq>weekly</changefreq>
+    </url>
+    <url>
+        <loc>{plink //:Front:Web:Contact:default}</loc>
+    </url>
+    <url>
+        <loc>{plink //:Front:Web:Reviews:default}</loc>
+        <changefreq>weekly</changefreq>
+    </url>
+    <url>
+        <loc>{plink //:Front:Events:Archive:default}</loc>
+    </url>
+    {foreach $events as $event}
+        <url>
+            <loc>{plink //:Front:Events:Event:default, _event => $event[slug]}</loc>
+            <changefreq>monthly</changefreq>
+        </url>
+        {if $event->related('vcd_photo', 'event')->where('visible = 1 AND type = 0')->select('COUNT(*)')->fetchField() > 0}
+            <url>
+                <loc>{plink //:Front:Gallery:Photos:default, id => $event[slug]}</loc>
+            </url>
+        {/if}
+    {/foreach}
+</urlset>

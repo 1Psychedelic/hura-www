@@ -1,0 +1,133 @@
+<form n:name="form" class="form-horizontal vcd-application-form">
+    <div class="row">
+        <div class="col-md-6">
+            <fieldset class="list-group-item">
+                <legend>Základní údaje</legend>
+                <div class="row form-group">
+                    {if $child === NULL || $child->isEditableByUser}
+                        <div class="col-sm-5 vcd-application-form-label">
+                            {label name /}
+                        </div>
+                        <div class="col-sm-7">
+                            <input n:name="name" class="form-control" onblur="$.nette.ajax({ url: {link determineGender!, name => '__name__'}.replace('__name__', $(this).val()), success: function(payload) { if(payload.gender) { $({='#' . $form[gender]->getHtmlId()} + '-' + payload.gender).prop('checked', true); } } })">
+                        </div>
+                    {else}
+                        <div class="col-sm-5 vcd-application-form-label">
+                            <label>Jméno a příjmení</label>
+                        </div>
+                        <div class="col-sm-7">
+                            <p class="form-control-static">{$child->name}</p>
+                        </div>
+                    {/if}
+                </div>
+                <div class="row form-group">
+                    {if $child === NULL || $child->isEditableByUser}
+                        <div class="col-sm-5 vcd-application-form-label">
+                            {label dateBorn /}
+                        </div>
+                        <div class="col-sm-7">
+                            <input n:name="dateBorn" class="form-control">
+                        </div>
+                    {else}
+                        <div class="col-sm-5 vcd-application-form-label">
+                            <label>Datum narození</label>
+                        </div>
+                        <div class="col-sm-7">
+                            <p class="form-control-static">{$child->dateBorn|date:'d. m. Y'}</p>
+                        </div>
+                    {/if}
+                </div>
+                {if $child === NULL || $child->isEditableByUser}
+                    <div class="row form-group">
+                        <div class="col-sm-5 vcd-application-form-label">
+                            {label gender /}
+                        </div>
+                        <div class="col-sm-7">
+                            {foreach $form[gender]->getItems() as $key => $label}
+                                <div class="radio">{label gender:$key}{input gender:$key} {$label}{/label}</div>
+                            {/foreach}
+                        </div>
+                    </div>
+                {else}
+                    <div class="row form-group">
+                        <div class="col-sm-5 vcd-application-form-label">
+                            <label>Pohlaví</label>
+                        </div>
+                        <div class="col-sm-7">
+                            <p class="form-control-static">
+                                {if $child->gender === 'm'}
+                                    Chlapec
+                                {else}
+                                    Dívka
+                                {/if}
+                            </p>
+                        </div>
+                    </div>
+                {/if}
+                <div class="row form-group">
+                    <div class="col-sm-5 vcd-application-form-label">
+                        {label notes /}
+                    </div>
+                    <div class="col-sm-7">
+                        <textarea n:name="notes" class="form-control" style="min-height:70px"></textarea>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="col-md-6">
+            <fieldset class="list-group-item">
+                <legend>Zdravotní údaje</legend>
+
+                <div class="row form-group">
+                    <div class="col-sm-5 vcd-application-form-label">
+                        {label swimmer /}
+                    </div>
+                    <div class="col-sm-7">
+                        {foreach $form[swimmer]->getItems() as $key => $label}
+                            <div class="radio">{label swimmer:$key}{input swimmer:$key} {$label}{/label}</div>
+                        {/foreach}
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-sm-5 vcd-application-form-label">
+                        {label adhd /}
+                    </div>
+                    <div class="col-sm-7">
+                        {foreach $form[adhd]->getItems() as $key => $label}
+                            <div class="radio">{label adhd:$key}{input adhd:$key} {$label}{/label}</div>
+                        {/foreach}
+                    </div>
+                </div>
+{**
+                <div class="row form-group">
+                    <div class="col-sm-5 vcd-application-form-label">
+                        {label allergy /}<br>
+                    </div>
+                    <div class="col-sm-7">
+                        <textarea n:name="allergy" class="form-control" style="min-height:86px"></textarea>
+                    </div>
+                </div>
+**}
+                <div class="row form-group">
+                    <div class="col-sm-5 vcd-application-form-label">
+                        {label health /}<br>
+                    </div>
+                    <div class="col-sm-7">
+                        <textarea n:name="health" class="form-control" style="min-height:134px"></textarea>
+                        <small>Uveďte prosím veškeré důležité zdravotní informace o dítěti, zdravotní omezení, alergie a léky, které užívá.</small>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-9">
+            <div class="btn-group">
+                <input n:name="save" class="btn btn-primary">
+                <input n:name="back" class="btn btn-default">
+            </div>
+        </div>
+    </div>
+</form>

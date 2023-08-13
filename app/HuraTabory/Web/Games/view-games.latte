@@ -1,0 +1,38 @@
+{layout '../@layout.latte'}
+
+{block title}Naše deskové hry · {/block}
+{block head}{/block}
+{block body}
+
+    {if count($games) > 0}
+
+        <section class="page__section page__section--generic-heading">
+            <div class="page__section__content">
+                <span class="page__section__subheading">Pro děti tvoříme tématické deskové hry, které v průběhu tábora sbírají a odnáší si je domů na památku.</span>
+                <h1 class="page__section__heading">Naše deskové hry</h1></div>
+        </section>
+
+        <section class="page__section page__section--homepage-events">
+            <div class="page__section__content">
+                <div class="games">
+
+                    {foreach $games as $game}
+                        <div class="game">
+                            <a id="{$game['slug']}"></a>
+                            <img class="game-image" src="{if $game['bannerLarge']}{$game['bannerLarge']}{else}{$game['bannerSmall']}{/if}" alt="{$game['name']}">
+                            <div class="game-description">
+                                <h3>{$game['name']}</h3>
+                                <div>
+                                    {if $game['descriptionLong']}{$game['descriptionLong']|noescape}{else}{$game['descriptionShort']|noescape}{/if}
+                                </div>
+                            </div>
+                        </div>
+                    {/foreach}
+
+                </div>
+                <div class="homepage-events-arrow"></div>
+            </div>
+        </section>
+    {/if}
+
+{/block}

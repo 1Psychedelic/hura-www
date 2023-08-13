@@ -1,0 +1,35 @@
+{layout './@layout.latte'}
+
+{block body}
+
+<div style="overflow: auto;width:100%;height:600px">
+    <canvas id="subscribersChart" height="150"></canvas>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        var ctx2 = document.getElementById("subscribersChart");
+        var subscribersChart = new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: {=array_keys($subscribers)},
+                datasets: [
+                    {
+                        label: "Odběratelé",
+                        data: {=array_values($subscribers)}
+                    }
+                ]
+            },
+            options: {
+                bezierCurve : false,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    });
+</script>

@@ -1,0 +1,80 @@
+{define body}
+    <div class="container-fluid vcd-main-background">
+        <div class="container">
+            <div class="row vcd-content">
+                <div class="col-xs-12">
+
+                    <div class="row">
+                        <div class="col-sm-12">
+
+                            <a name="detail"{if $event->bannerLarge} href="{plink \VCD\UI\FrontModule\EventsModule\EventPresenter::LINK_DEFAULT, _event => $event->slug}"{/if}><img n:if="$event->bannerLarge" class="vcd-event-img img-responsive" src="{$baseUri}/www/{$event->bannerLarge}"></a>
+                            <a name="tabs"></a>
+
+                            {var $number = 1;}
+                            <ul class="nav nav-tabs vcd-event-tabs">
+                                <li role="presentation">
+                                    <a href="{plink \VCD\UI\FrontModule\EventsModule\EventPresenter::LINK_DEFAULT, _event => $event->slug}#tabs">
+                                        <span class="glyphicon glyphicon-arrow-left"></span> Zpět na detail akce
+                                    </a>
+                                </li>
+                                <li role="presentation" n:class="$presenter->view === 'parent' ? active">
+                                    <a href="{plink parent}#tabs">
+                                        <span n:if="$draft->hasValidParentInfo" style="color:rgb(64,192,64)" class="glyphicon glyphicon-ok"></span>
+                                        {$number++}.&nbsp;Zákonný zástupce
+                                    </a>
+                                </li>
+                                <li role="presentation" n:class="in_array($presenter->view, ['child', 'children', 'child-delete']) ? active">
+                                    <a href="{plink children}#tabs">
+                                        {if !$event->hasEnoughCapacityFor($draft->children->count())}
+                                            <span style="color:rgb(192,64,64)" class="glyphicon glyphicon-remove"></span>
+                                        {elseif $draft->hasValidChildren}
+                                            <span style="color:rgb(64,192,64)" class="glyphicon glyphicon-ok"></span>
+                                        {/if}
+
+                                        {$number++}.&nbsp;Děti
+                                    </a>
+                                </li>
+
+                                {foreach $draft->event->steps as $step}
+                                    <li role="presentation" n:class="$presenter->view === 'step' && $step->slug === $id ? active">
+                                        <a href="{plink step, id => $step->slug}#tabs">
+                                            <span n:if="!in_array($step, $draft->unfilledSteps, TRUE) && !in_array($step, $invalidSteps, TRUE)" style="color:rgb(64,192,64)" class="glyphicon glyphicon-ok"></span>
+
+                                            {$number++}.&nbsp;{$step->tab}
+                                        </a>
+                                    </li>
+                                {/foreach}
+
+                                <li role="presentation" n:class="$presenter->view === 'finish' ? active">
+                                    <a href="{plink finish}#tabs">
+                                        {$number++}.&nbsp;Dokončení
+                                    </a>
+                                </li>
+                            </ul>
+
+{**
+                            <div n:if="!$applications->canApply(max(1, $countChildren))" class="alert alert-danger">
+                                <span class="glyphicon glyphicon-ban-circle"></span> Je nám líto, z důvodu omezené kapacity nemůžeme přijmout tolik dětí.
+                            </div>
+                            <div n:if="$applications->canApply(max(1, $countChildren)) && $applications->wouldBeReserves(max(1, $countChildren))" class="alert alert-warning">
+                                <span class="glyphicon glyphicon-warning-sign"></span> Je nám líto, ale máme plno. Stále však můžete přihlášku vyplnit a Vaše {if $countChildren === 1}dítě bude zařazeno{else}děti budou zařazeny{/if} mezi náhradníky.
+                            </div>
+                            <div n:if="$applications->areClosed((new \Nette\Utils\DateTime)->modify('+6 hours'))" class="alert alert-info">
+                                <span class="glyphicon glyphicon-time"></span> Pospěšte si prosím, přihlášky se za chvíli uzavřou!
+                            </div>
+                            **}
+
+                            {snippet applicationFlashes}{control flashes}{/snippet}
+
+                            {control $presenter->view}
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{/define}
+{define head}{/define}

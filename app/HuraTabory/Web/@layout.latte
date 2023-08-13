@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>{if $reactState['notifications']['countNew'] > 0}({$reactState['notifications']['countNew']}) {/if}{block title}{/block}{$reactState['website']['title']}</title>
+    <meta data-react-helmet="true" name="description" content="{if isset($metaDescription)}{$metaDescription}{else}{$reactState['website']['description']}{/if}">
+    <meta data-react-helmet="true" name="keywords" content="{if isset($metaKeywords)}{$metaKeywords}{else}{$reactState['website']['keywords']}{/if}">
+    <meta data-react-helmet="true" name="robots" content="{if isset($metaNoindex) && !$metaNoindex}no{/if}index, follow">
+    <meta data-react-helmet="true" name="author" content="{$reactState['website']['name']}">
+    <link data-react-helmet="true" rel="canonical" href="{$reactState['canonical']}">
+    <link rel="stylesheet" href="/css/styles.css?v=_hash_">
+    <link rel="manifest" href="/manifest.json?v=_hash_">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#393d72">
+
+    {block head}{/block}
+
+    {if isset($structuredData)}
+        <script type="application/ld+json">{$structuredData}</script>
+    {/if}
+
+    <script type="text/javascript">
+        window.__INITIAL_STATE__ = {$reactState};
+    </script>
+
+    <script type="text/javascript">
+        function liveQuery(selector, eventType, callback, useCapture, context) {
+            useCapture = useCapture || false;
+            (context || document).addEventListener(eventType, function (event) {
+                var nodeList = document.querySelectorAll(selector);
+                // convert nodeList into matches array
+                var matches = [];
+                for (var i = 0; i < nodeList.length; ++i) {
+                    matches.push(nodeList[i]);
+                }
+                // if there are matches
+                if (matches) {
+                    var element = event.target;
+                    var index = -1;
+                    // traverse up the DOM tree until element can't be found in matches array
+                    while (element && (index = matches.indexOf(element) === -1)) {
+                        element = element.parentElement;
+                    }
+                    // when element matches the selector, apply the callback
+                    if (index > -1) {
+                        callback.call(element, event);
+                    }
+                }
+            }, useCapture);
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var inputSelector = '.form-input-group input,.form-input-group select';
+            //var inputSelector = '.form-input-text-group input[type="text"]';
+            liveQuery(inputSelector, 'focus', function () {
+                var element = this;
+
+                if (element.tagName && element.tagName.toLowerCase() === 'select') {
+                    return;
+                }
+
+                while (element && (!element.classList || !element.classList.contains('form-input-group'))) {
+                    element = element.parentElement;
+                }
+
+                if (element) {
+                    element.classList.add('active');
+                }
+            }, true);
+            liveQuery(inputSelector, 'blur', function () {
+                if (this.value) {
+                    return;
+                }
+
+                var element = this;
+                while (element && (!element.classList || !element.classList.contains('form-input-group'))) {
+                    element = element.parentElement;
+                }
+
+                if (element) {
+                    element.classList.remove('active');
+                }
+            }, true);
+            liveQuery('.form-input-group select', 'change', function () {
+                var element = this;
+                while (element && (!element.classList || !element.classList.contains('form-input-group'))) {
+                    element = element.parentElement;
+                }
+
+                if (element) {
+                    if (this.value) {
+                        element.classList.add('active');
+                    } else {
+                        element.classList.remove('active');
+                    }
+                }
+            });
+            /*liveQuery('input[data-input-type="date"]', 'focus', function () {
+                this.type = 'date';
+            }, true);
+            liveQuery('input[data-input-type="date"]', 'blur', function () {
+                if (!this.value) {
+                    this.type = 'text';
+                }
+            }, true);*/
+            document.querySelectorAll(inputSelector).forEach(function (element) {
+                if (!element.value) {
+                    return;
+                }
+
+                while (element && (!element.classList || !element.classList.contains('form-input-group'))) {
+                    element = element.parentElement;
+                }
+
+                if (element) {
+                    element.classList.add('active');
+                }
+            });
+        });
+
+    </script>
+
+    <!-- script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            var trigger = document.getElementById('mobile-menu-trigger');
+            var wrapper = document.getElementsByClassName('page-wrapper')[0];
+            var touchStartX = 0;
+            var touchStartY = 0;
+            var multitouchDetected = false;
+
+            document.body.addEventListener('touchstart', function (e) {
+                if ((touchStartX !== 0 && touchStartY !== 0) || e.touches.length > 1) {
+                    multitouchDetected = true;
+                    return;
+                }
+                touchStartX = e.changedTouches[0].screenX;
+                touchStartY = e.changedTouches[0].screenY;
+                multitouchDetected = false;
+            });
+            document.body.addEventListener('touchend', function (e) {
+                if (multitouchDetected) {
+                    return;
+                }
+                var distanceX = e.changedTouches[0].screenX - touchStartX;
+                var distanceY = e.changedTouches[0].screenY - touchStartY;
+
+                if (Math.abs(distanceX) < 3 * Math.abs(distanceY)) {
+                    touchStartX = 0;
+                    touchStartY = 0;
+                    return;
+                }
+
+                trigger.checked = distanceX < 0;
+                touchStartX = 0;
+                touchStartY = 0;
+                multitouchDetected = 0;
+            });
+            wrapper.addEventListener('click', function () {
+                trigger.checked = false;
+            });
+            window.addEventListener('resize', function () {
+                trigger.checked = false;
+            });
+        })
+    </script -->
+
+    {foreach $reactState['website']['javascripts'] as $javascript}
+        {$javascript['code']|noescape}
+    {/foreach}
+</head>
+<body>
+
+<div id="app">
+
+    <input type="checkbox" id="mobile-menu-trigger" class="mobile-menu-trigger">
+    <label for="mobile-menu-trigger"></label>
+    <div class="mobile-menu">
+        <nav>
+            <ul>
+                {foreach $reactState['website']['menu']['mobile'] as $menuItem}
+                    <li><a href="{$menuItem['url']}"{if $menuItem['isExternal']} target="_blank"{/if}>{$menuItem['text']}</a></li>
+                {/foreach}
+            </ul>
+        </nav>
+    </div>
+
+    <header class="page-topbar page__section page__section--top-menu">
+        <div class="page__section__content">
+            <div class="contact-info">
+                <div class="contact-info-phone">
+                    <img src="/images/icons/icon-phone.png" alt="Telefon"><a
+                            href="tel:{$reactState['website']['phone']}">{$reactState['website']['phoneHumanReadable']}</a>
+                </div>
+                <div class="contact-info-email"><img src="/images/icons/icon-email.png" alt="E-mail"><a
+                            href="mailto:{$reactState['website']['email']}">{$reactState['website']['email']}</a></div>
+            </div>
+            <div class="top-menu">
+                <nav>
+                    <ul>
+                        {foreach $reactState['website']['menu']['top'] as $menuItem}
+                            <li><a href="{$menuItem['url']}"{if $menuItem['isExternal']} target="_blank"{/if}>{$menuItem['text']}</a></li>
+                        {/foreach}
+                        {if $reactState['authentication']['isLoggedIn']}
+                            <li class="top-menu-login"><input id="top-menu-login-button" type="checkbox"><label
+                                        for="top-menu-login-button" class="top-menu-login-button">Můj účet</label><label
+                                        for="top-menu-login-button" class="top-menu-login-overlay"></label>
+                                <div class="top-menu-login-dropdown"><label for="top-menu-login-button"
+                                                                            class="top-menu-login-button">Můj
+                                        účet</label>
+                                    <div class="top-menu-login-username"><p>
+                                            <strong>{$reactState['authentication']['userProfile']['name']}</strong></p>
+                                    </div>
+                                    <div class="top-menu-login-avatar"><img
+                                                src="{$reactState['authentication']['userProfile']['avatar']}" alt="{$reactState['authentication']['userProfile']['name']}"></div>
+                                    <a class="login-button login-button-primary" href="/muj-ucet">Zobrazit můj
+                                        profil</a><a
+                                            class="login-button login-button-register" href="/muj-ucet/nastaveni">Nastavení
+                                        a<br>zabezpečení účtu</a><a class="login-button login-button-logout">Odhlásit
+                                        se</a>
+                                </div>
+                            </li>
+
+                        {else}
+                            <li class="top-menu-login"><input id="top-menu-login-button" type="checkbox"><label
+                                        for="top-menu-login-button" class="top-menu-login-button">Přihlásit
+                                    se</label><label for="top-menu-login-button" class="top-menu-login-overlay"></label>
+                                <div class="top-menu-login-dropdown"><label for="top-menu-login-button"
+                                                                            class="top-menu-login-button">Přihlásit
+                                        se</label>
+                                    <noscript>Tato funkce vyžaduje povolený JavaScript.</noscript>
+                                </div>
+                            </li>
+                        {/if}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="page-wrapper">
+        <div class="page">
+
+            <header class="page__section page__section--main-menu">
+                <div class="page__section__content">
+                    <div class="logo"><a href="/"><img src="/images/main-menu-logo.svg" alt="Hurá tábory, z.s."></a></div>
+                    <div class="main-menu">
+                        <nav>
+                            <ul>
+                                {foreach $reactState['website']['menu']['main'] as $menuItem}
+                                    <li><a href="{$menuItem['url']}"{if $menuItem['isExternal']} target="_blank"{/if}>{$menuItem['text']}</a></li>
+                                {/foreach}
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page-scroll-top"></div>
+
+            {block body}{/block}
+
+            <footer class="page__section page__section--footer">
+                <div class="page__section__content">
+                    <div class="footer-arrow"></div>
+                    <div class="footer">
+                        <div class="footer-logo"></div>
+                        <div class="footer-content">
+                            <div class="footer-content-column">
+                                <div class="footer-content-column-heading">Sledujte nás</div>
+                                <div class="footer-content-column-links">
+                                    <ul>
+                                        {if $reactState['website']['facebookLink']}
+                                            <li><a href="{$reactState['website']['facebookLink']}" target="_blank"><img
+                                                            src="/images/icons/footer/icon-facebook.png" alt="Facebook logo">
+                                                    <span>Facebook</span></a></li>
+                                        {/if}
+                                        {if $reactState['website']['instagramLink']}
+                                            <li><a href="{$reactState['website']['instagramLink']}" target="_blank"><img
+                                                            src="/images/icons/footer/icon-instagram.png" alt="Instagram logo">
+                                                    <span>Instagram</span></a></li>
+                                        {/if}
+                                        {if $reactState['website']['pinterestLink']}
+                                            <li><a href="{$reactState['website']['pinterestLink']}" target="_blank"><img
+                                                            src="/images/icons/footer/icon-pinterest.png" alt="Pinterest logo">
+                                                    <span>Pinterest</span></a></li>
+                                        {/if}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="footer-content-column">
+                                <div class="footer-content-column-heading">Kontakty</div>
+                                <div class="footer-content-column-links">
+                                    <ul>
+                                        <li><a href="tel:{$reactState['website']['phone']}"><img src="/images/icons/icon-phone.png" alt="Telefon">
+                                                <span> {$reactState['website']['phoneHumanReadable']}</span></a></li>
+                                        <li><a href="mailto:{$reactState['website']['email']}"><img
+                                                        src="/images/icons/icon-email.png" alt="E-mail">
+                                                <span>{$reactState['website']['email']}</span></a></li>
+                                        <li>
+                                            <a href="{$reactState['website']['addressLink']}"
+                                               target="_blank"><img src="/images/icons/footer/icon-map.png" alt="Mapa"> <span>{$reactState['website']['address']}</span></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="footer-content-column">
+                                <div class="footer-content-column-heading">Odkazy</div>
+                                <div class="footer-content-column-links-condensed">
+                                    <ul>
+                                        {foreach $reactState['website']['menu']['footer'] as $menuItem}
+                                            <li><a href="{$menuItem['url']}"{if $menuItem['isExternal']} target="_blank"{/if}>{$menuItem['text']}</a></li>
+                                        {/foreach}
+                                        <li><a href="{$reactState['website']['rules']}" target="_blank"><span>Jak to u nás chodí</span></a></li>
+                                        <li><a href="{$reactState['website']['gdpr']}"
+                                               target="_blank"><span>GDPR</span></a></li>
+                                        <li><a href="{$reactState['website']['termsAndConditions']}"
+                                               target="_blank"><span>VOP</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="footer-content-column">
+                                <div class="footer-content-column-heading">Odběr novinek</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="footer-copyright">Copyright © 2021 {$reactState['website']['name']}</div>
+                </div>
+            </footer>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/js/frontend.js?v=_hash_"></script>
+</body>
+</html>

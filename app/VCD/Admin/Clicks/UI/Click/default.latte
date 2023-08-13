@@ -1,0 +1,23 @@
+
+<h1><a href="{$url}" target="_blank">{$url}</a></h1>
+
+<table class="table table-condensed table-bordered">
+    <tr>
+        <th>IP</th>
+        <th>Host</th>
+        <th>Čas</th>
+        <th>Uživatel</th>
+    </tr>
+    <tr n:foreach="$list as $item">
+        <td>{$item[ip]}</td>
+        <td>{$item[host]}</td>
+        <td>{$item[created_at]|date:'j. n. Y H:i'}</td>
+        <td>
+            {if $item[user] === NULL}
+                Neregistrovaný
+            {else}
+                {$item->ref('user')[name]}
+            {/if}
+        </td>
+    </tr>
+</table>

@@ -1,0 +1,15 @@
+{include './@phpHeader.latte'}
+
+class {$className}ControlFactory {
+
+    private $container;
+
+    function __construct(Container $container) {
+        $this->container = $container;
+    }
+
+    function create({foreach $params as $param}${$param}{sep}, {/sep}{/foreach}) {
+        return new {$className}Control($this->container{foreach $params as $param}, ${$param}{/foreach});
+    }
+
+}

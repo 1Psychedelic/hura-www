@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>Hurá tábory</title>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/layout.css?v=dasfasdf">
+    <link rel="stylesheet" href="css/homepage.css?v=asdfasdf">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#393d72">
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            var trigger = document.getElementById('mobile-menu-trigger');
+            var wrapper = document.getElementsByClassName('page-wrapper')[0];
+            var touchStartX = 0;
+            var touchStartY = 0;
+            var multitouchDetected = false;
+
+            document.body.addEventListener('touchstart', function (e) {
+                if ((touchStartX !== 0 && touchStartY !== 0) || e.touches.length > 1) {
+                    multitouchDetected = true;
+                    return;
+                }
+                touchStartX = e.changedTouches[0].screenX;
+                touchStartY = e.changedTouches[0].screenY;
+                multitouchDetected = false;
+            });
+            document.body.addEventListener('touchend', function (e) {
+                if (multitouchDetected) {
+                    return;
+                }
+                var distanceX = e.changedTouches[0].screenX - touchStartX;
+                var distanceY = e.changedTouches[0].screenY - touchStartY;
+
+                if (Math.abs(distanceX) < 3 * Math.abs(distanceY)) {
+                    touchStartX = 0;
+                    touchStartY = 0;
+                    return;
+                }
+
+                trigger.checked = distanceX < 0;
+                touchStartX = 0;
+                touchStartY = 0;
+                multitouchDetected = 0;
+            });
+            wrapper.addEventListener('click', function () {
+                trigger.checked = false;
+            });
+            window.addEventListener('resize', function () {
+                trigger.checked = false;
+            });
+        })
+    </script>
+    <script type="text/javascript">
+        var nextEventDate = new Date("Nov 12, 2021 00:00:01").getTime();
+        var x = setInterval(function() {
+            var now = new Date().getTime();
+            var interval = nextEventDate - now;
+            var days = Math.floor(interval / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((interval % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((interval % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((interval % (1000 * 60)) / 1000);
+
+            document.querySelectorAll('.homepage-next-event-circle.homepage-next-event-days .homepage-next-event-number').forEach(
+                function (element) {
+                    element.innerHTML = days;
+                }
+            );
+            document.querySelectorAll('.homepage-next-event-circle.homepage-next-event-hours .homepage-next-event-number').forEach(
+                function (element) {
+                    element.innerHTML = hours;
+                }
+            );
+            document.querySelectorAll('.homepage-next-event-circle.homepage-next-event-minutes .homepage-next-event-number').forEach(
+                function (element) {
+                    element.innerHTML = minutes;
+                }
+            );
+            document.querySelectorAll('.homepage-next-event-circle.homepage-next-event-seconds .homepage-next-event-number').forEach(
+                function (element) {
+                    element.innerHTML = seconds;
+                }
+            );
+        }, 1000);
+    </script>
+</head>
+<body>
+
+<input type="checkbox" id="mobile-menu-trigger" class="mobile-menu-trigger">
+<label for="mobile-menu-trigger" />
+<div class="mobile-menu">
+    <nav>
+        <ul>
+            <li>
+                <a href="#" class="button-login">Přihlásit&nbsp;se</a>
+            </li>
+            <li>
+                <a href="#">Domů</a>
+            </li>
+            <li>
+                <a href="#">Tábory</a>
+            </li>
+            <li>
+                <a href="#">Výlety</a>
+            </li>
+            <li>
+                <a href="#">Fotky</a>
+            </li>
+            <li>
+                <a href="#">Proč k nám</a>
+            </li>
+            <li>
+                <a href="#">Archiv</a>
+            </li>
+            <li>
+                <a href="#">E-booky</a>
+            </li>
+            <li>
+                <a href="#">Naše hry</a>
+            </li>
+            <li>
+                <a href="#">Vedoucí a lektoři</a>
+            </li>
+            <li>
+                <a href="#">Recenze</a>
+            </li>
+            <li>
+                <a href="#">Kontakty</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<header class="page-topbar page__section page__section--top-menu">
+    <div class="page__section__content">
+        <div class="contact-info">
+            <div class="contact-info-phone">
+                <img src="images/icons/icon-phone.png"><a href="tel:+420-704-290-406">704&nbsp;290&nbsp;406</a>
+            </div>
+            <div class="contact-info-email">
+                <img src="images/icons/icon-email.png"><a href="mailto:info@hura-tabory.cz">info@hura-tabory.cz</a>
+            </div>
+        </div>
+        <div class="top-menu">
+            <nav>
+                <ul>
+                    <li>
+                        <a href="#">E-booky</a>
+                    </li>
+                    <li>
+                        <a href="#">Naše&nbsp;hry</a>
+                    </li>
+                    <li>
+                        <a href="#">Vedoucí&nbsp;a&nbsp;lektoři</a>
+                    </li>
+                    <li>
+                        <a href="#">Proč&nbsp;k&nbsp;nám</a>
+                    </li>
+                    <li>
+                        <a href="#" class="button-login">Přihlásit&nbsp;se</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+
+
+        <!-- svg viewBox="0 0 100 80" width="20" height="20" class="">
+            <rect width="100" height="20"></rect>
+            <rect y="30" width="100" height="20"></rect>
+            <rect y="60" width="100" height="20"></rect>
+        </svg -->
+    </div>
+</header>
+
+<header class="page__section page__section--main-menu">
+    <div class="page__section__content">
+        <div class="logo">
+            <a href="#"><img src="images/main-menu-logo.png"></a>
+        </div>
+        <div class="main-menu">
+            <nav>
+                <ul>
+                    <li>
+                        <a href="#">Domů</a>
+                    </li>
+                    <li>
+                        <a href="#">Tábory</a>
+                    </li>
+                    <li>
+                        <a href="#">Výlety</a>
+                    </li>
+                    <li>
+                        <a href="#">Fotky</a>
+                    </li>
+                    <li>
+                        <a href="#">Recenze</a>
+                    </li>
+                    <li>
+                        <a href="#">Archiv</a>
+                    </li>
+                    <li>
+                        <a href="#">Kontakty</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<div class="page-wrapper">
+
+    <div class="page">
+
+
+
+        <section class="page__section page__section--homepage-events">
+            <div class="page__section__content">
+                <span class="page__section__subheading">Dopřejte svým dětem jedinečné zážitky. <img src="images/homepage/homepage-subheading-star.png"></span>
+                <h2 class="page__section__heading">Tábory a výlety pro děti!</h2>
+
+                <div class="homepage-events">
+                    <div class="homepage-event">
+                        <img class="homepage-event-banner" src="images/velikonoce.jpeg">
+                        <div class="homepage-event-content">
+                            <div>
+                                <h3>Velikonoce naruby</h3>
+                                <div class="homepage-event-text">
+                                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer malesuada.
+                                </div>
+                            </div>
+                            <div class="homepage-event-bottom">
+                                <div class="homepage-event-info">
+                                    <div>
+                                        20. – 22. 9. 2019
+                                    </div>
+                                    <div>
+                                        5 – 10 let
+                                    </div>
+                                </div>
+                                <div class="homepage-event-price-button">
+                                    <div class="homepage-event-price">
+                                        1&nbsp;390&nbsp;Kč
+                                    </div>
+                                    <div class="homepage-event-button">
+                                        <a href="#">Rezervovat</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="homepage-event">
+                        <img class="homepage-event-banner" src="images/supertabor.png">
+                        <div class="homepage-event-content">
+                            <h3>Supertábor pro superhrdiny!</h3>
+                            <div class="homepage-event-text">
+                                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer malesuada.
+                                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer malesuada.
+                            </div>
+                            <div class="homepage-event-info">
+                                <div>
+                                    20. – 22. 9. 2019
+                                </div>
+                                <div>
+                                    5 – 10 let
+                                </div>
+                            </div>
+                            <div class="homepage-event-price-button">
+                                <div class="homepage-event-price">
+                                    1&nbsp;390&nbsp;Kč
+                                </div>
+                                <div class="homepage-event-button">
+                                    <a href="#">Rezervovat</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="homepage-event">
+                        <img class="homepage-event-banner" src="images/gangster.png">
+                        <div class="homepage-event-content">
+                            <h3>Vítej ve světě Minecraftu!</h3>
+                            <div class="homepage-event-text">
+                                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer malesuada.
+                            </div>
+                            <div class="homepage-event-info">
+                                <div>
+                                    20. – 22. 9. 2019
+                                </div>
+                                <div>
+                                    5 – 10 let
+                                </div>
+                            </div>
+                            <div class="homepage-event-price-button">
+                                <div class="homepage-event-price">
+                                    1&nbsp;390&nbsp;Kč
+                                </div>
+                                <div class="homepage-event-button">
+                                    <a href="#">Rezervovat</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="homepage-events-arrow"></div>
+            </div>
+        </section>
+
+        <section class="page__section page__section--homepage-why-us">
+            <div class="page__section__content">
+                <span class="page__section__subheading">Lerem impsum</span>
+                <h2 class="page__section__heading">Proč k nám?</h2>
+
+                <div class="homepage-why-us">
+                    <div class="homepage-why-us-circle-wrapper">
+                        <div class="homepage-why-us-circle"><img src="images/homepage/why-us/why-us-circle1.png"></div>
+                        <div class="homepage-why-us-text">
+                            Nejen letní a&nbsp;jarní&nbsp;tábory, ale&nbsp;i&nbsp;pravidelné víkendové akce v&nbsp;průběhu celého školního roku.
+                        </div>
+                    </div>
+                    <div class="homepage-why-us-circle-wrapper">
+                        <div class="homepage-why-us-circle"><img src="images/homepage/why-us/why-us-circle2.png"></div>
+                        <div class="homepage-why-us-text">
+                            Propracované příběhové hry, do&nbsp;kterých děti vtáhneme: minecraft, pokémoni, piráti a&nbsp;další.
+                        </div>
+                    </div>
+                    <div class="homepage-why-us-circle-wrapper">
+                        <div class="homepage-why-us-circle"><img src="images/homepage/why-us/why-us-circle3.png"></div>
+                        <div class="homepage-why-us-text">
+                            Lokality v&nbsp;krásné přírode, v&nbsp;kulturně hodnotných městech, návštěvy různorodých atrakcí.
+                        </div>
+                    </div>
+                    <div class="homepage-why-us-circle-wrapper">
+                        <div class="homepage-why-us-circle"><img src="images/homepage/why-us/why-us-circle4.png"></div>
+                        <div class="homepage-why-us-text">
+                            Spokojenost a&nbsp;radost dětí, které vytvářejí kolektiv, který se na našich akcích pravidelně po celý rok potkává.
+                        </div>
+                    </div>
+                    <div class="homepage-why-us-circle-wrapper">
+                        <div class="homepage-why-us-circle"><img src="images/homepage/why-us/why-us-circle5.png"></div>
+                        <div class="homepage-why-us-text">
+                            Jedna z&nbsp;nejlépe hodnocených organizací. Více než 100 recenzí s&nbsp;hodnocením 5&nbsp;z&nbsp;5!
+                        </div>
+                    </div>
+                    <div class="homepage-why-us-circle-wrapper">
+                        <div class="homepage-why-us-circle"><img src="images/homepage/why-us/why-us-circle6.png"></div>
+                        <div class="homepage-why-us-text">
+                            Věrnostní klub, jehož členové získávají slevy na všechny akce a rovněž se můžou zúčastnit VIP výletů, které jsou zdarma.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="page__section page__section--homepage-reviews">
+            <div class="page__section__content">
+                <span class="page__section__subheading">5 z 5 na základě více než 100 recenzí</span>
+                <h2 class="page__section__heading">Hodnocení táborů</h2>
+
+                <div class="homepage-reviews-stars">
+                    <img src="images/homepage/homepage-review-star.png">
+                    <img src="images/homepage/homepage-review-star.png">
+                    <img src="images/homepage/homepage-review-star.png">
+                    <img src="images/homepage/homepage-review-star.png">
+                    <img src="images/homepage/homepage-review-star.png">
+                </div>
+                <div class="homepage-reviews">
+                    <div class="homepage-review homepage-review1">
+                        <div class="homepage-review-content-wrapper">
+                            <div class="homepage-review-content">
+                                Syn se vrátil z Jurského parku absolutně nadšený a už se těší na Ninjago.
+                                Takže za nás absolutní spokojenost a na jarní tábor pošleme i druhého syna.
+                            </div>
+                        </div>
+                        <div class="homepage-review-author">
+                            <img src="images/avatar.jpg" class="homepage-review-author-avatar">
+                            <div>
+                                <span class="homepage-review-author-name">Lenka Sedláčková</span>
+                                <span class="homepage-review-author-date">2. srpna 2019</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="homepage-review homepage-review2">
+                        <div class="homepage-review-content-wrapper">
+                            <div class="homepage-review-content">
+                                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer malesuada.
+                                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer malesuada.
+                                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer malesuada.
+                            </div>
+                        </div>
+                        <div class="homepage-review-author">
+                            <img src="images/avatar.jpg" class="homepage-review-author-avatar">
+                            <div>
+                                <span class="homepage-review-author-name">Lenka Sedláčková</span>
+                                <span class="homepage-review-author-date">2. srpna 2019</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="page__section page__section--homepage-games">
+            <div class="page__section__content">
+                <span class="page__section__subheading">Pro děti tvoříme vlastní tematické hry</span>
+                <h2 class="page__section__heading">Naše stolní hry</h2>
+
+                <div class="homepage-events">
+                    <div class="homepage-event">
+                        <img class="homepage-event-banner" src="images/sw.png">
+                        <div class="homepage-event-content">
+                            <div>
+                                <h3>Kartičky na Pokémon tábor</h3>
+                                <div class="homepage-event-text">
+                                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer malesuada.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="homepage-event">
+                        <img class="homepage-event-banner" src="images/pokemon.png">
+                        <div class="homepage-event-content">
+                            <div>
+                                <h3>Kartičky na Pokémon tábor</h3>
+                                <div class="homepage-event-text">
+                                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer malesuada.
+                                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer malesuada.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="homepage-event">
+                        <img class="homepage-event-banner" src="images/dino.png">
+                        <div class="homepage-event-content">
+                            <div>
+                                <h3>Kartičky na Pokémon tábor</h3>
+                                <div class="homepage-event-text">
+                                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer malesuada.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="page__section page__section--homepage-fairytales">
+            <div class="page__section__content">
+                <span class="page__section__subheading">Pro děti píšeme i vlastní pohádky</span>
+                <h2 class="page__section__heading">Naše pohádky</h2>
+
+                <div class="homepage-fairytales">
+                    <div class="homepage-fairytales-row">
+                        <div class="homepage-fairytale">
+                            <img class="homepage-fairytale-banner" src="images/krecek.png">
+                            <div class="homepage-fairytale-text">
+                                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer malesuada.
+                            </div>
+                        </div>
+                        <div class="homepage-fairytale">
+                            <img class="homepage-fairytale-banner" src="images/krecek.png">
+                            <div class="homepage-fairytale-text">
+                                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer malesuada.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="homepage-fairytales-row">
+                        <div class="homepage-fairytale">
+                            <img class="homepage-fairytale-banner" src="images/krecek.png">
+                            <div class="homepage-fairytale-text">
+                                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer malesuada.
+                                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer malesuada.
+                            </div>
+                        </div>
+                        <div class="homepage-fairytale">
+                            <img class="homepage-fairytale-banner" src="images/krecek.png">
+                            <div class="homepage-fairytale-text">
+                                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer malesuada.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="page__section page__section--homepage-next-event">
+            <div class="page__section__content">
+                <span class="page__section__subheading">Lerem impsum</span>
+                <h2 class="page__section__heading">Nejbližší akce začíná už za:</h2>
+
+                <div class="homepage-next-event">
+                    <div>
+                        <div class="homepage-next-event-circle homepage-next-event-days">
+                            <div class="homepage-next-event-content">
+                                <div class="homepage-next-event-number">16</div>
+                                <div class="homepage-next-event-label">Dní</div>
+                            </div>
+                        </div>
+                        <div class="homepage-next-event-circle homepage-next-event-hours">
+                            <div class="homepage-next-event-content">
+                                <div class="homepage-next-event-number">19</div>
+                                <div class="homepage-next-event-label">Hodin</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="homepage-next-event-circle homepage-next-event-minutes">
+                            <div class="homepage-next-event-content">
+                                <div class="homepage-next-event-number">58</div>
+                                <div class="homepage-next-event-label">Minut</div>
+                            </div>
+                        </div>
+                        <div class="homepage-next-event-circle homepage-next-event-seconds">
+                            <div class="homepage-next-event-content">
+                                <div class="homepage-next-event-number">37</div>
+                                <div class="homepage-next-event-label">Sekund</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="page__section page__section--homepage-subscribe">
+            <div class="page__section__content">
+                <span>Získejte informace o všech našich akcích</span>
+                <h2>Přihlašte se k odběru novinek:</h2>
+            </div>
+        </section>
+
+        <section class="page__section page__section--homepage-archive">
+            <div class="page__section__content">
+                <span class="page__section__subheading">Přečtěte si, jak jsme se bavili na posledních táborech</span>
+                <h2 class="page__section__heading">Příběhy z táborů</h2>
+
+                <div class="homepage-events">
+                    <div class="homepage-event">
+                        <img class="homepage-event-banner" src="images/velikonoce.jpeg">
+                        <div class="homepage-event-content">
+                            <div>
+                                <h3>Velikonoce naruby</h3>
+                                <div class="homepage-event-text">
+                                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer malesuada.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="homepage-event">
+                        <img class="homepage-event-banner" src="images/supertabor.png">
+                        <div class="homepage-event-content">
+                            <div>
+                                <h3>Velikonoce naruby</h3>
+                                <div class="homepage-event-text">
+                                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer malesuada.
+                                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer malesuada.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="homepage-event">
+                        <img class="homepage-event-banner" src="images/gangster.png">
+                        <div class="homepage-event-content">
+                            <div>
+                                <h3>Velikonoce naruby</h3>
+                                <div class="homepage-event-text">
+                                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Integer malesuada.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="page__section page__section--footer">
+            <div class="page__section__content">
+                <div class="footer-arrow"></div>
+
+                <div class="footer">
+                    <div class="footer-logo"></div>
+
+                    <div class="footer-content">
+                        <div class="footer-content-column">
+                            Sledujte nás
+                        </div>
+                        <div class="footer-content-column">
+                            Kontakty
+                        </div>
+                        <div class="footer-content-column">
+                            Odkazy
+                        </div>
+                        <div class="footer-content-column">
+                            Odběr novinek
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-copyright">
+                    Copyright &copy; 2021 Hurá tábory, z.s.
+                </div>
+
+            </div>
+        </footer>
+
+    </div>
+</div>
+
+</body>
+</html>

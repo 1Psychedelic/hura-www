@@ -1,0 +1,21 @@
+<p>Zde se zobrazuje seznam ztrát, o které se rodiče přihlásili. Vkládání ztrát se provádí v sekci <a href="{plink events}">tábory a výlety</a> pomocí tlačítek vpravo.</p>
+
+<table class="table table-bordered">
+    <tr>
+        <th>Uživatel</th>
+        <th>Událost</th>
+        <th>Věc</th>
+        <th></th>
+    </tr>
+    <tr n:foreach="$lostFound as $item">
+        <td>
+            {$item[username]}<br>
+            <a href="mailto:{$item[email]}">{$item[email]}</a>
+        </td>
+        <td>{$item[eventname]}</td>
+        <td><a href="{$baseUri}upload/lostfound/{(int)$item[event]}/{$item[name]}" target="_blank"><img src="{$baseUri}upload/lostfound/{(int)$item[event]}/thumb_{$item[name]}" class="img-responsive" style="max-height:150px;"></a></td>
+        <td>
+            <a n:href="lostFoundSolve!, id => $item[id]" class="btn btn-sm btn-primary" onclick="if(!confirm('Opravdu označit jako vyřešené?')){ return false; }">Vyřešeno</a>
+        </td>
+    </tr>
+</table>

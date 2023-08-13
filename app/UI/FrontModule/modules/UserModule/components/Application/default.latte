@@ -1,0 +1,230 @@
+<p n:if="$user->isLoggedIn()"><a href="{plink \VCD\UI\FrontModule\UserModule\ProfilePresenter::LINK_DEFAULT}">Přejít do mého profilu</a></p>
+<div class="row" n:if="$application->isNew">
+    <div class="col-sm-12">
+        <div class="alert alert-success">
+            <p style="font-size:20px">
+                Přihláška byla úspěšně odeslána, brzy ji začneme zpracovávat. Na e-mail jsme Vám zaslali dodatečné informace.
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="row" n:if="$user->isLoggedIn() && !$application->user->emailVerified">
+    <div class="col-sm-12">
+        <div class="alert alert-danger">
+            <p>
+                Vaši přihlášku zatím nemůžeme schválit, protože jsme neověřili Vaši e-mailovou adresu <strong>{$application->email}</strong>. Podívejte se do své
+                schránky a klikněte na odkaz, který jsme Vám poslali.<br>
+                Žádný e-mail od nás nepřišel, nebo máte v e-mailové adrese překlep? <a class="btn btn-primary btn-sm" data-toggle="collapse" data-target="#fixInfoFormCollapse" aria-expanded="false" aria-controls="fixInfoFormCollapse">Klikněte zde</a>
+            </p>
+            <div id="fixInfoFormCollapse" class="collapse">
+                <div class="list-group-item" style="color: #000">
+                    <div class="row">
+                        <div class="col-sm-3"></div>
+                        <div class="col-sm-9"><h3>Opravit údaje v přihlášce</h3></div>
+                    </div>
+                    {control fixInfoForm}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" n:if="!$application->isPaid && $application->canBePaidFor && $application->paymentMethod->id === $paymentMethodBankTransfer">
+    <div class="col-sm-12">
+        <div class="alert alert-info">
+            <p>
+                Platbu prosím proveďte bankovním převodem částky <strong>{$application->price - $application->paid}&nbsp;Kč</strong>
+                s variabilním symbolem <strong>{$application->id}</strong>
+                na číslo účtu <strong>{$bankAccount}</strong>. Platby bez uvedeného variabilního symbolu budou muset být potvrzeny ručně.
+            </p>
+            {if !$application->deposit}
+                <p class="alert alert-danger">
+                    Uhraďte prosím celou částku <strong>do pěti pracovních dnů</strong>. Přihlášky, které nejsou po této
+                    lhůtě zaplaceny, mohou být stornovány.
+                </p>
+            {else}
+                <p class="alert alert-danger" n:if="!$application->isDepositPaid">
+                    Uhraďte prosím <strong>do pěti pracovních dnů</strong> zálohu ve výši <strong>{$application->deposit}&nbsp;Kč</strong>.
+                    Přihlášky bez uhrazené zálohy mohou být po této lhůtě stornovány.
+                </p>
+            {/if}
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <span class="pull-right" n:if="$application->invoice !== NULL">
+                    <a class="btn btn-success btn-xs" n:href="invoice!">
+                        Stáhnout fakturu
+                    </a>
+                </span>
+                <strong>Přihláška #{$application->id}</strong>
+            </div>
+            <div class="list-group">
+                <a class="list-group-item" href="{plink \VCD\UI\FrontModule\EventsModule\EventPresenter::LINK_DEFAULT, _event => $application->event->slug}">
+                    <span class="btn btn-xs btn-link pull-right">
+                        Zobrazit detail akce
+                    </span>
+                    <strong style="margin-right: 10px">
+                        {$application->event->name}
+                    </strong>
+                    {control term}
+                    <span class="clearfix"></span>
+                </a>
+                <div class="list-group-item">
+                    Přihláška odeslána
+                    <strong class="pull-right">{$application->appliedAt|date:'j. n. Y - H:i'}</strong>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="list-group-item">
+                    {if $application->isNew}
+                        <span class="glyphicon glyphicon-question-sign text-info pull-right"></span>
+                        Přihláška čeká na vyřízení.
+                    {elseif $application->isAccepted}
+                        <span class="glyphicon glyphicon-ok text-success pull-right"></span>
+                        Přihláška byla schválena.
+                    {elseif $application->isRejected}
+                        <span class="glyphicon glyphicon-ban-circle text-danger pull-right"></span>
+                        Přihláška byla odmítnuta pořadatelem.
+                    {elseif $application->isCanceled}
+                        <span class="glyphicon glyphicon-remove text-danger pull-right"></span>
+                        Přihláška byla stornována uživatelem.
+                    {/if}
+                    <div class="clearfix"></div>
+                </div>
+                <div class="list-group-item">
+                    Celková cena
+                    <strong class="pull-right">{$application->price}&nbsp;Kč</strong>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="list-group-item" n:if="$application->deposit > 0">
+                    Z toho záloha
+                    <strong class="pull-right">
+                        {$application->deposit}&nbsp;Kč
+                    </strong>
+                    <div class="clearfix"></div>
+                </div>
+
+                {foreach $application->stepChoices as $stepChoice}
+                    <div class="list-group-item">
+                        {$stepChoice->step->prompt}
+                        <strong class="pull-right">{$stepChoice->option->option}</strong>
+                        <div class="clearfix"></div>
+                    </div>
+                {/foreach}
+
+                {if $application->isPaid}
+                    <div class="list-group-item">
+                        <strong>Vše máte v pořádku zaplacené.</strong>
+                        <span class="glyphicon glyphicon-ok text-success pull-right"></span>
+                        <div class="clearfix"></div>
+                    </div>
+                {else}
+                    <div class="list-group-item">
+                        Zaplaceno
+                        <strong class="pull-right">
+                            {$application->paid}&nbsp;Kč
+                        </strong>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="list-group-item">
+                        Zbývá zaplatit
+                        <strong class="pull-right">
+                            {$application->price - $application->paid}&nbsp;Kč
+                        </strong>
+                    </div>
+                {/if}
+
+            </div>
+        </div>
+
+        <p class="text-center" n:if="$application->canBeRejected"><small>Je v přihlášce něco špatně a chcete provést opravu?<br><a href="{plink \VCD\UI\FrontModule\WebModule\ContactPresenter::LINK_DEFAULT}">Kontaktujte nás</a> a my to vyřešíme.</small></p>
+    </div>
+
+    <div class="col-md-6">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>Zákonný zástupce</strong>
+            </div>
+            <div class="list-group">
+                <div class="list-group-item">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            {$application->name}<br>
+                            {$application->street}<br>
+                            {$application->city}, {$application->zip}<br>
+                        </div>
+                        <div class="col-lg-6">
+                            {$application->email}<br>
+                            {$application->phone}<br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <strong>{if $application->children->count() > 1}Přihlášení účastníci{else}Přihlášený účastník{/if}</strong>
+            </div>
+            <div class="list-group">
+                {foreach $application->children as $child}
+                    <div class="list-group-item">
+                        <span class="lead">
+                            <strong>{$child->name}</strong>
+                        </span>
+                        <span class="btn-group btn-group-sm pull-right">
+                            <span class="pull-right" n:if="$child->child !== NULL">
+                                <a class="btn btn-sm btn-link" href="{plink \VCD\UI\FrontModule\UserModule\ChildPresenter::LINK_DEFAULT, id => $child->child->id}">Zobrazit profil</a>
+                            </span>
+                        </span>
+                        <div class="clearfix"></div>
+                        <div class="margin-top-5">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    {$child->dateBorn|date:'d. m. Y'}<br>
+                                </div>
+                                <div class="col-md-8">
+                                    Zdravotní stav:
+                                    <small class="text-muted">
+                                        {$child->health}
+                                    </small>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    {if $child->swimmer}P{else}Nep{/if}lavec
+
+                                </div>
+                                <div class="col-md-8">
+                                    Poznámka:
+                                    <small class="text-muted">
+                                        {$child->notes}
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    {if $child->adhd}M{else}Nem{/if}á ADHD
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {/foreach}
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        {control feedback}
+    </div>
+</div>

@@ -1,0 +1,93 @@
+name: CI
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+jobs:
+  test:
+    if: "github.event_name == 'workflow_dispatch' || !contains(github.event.commits[0].message, '[hotfix]')"
+    name: Tests
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v1
+      - run: composer install --ignore-platform-reqs
+      - run: php vendor/bin/phpstan --memory-limit=-1 analyse -c phpstan.neon
+      - run: php vendor/bin/phpunit -c phpunit.xml tests
+  deploy:
+    if: "github.event_name == 'workflow_dispatch' || !contains(github.event.commits[0].message, '[hotfix]')"
+    name: 🚀 test.hura-tabory.cz
+    runs-on: self-hosted
+    needs: test
+    steps:
+    - uses: actions/checkout@v2
+    - run: composer install --no-dev --ignore-platform-reqs
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+    - run: npm install
+    - run: npm run build
+    - run: npm run css
+    - run: sed -i -e 's/_hash_/${{ github.sha }}/g' app/HuraTabory/Web/@layout.latte
+    - run: sed -i -e 's/hura-tabory.com/test.hura-tabory.cz/g' .htaccess
+    - run: wget https://github.com/dg/ftp-deployment/releases/download/v2.9.0/deployment.phar
+    - run: |
+        echo '[test.hura-tabory.cz]' > deployment.ini
+        echo 'remote=ftps://${{ secrets.HURA_TABORY_FTP_USER }}:${{ secrets.HURA_TABORY_FTP_PASSWORD }}@282079.w79.wedos.net/www/subdom/test' >> deployment.ini
+        echo 'after[]="https://test.hura-tabory.cz/postdeploy.php?pd=65ed49199a28be05361830fedf14aad6f9b70a51"' >> deployment.ini
+        echo 'passivemode=yes' >> deployment.ini
+        echo 'test=no' >> deployment.ini
+        echo 'colors=yes' >> deployment.ini
+        echo 'progress=no' >> deployment.ini
+        echo 'ignore="' >> deployment.ini
+        echo '  .idea*' >> deployment.ini
+        echo '  .git*' >> deployment.ini
+        echo '  .php_cs.cache' >> deployment.ini
+        echo '  project.pp[jx]' >> deployment.ini
+        echo '  deployment*' >> deployment.ini
+        echo '  app/config/local/*' >> deployment.ini
+        echo '  log/*' >> deployment.ini
+        echo '  temp/*' >> deployment.ini
+        echo '  public/www/assets/bootstrap/*' >> deployment.ini
+        echo '  public/www/assets/css/*' >> deployment.ini
+        echo '  public/www/assets/js/*' >> deployment.ini
+        echo '  !www/assets/js/ckeditor' >> deployment.ini
+        echo '  public/upload/*' >> deployment.ini
+        echo '  */tests/*' >> deployment.ini
+        echo '  tests' >> deployment.ini
+        echo '  js' >> deployment.ini
+        echo '  sass' >> deployment.ini
+        echo '  public/css/styles.css.map' >> deployment.ini
+        echo '  public/js/frontend.js.LICENSE.txt' >> deployment.ini
+        echo '  !public/js/*.js' >> deployment.ini
+        echo '  !public/css/*.css' >> deployment.ini
+        echo '  */examples/*' >> deployment.ini
+        echo '  *.bat' >> deployment.ini
+        echo '  vendor/hafo/di/vendor' >> deployment.ini
+        echo '  vendor/hafo/security/vendor' >> deployment.ini
+        echo '  vendor/hafo/filestorage/vendor' >> deployment.ini
+        echo '  vendor/hafo/nettebridge/vendor' >> deployment.ini
+        echo '  vendor/hafo/persona/vendor' >> deployment.ini
+        echo '  vendor/hafo/utils/vendor' >> deployment.ini
+        echo '  vendor/hafo/name-day/vendor' >> deployment.ini
+        echo '  vendor/hafo/translation/vendor' >> deployment.ini
+        echo '  bin' >> deployment.ini
+        echo '  composer.json' >> deployment.ini
+        echo '  composer.lock' >> deployment.ini
+        echo '  dynamicReturnTypeMeta.json' >> deployment.ini
+        echo '  phpunit.xml' >> deployment.ini
+        echo '  .travis.yml' >> deployment.ini
+        echo '  phpstan.yml' >> deployment.ini
+        echo '  docker-compose.yml' >> deployment.ini
+        echo '  docker' >> deployment.ini
+        echo '  webpack.config.js' >> deployment.ini
+        echo '  node_modules' >> deployment.ini
+        echo '  package.json' >> deployment.ini
+        echo '  package-lock.json' >> deployment.ini
+        echo '  babel.config.js' >> deployment.ini
+        echo '"' >> deployment.ini
+        echo 'allowdelete = yes' >> deployment.ini
+        echo 'purge[] = temp' >> deployment.ini
+        echo ';purge[] = temp-cli/cache' >> deployment.ini
+        echo 'preprocess = no' >> deployment.ini
+    - run: php deployment.phar deployment.ini

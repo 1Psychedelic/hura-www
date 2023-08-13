@@ -1,0 +1,53 @@
+
+<table class="table table-bordered table-condensed table-responsive">
+    <tr>
+        <th class="text-center"></th>
+        <th>Jméno</th>
+        <th>Aktivita</th>
+        <th>Děti</th>
+    </tr>
+    {var $isBoy}
+    {var $childAge}
+    {var $userChildren}
+    {var $countChildren}
+    {var $userApplications}
+    {foreach $otherUsers as $u}
+        {php $countChildren = $u->children->count()}
+        <tr>
+        <td class="text-center"{if $countChildren > 1} rowspan="{$countChildren}"{/if}>
+            <small class="text-muted">Neregistrovaný</small>
+        </td>
+
+        <td{if $countChildren > 1} rowspan="{$countChildren}"{/if}>
+            <strong>{$u->name}</strong><br>
+            <small>
+                <a href="mailto:{$u->email}">{$u->email}</a><br>
+                {$u->phone}<br>
+                {$u->street}<br>
+                {$u->city} {$u->zip}
+            </small>
+            <div class="clearfix"></div>
+        </td>
+        <td{if $countChildren > 1} rowspan="{$countChildren}"{/if}>
+            {$countApplications($u->email)} přihlášek
+        </td>
+        {foreach $u->children as $child}
+            {if !$iterator->first}</tr><tr>{/if}
+            <td>
+                {php $isBoy = $child->gender === 'm'}
+                {php $childAge = $age($child->dateBorn)}
+                <div style="margin:2px;padding:2px 5px 2px 5px;border:1px solid rgb(127,127,127);{if $isBoy}background-color:rgba(0,91,255, 0.2){elseif $isBoy === FALSE}background-color:rgba(255,0,91,0.2){/if}">
+                    <strong>{$child->name}</strong><span class="pull-right label label-primary">#{$child->id}</span><br>
+                    <small>
+                        {$child->dateBorn|date:'m. d. Y'} ({if $childAge === NULL}?{else}{$childAge}{/if}&nbsp;let)<br>
+                        {if !empty($child->notes)}<br>{$child->notes}{/if}
+                    </small>
+                </div>
+            </td>
+            {if $iterator->last}</tr>{/if}
+        {/foreach}
+
+        </tr>
+
+    {/foreach}
+</table>

@@ -1,0 +1,14 @@
+{control form}
+
+<table class="table table-condensed table-bordered">
+    <tr>
+        <th>Zakázán</th>
+        <th>E-mail</th>
+        <th></th>
+    </tr>
+    <tr n:foreach="$emails as $email">
+        <td>{$email[added_at]|date:'j. n. Y H:i'}</td>
+        <td><a href="mailto:{$email[email]}">{$email[email]}</a></td>
+        <td><a onclick="if(!confirm('Opravdu?'))return false;" n:href="remove!, id => $email[id]" class="btn btn-danger btn-sm">Vymazat z blacklistu</td>
+    </tr>
+</table>

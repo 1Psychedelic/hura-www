@@ -1,0 +1,53 @@
+
+.vcd-wrapper {
+    position: relative;
+    top: 0;
+    bottom: 100%;
+    right: 0;
+    background-color: #e3f4fd;
+    background: url("./img/bg.jpg") no-repeat center top fixed;
+    background-size: 2000%;
+    min-width: 100%;
+    min-height: 100%;
+}
+
+.vcd {
+    z-index: 1;
+    position: relative;
+    top: 0;
+    bottom: 100%;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    background-color: #e3f4fd;
+    background: url("./img/bg.jpg") no-repeat center top fixed;
+    background-size: 2000%;
+}
+
+.vcd-flashes {
+
+}
+
+@media only screen and (min-width: 150px) {
+    .vcd-wrapper, .vcd {
+        background-size: 1000%;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .vcd-wrapper, .vcd {
+        background-size: 300%;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .vcd-wrapper, .vcd {
+        background-size: 200%;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .vcd-wrapper, .vcd {
+        background-size: 100%;
+    }
+}

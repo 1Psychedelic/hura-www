@@ -1,0 +1,15 @@
+{include './@phpHeader.latte'}
+
+class {$className} implements {$implements} {
+
+    {foreach $dependencies as $name => $class}
+    private ${$name};
+
+    {/foreach}
+    function __construct({foreach $dependencies as $name => $class}{$class} ${$name}{sep}, {/sep}{/foreach}) {
+        {foreach $dependencies as $name => $class}
+        $this->{$name} = ${$name};
+        {/foreach}
+    }
+
+}
